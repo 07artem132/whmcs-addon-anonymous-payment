@@ -1,5 +1,6 @@
 <script>
     $('#contentarea >> h1').remove();
+    $(".contentarea").css("padding","0px");
 </script>
 
 <style type="text/css">
@@ -9,7 +10,7 @@
         justify-content: center;
         height: 100%;
         background-color: #006eac;
-        min-height: 562px;
+        min-height: 592px;
         font-family: 'Roboto', sans-serif;
     }
 
@@ -98,7 +99,7 @@
             css стиль кнопки
             <textarea name="ButtonStyle">{$config->ButtonStyle}</textarea>
             <div id="Line"></div>
-            <button>Изменить настройки модуля</button>
+            <button>Сохранить изменения</button>
             <a href="{$basheURL}&page=cleardata" class="btn btn-danger">
                 Удалить данные модуля
             </a>

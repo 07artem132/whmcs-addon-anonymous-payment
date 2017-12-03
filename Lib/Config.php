@@ -24,6 +24,10 @@ class Config {
 		self::SaveConfig();
 	}
 
+	public static function GetWHMCSVersion() {
+		return Setting::getValue( 'Version' );
+	}
+
 	public static function SetInstallStatus( $status ) {
 		self::LoadConfig();
 		self::SetValue( 'install', $status );

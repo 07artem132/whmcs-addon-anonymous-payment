@@ -6,6 +6,7 @@
  * Time: 12:52
  */
 
+
 use \WHMCS\ClientArea;
 use \WHMCS\Billing\Invoice;
 use \WHMCS\Config\Setting;
@@ -15,12 +16,11 @@ use \WHMCS\Gateways;
 use \WHMCS\Module\Gateway as ModuleGateway;
 
 require __DIR__ . '/vendor/autoload.php';
+
 use PublicInvoiceUrlView\Lib\PageController;
 use PublicInvoiceUrlView\Lib\Config;
 use PublicInvoiceUrlView\Lib\html;
 
-//ini_set( 'display_errors', 1 );
-//error_reporting( - 1 );
 
 function PublicInvoiceUrlView_config() {
 	return [

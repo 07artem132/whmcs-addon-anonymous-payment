@@ -18,6 +18,7 @@ class PageController {
 		'dashboard'  => 'DashboardController@Config',
 		'firstconfig' => 'FirstconfigController@Config',
 		'cleardata' => 'ClearDataController@Delete',
+		'checkminimumrequirements'=>'CheckMinimumRequirementsController@Check',
 	];
 
 	private $smarty;
@@ -26,7 +27,8 @@ class PageController {
 
 	function __construct() {
 		$this->smarty = new Smarty();
-		$this->smarty->setCaching( $this->Caching );
+		$this->smarty->force_compile = 1;
+		$this->smarty->caching = $this->Caching;
 	}
 
 	function BildPage( $name ) {

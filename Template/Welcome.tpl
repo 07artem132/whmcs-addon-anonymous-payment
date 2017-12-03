@@ -1,5 +1,6 @@
 <script>
     $('#contentarea >> h1').remove();
+    $(".contentarea").css("padding","0px");
 </script>
 
 <style type="text/css">
@@ -9,12 +10,12 @@
         justify-content: center;
         height: 100%;
         background-color: #006eac;
-        min-height: 562px;
+        min-height: 592px;
         font-family: 'Roboto', sans-serif;
     }
 
     .ModuleContainer div {
-        width: 300px;
+        width: 435px;
         color: white;
         font-family: 'Roboto', sans-serif;
     }
@@ -29,7 +30,7 @@
     }
 
     .ModuleContainer button {
-        min-width: 200px;
+        min-width: 430px;
         height: 30px;
         background-color: #008fdf;
         color: white;
@@ -63,8 +64,8 @@
         <div id="Line"></div>
         Данный модуль позволяет клиентам делиться публичной ссылкой на оплату счета.
         <div id="Line"></div>
-        <a href="{$basheURL}&page=firstconfig">
-            <button>Установить</button>
+        <a href="{$basheURL}&page=checkminimumrequirements">
+            <button>Проверить соответствие минимальным требованиям</button>
         </a>
     </div>
 </div>

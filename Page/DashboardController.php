@@ -10,6 +10,7 @@ namespace PublicInvoiceUrlView\Page;
 
 use PublicInvoiceUrlView\Lib\PageInterface;
 use PublicInvoiceUrlView\Lib\Config;
+
 class DashboardController implements PageInterface {
 	private $vars;
 
