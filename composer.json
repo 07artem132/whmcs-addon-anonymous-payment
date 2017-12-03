@@ -1,0 +1,8 @@
+{
+  "autoload": {
+    "psr-0": {
+      "PublicInvoiceUrlView\\Lib\\": "../",
+      "PublicInvoiceUrlView\\Page\\": "../"
+    }
+  }
+}

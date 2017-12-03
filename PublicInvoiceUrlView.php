@@ -14,6 +14,11 @@ use \WHMCS\Form;
 use \WHMCS\Gateways;
 use \WHMCS\Module\Gateway as ModuleGateway;
 
+require __DIR__ . '/vendor/autoload.php';
+use PublicInvoiceUrlView\Lib\PageController;
+use PublicInvoiceUrlView\Lib\Config;
+use PublicInvoiceUrlView\Lib\html;
+
 //ini_set( 'display_errors', 1 );
 //error_reporting( - 1 );
 
@@ -37,7 +42,7 @@ function PublicInvoiceUrlView_clientarea( $vars ) {
 		die();
 	}
 
-	echo '<script   src="https://code.jquery.com/jquery-3.2.1.slim.min.js"  integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="  crossorigin="anonymous"></script>';
+	echo html::GetJqueryInclude();
 
 	$Invoice       = new Invoice;
 	$Country       = new Country();
@@ -83,7 +88,6 @@ function PublicInvoiceUrlView_clientarea( $vars ) {
 	$client['country'] = $Country->getName( $client['country'] );
 	$ModuleGateway->load( $Invoice->paymentGateway );
 
-//	var_dump( get_class_methods( '\WHMCS\Module\Gateway' ) );
 	$ca = new ClientArea();
 	$ca->initPage();
 	$ca->disableHeaderFooterOutput();
@@ -117,4 +121,24 @@ function PublicInvoiceUrlView_clientarea( $vars ) {
 	$ca->assign( 'balance', formatCurrency( $Invoice->balance ) );
 	$ca->setTemplate( 'viewinvoice' );
 	$ca->output();
+}
+
+function PublicInvoiceUrlView_output( $vars ){
+	try {
+		$PageController = new PageController();
+		$PageController->SetVar( 'basheURL', $vars['modulelink'] );
+
+		if ( isset( $_GET['page'] ) && ! empty( $_GET['page'] ) ) {
+			return $PageController->BildPage( $_GET['page'] );
+		}
+
+		if ( !Config::GetInstallStatus() ) {
+			return $PageController->BildPage( 'welcome' );
+		} else {
+			return $PageController->BildPage( 'dashboard' );
+		}
+
+	} catch ( \Exception $e ) {
+		echo $e->getMessage();
+	}
 }
