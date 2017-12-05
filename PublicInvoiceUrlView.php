@@ -63,6 +63,16 @@ function PublicInvoiceUrlView_clientarea( $vars ) {
 
 	$Invoice = $Invoice->where( 'id', '=', $_GET['invoice'] )->first();
 
+	if ( $Invoice === null ) {
+		$ca = new ClientArea();
+		$ca->initPage();
+		$ca->disableHeaderFooterOutput();
+		$ca->assign( 'invalidInvoiceIdRequested', true );
+		$ca->setTemplate( 'viewinvoice' );
+		$ca->output();
+		return;
+	}
+
 	echo '<script>$(function() {$( "form.form-inline" ).attr(\'action\',\'' . $modulelink . '&invoice=' . $Invoice->id . '\')});</script>';
 
 	$transactions = $Invoice->transactions()->get()->toArray();
@@ -123,7 +133,7 @@ function PublicInvoiceUrlView_clientarea( $vars ) {
 	$ca->output();
 }
 
-function PublicInvoiceUrlView_output( $vars ){
+function PublicInvoiceUrlView_output( $vars ) {
 	try {
 		$PageController = new PageController();
 		$PageController->SetVar( 'basheURL', $vars['modulelink'] );
@@ -132,7 +142,7 @@ function PublicInvoiceUrlView_output( $vars ){
 			return $PageController->BildPage( $_GET['page'] );
 		}
 
-		if ( !Config::GetInstallStatus() ) {
+		if ( ! Config::GetInstallStatus() ) {
 			return $PageController->BildPage( 'welcome' );
 		} else {
 			return $PageController->BildPage( 'dashboard' );
