@@ -8,8 +8,6 @@
 
 namespace PublicInvoiceUrlView\Lib;
 
-use PublicInvoiceUrlView\Lib\Config;
-
 class html {
 	public static function GetJqueryInclude() {
 		return '<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"  integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="  crossorigin="anonymous"></script>' . PHP_EOL;
@@ -19,21 +17,21 @@ class html {
 		return '<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script>' . PHP_EOL;
 	}
 
-	public static function GenerateButton( $SystemURL, $InvoiceID, $key ) {
+	public static function GenerateButton( $SystemURL, $key ) {
 
 		$str = '<script>' . PHP_EOL;
 		$str .= '"use strict"' . PHP_EOL;
 		$str .= '$(function () {' . PHP_EOL;
 		$str .= 'var clipboard = new Clipboard(".btn");' . PHP_EOL;
-		$str .= '$(\'<div><button id="publicInvoiceURL" ';
+		$str .= '$(\'<div style="margin-bottom: 20px;"><button id="publicInvoiceURL" ';
 		$str .= 'style="' . Config::GetButtonStyle() . '" ';
 		$str .= 'class=\"btn\" data-clipboard-text=\"';
-		$str .= $SystemURL . 'index.php?m=PublicInvoiceUrlView&invoice=' . $InvoiceID . '&key=' . $key;
+		$str .= $SystemURL . 'public/invoice/' . $key;
 		$str .= '\">';
 		$str .= Config::GetButtonMessage();
-		$str .= '</button></div>\').insertAfter($(".row:last"));' . PHP_EOL;
+		$str .= '</button></div>\').insertBefore($(".container-fluid.invoice-container").children(".panel.panel-default"));' . PHP_EOL;
 		$str .= 'clipboard.on(\'success\', function(e) {
-	$(\'<div class="alert alert-success fade in" style="word-break: break-all;"><strong>'.Config::GetMessageAlertSuccess().'</strong>\'+e.text+\'</div>\').insertAfter($(".row:last").eq(0));
+	$(\'<div class="alert alert-success fade in" style="word-break: break-all;"><strong>' . Config::GetMessageAlertSuccess() . '</strong>\'+e.text+\'</div>\').insertBefore($(".container-fluid.invoice-container").children(".panel.panel-default"));
 	$("#publicInvoiceURL").remove();
 });
 ';
@@ -42,4 +40,9 @@ class html {
 
 		return $str;
 	}
+
+	public static function PrintScriptChangeFormUrlInvoicePage() {
+		echo '<script>$(function() {$( "form.form-inline" ).attr(\'action\',\'' . $_SERVER['REQUEST_URI'] . '\')});</script>';
+	}
+
 }

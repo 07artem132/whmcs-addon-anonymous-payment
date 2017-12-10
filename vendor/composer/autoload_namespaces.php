@@ -6,6 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'LicensingAPIServiceVoice\\Page\\' => array($baseDir . '/$ROOTDIR/module'),
-    'LicensingAPIServiceVoice\\Lib\\' => array($baseDir . '/..'),
+    'PublicInvoiceUrlView\\Page\\' => array($baseDir . '/..'),
+    'PublicInvoiceUrlView\\Lib\\' => array($baseDir . '/..'),
 );

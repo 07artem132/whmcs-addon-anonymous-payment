@@ -7,13 +7,13 @@ namespace Composer\Autoload;
 class ComposerStaticInitcfa92bc23fc1d3d7c77bc85334570b13
 {
     public static $prefixesPsr0 = array (
-        'L' => 
+        'P' => 
         array (
-            'LicensingAPIServiceVoice\\Page\\' => 
+            'PublicInvoiceUrlView\\Page\\' => 
             array (
-                0 => __DIR__ . '/../..' . '/$ROOTDIR/module',
+                0 => __DIR__ . '/../..' . '/..',
             ),
-            'LicensingAPIServiceVoice\\Lib\\' => 
+            'PublicInvoiceUrlView\\Lib\\' => 
             array (
                 0 => __DIR__ . '/../..' . '/..',
             ),

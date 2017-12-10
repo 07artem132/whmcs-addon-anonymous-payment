@@ -7,20 +7,13 @@
  */
 
 
-use \WHMCS\ClientArea;
-use \WHMCS\Billing\Invoice;
-use \WHMCS\Config\Setting;
-use \WHMCS\Utility\Country;
-use \WHMCS\Form;
-use \WHMCS\Gateways;
-use \WHMCS\Module\Gateway as ModuleGateway;
-
 require __DIR__ . '/vendor/autoload.php';
 
-use PublicInvoiceUrlView\Lib\PageController;
-use PublicInvoiceUrlView\Lib\Config;
 use PublicInvoiceUrlView\Lib\html;
-
+use PublicInvoiceUrlView\Lib\InvoicePageWHMCS;
+use PublicInvoiceUrlView\Lib\PublicServiceDonate;
+use PublicInvoiceUrlView\Lib\PublicBalanseDonate;
+use PublicInvoiceUrlView\Lib\CryptUrlData;
 
 function PublicInvoiceUrlView_config() {
 	return [
@@ -35,102 +28,48 @@ function PublicInvoiceUrlView_config() {
 }
 
 function PublicInvoiceUrlView_clientarea( $vars ) {
-	global $_LANG;
 	$modulelink = $vars['modulelink'];
-
-	if ( md5( $_GET['invoice'] . Setting::getValue( 'SystemURL' ) ) != base64_decode( $_GET['key'] ) ) {
-		die();
-	}
 
 	echo html::GetJqueryInclude();
 
-	$Invoice       = new Invoice;
-	$Country       = new Country();
-	$Gateways      = new Gateways();
-	$Form          = new Form();
-	$ModuleGateway = new ModuleGateway();
+	if ( isset( $_GET['domain'] ) && ! empty( $_GET['domain'] ) ) {
+		$PublicDonateService = new PublicServiceDonate();
+		$PublicDonateService->GeneratePage( $_GET['domain'] );
+		die();
+	}
 
-	if ( isset( $_POST['gateway'] ) && ! empty( $_POST['gateway'] ) ) {
-		$validgateways = $Gateways->getAvailableGateways( $Invoice->id );
-		if ( array_key_exists( $_POST['gateway'], $validgateways ) ) {
-			$Invoice->where( 'id', '=', $_GET['invoice'] )->update( [ 'paymentmethod' => $_POST['gateway'] ] );
-			run_hook( "InvoiceChangeGateway", array(
-				"invoiceid"     => $_GET['invoice'],
-				"paymentmethod" => $_POST['gateway']
-			) );
+	if ( isset( $_GET['widget_id'] ) && ! empty( $_GET['widget_id'] ) ) {
+		$PublicBalanseDonate = new PublicBalanseDonate();
+		$PublicBalanseDonate->GenerateWidget( $_GET['widget_id'] );
+		die();
+	}
+
+	if ( isset( $_GET['widget_config'] ) && ! empty( $_GET['widget_config'] ) ) {
+		$PublicBalanseDonate = new PublicBalanseDonate();
+		$PublicBalanseDonate->GenerateWidgetConfig();
+		die();
+	}
+
+	/*if ( isset( $_GET['email'] ) && ! empty( $_GET['email'] ) ) {
+		$PublicInvoicePaid = new PublicInvoicePaid();
+		$PublicInvoicePaid->GeneratePage( $_GET['email'] );
+		die();
+	}*/
+
+	if ( isset( $_GET['invoice'] ) && ! empty( $_GET['invoice'] ) ) {
+		$InvoicePageWHMCS = new InvoicePageWHMCS();
+
+		$EncodeStr = $_GET['invoice'];
+
+		$InvoiceID = CryptUrlData::Decrypt( $EncodeStr );
+
+		if ( isset( $_POST['gateway'] ) && ! empty( $_POST['gateway'] ) ) {
+			$InvoicePageWHMCS->ChangeGateway( $InvoiceID, $_POST['gateway'] );
 		}
+
+		$InvoicePageWHMCS->GeneratePage( $InvoiceID );
+		die();
 	}
-
-	$Invoice = $Invoice->where( 'id', '=', $_GET['invoice'] )->first();
-
-	if ( $Invoice === null ) {
-		$ca = new ClientArea();
-		$ca->initPage();
-		$ca->disableHeaderFooterOutput();
-		$ca->assign( 'invalidInvoiceIdRequested', true );
-		$ca->setTemplate( 'viewinvoice' );
-		$ca->output();
-		return;
-	}
-
-	echo '<script>$(function() {$( "form.form-inline" ).attr(\'action\',\'' . $modulelink . '&invoice=' . $Invoice->id . '\')});</script>';
-
-	$transactions = $Invoice->transactions()->get()->toArray();
-	$client       = $Invoice->client()->first()->toArray();
-	$invoiceitems = $Invoice->items()->get()->toArray();
-
-	$companyname        = Setting::getValue( 'companyname' );
-	$InvoicePayTo       = Setting::getValue( 'InvoicePayTo' );
-	$allowchangegateway = Setting::getValue( 'AllowCustomerChangeInvoiceGateway' );
-
-	$gatewaydropdown = $Form->dropdown( "gateway", $Gateways->getAvailableGateways( $Invoice->id ), $Invoice->paymentGateway, "submit()" );
-	$gatewaydropdown .= $Form->hidden( 'invoice', $_GET['invoice'] );
-
-	foreach ( $transactions as &$item ) {
-		$item['amount'] = formatCurrency( $item['amountin'] );
-	}
-
-	foreach ( $invoiceitems as &$item ) {
-		$item['amount'] = formatCurrency( $item['amount'] );
-	}
-
-
-	$client['country'] = $Country->getName( $client['country'] );
-	$ModuleGateway->load( $Invoice->paymentGateway );
-
-	$ca = new ClientArea();
-	$ca->initPage();
-	$ca->disableHeaderFooterOutput();
-	$ca->setPageTitle( $_LANG['invoicenumber'] . $Invoice->id );
-	$ca->assign( 'status', $Invoice->status );
-	$ca->assign( 'invoiceid', $Invoice->id );
-	$ca->assign( 'transactions', $transactions );
-	$ca->assign( 'invoiceitems', $invoiceitems );
-	$ca->assign( 'total', formatCurrency( $Invoice->total ) );
-	$ca->assign( 'credit', formatCurrency( $Invoice->credit ) );
-	$ca->assign( 'tax', $Invoice->tax1 );
-	$ca->assign( 'tax2', $Invoice->tax2 );
-	$ca->assign( 'paymentbutton', $ModuleGateway->call( 'link', [
-		'amount'        => $Invoice->balance,
-		'invoiceid'     => $Invoice->id,
-		'clientdetails' => $client,
-		'description'   => $companyname . '-' . $_LANG['invoicenumber'] . $Invoice->id,
-		'currency'      => getCurrency( $client->id ),
-		'language'      => $_LANG['locale'],
-	] ) );
-	$ca->assign( 'subtotal', formatCurrency( $Invoice->subtotal ) );
-	$ca->assign( 'datedue', $Invoice->dateDue->format( 'd/m/Y' ) );
-	$ca->assign( 'clientsdetails', $client );
-	$ca->assign( 'date', $Invoice->dateCreated->format( 'd/m/Y' ) );
-	$ca->assign( 'paymentmethod', $Gateways->getDisplayName( $Invoice->paymentGateway ) );
-	$ca->assign( 'allowchangegateway', $allowchangegateway );
-	$ca->assign( 'gatewaydropdown', $gatewaydropdown );
-	$ca->assign( 'payto', $InvoicePayTo );
-	$ca->assign( 'totalcredit', $client['credit'] );
-	$ca->assign( 'creditamount', $client['credit'] );
-	$ca->assign( 'balance', formatCurrency( $Invoice->balance ) );
-	$ca->setTemplate( 'viewinvoice' );
-	$ca->output();
 }
 
 function PublicInvoiceUrlView_output( $vars ) {
@@ -151,4 +90,78 @@ function PublicInvoiceUrlView_output( $vars ) {
 	} catch ( \Exception $e ) {
 		echo $e->getMessage();
 	}
+}
+
+function PublicInvoiceUrlView_activate() {
+	$RewriteStr[] = '#Правила модуля PublicInvoiceUrlView';
+	$RewriteStr[] = 'RewriteRule ^templates/ - [L]';
+	$RewriteStr[] = 'RewriteCond %{HTTP_HOST} !(^' . $_SERVER['SERVER_NAME'] . '$)';
+	$RewriteStr[] = 'RewriteRule (.*) index.php?m=PublicInvoiceUrlView&domain=%{HTTP_HOST} [L]';
+	$RewriteStr[] = 'RewriteCond %{REQUEST_URI} ^/invoice/public/(.*)';
+	$RewriteStr[] = 'RewriteRule (.*) index.php?m=PublicInvoiceUrlView&invoice=%1? [L]';
+	$RewriteStr[] = 'RewriteCond %{REQUEST_URI} ^/servers/(.*)';
+	$RewriteStr[] = 'RewriteRule (.*) clientarea.php?action=productdetails&id=%1? [L]';
+	$RewriteStr[] = '#Конец правил модуля PublicInvoiceUrlView';
+
+	$SearchValue  = 'RewriteBase /';
+	$HtaccessFile = ROOTDIR . '/.htaccess';
+
+	if ( ! is_writable( $HtaccessFile ) && file_exists( $HtaccessFile ) ) {
+		return array( 'status' => 'error', 'description' => 'Файл' . $HtaccessFile . ' недоступен для записи' );
+	}
+
+	$htaccess = file_get_contents( ROOTDIR . '/.htaccess' );
+
+	$FilePat1 = substr( $htaccess, 0, strpos( $htaccess, $SearchValue ) + strlen( $SearchValue ) );
+	$FilePat2 = substr( $htaccess, strpos( $htaccess, $SearchValue ) + strlen( $SearchValue ) );
+
+	$FilePat1 .= PHP_EOL;
+	for ( $i = 0; $i < count( $RewriteStr ); $i ++ ) {
+		$FilePat1 .= $RewriteStr[ $i ] . PHP_EOL;
+	}
+
+	$htaccess = $FilePat1 . $FilePat2;
+
+	file_put_contents( ROOTDIR . '/.htaccess', $htaccess );
+
+	if ( ! in_array( 'mod_rewrite', apache_get_modules() ) ) {
+		return array(
+			'status'      => 'info',
+			'description' => 'Дополнения для apache mod_rewrite не установлено, установка модуля будет невозможна.'
+		);
+	}
+
+	return array(
+		'status'      => 'success',
+		'description' => 'Модуль успешно активирован, для установки модуля перейдите в "дополнения"->PublicInvoiceUrlView'
+	);
+}
+
+function PublicInvoiceUrlView_deactivate() {
+	$RewriteStr[] = '#Правила модуля PublicInvoiceUrlView';
+	$RewriteStr[] = 'RewriteRule ^templates/ - [L]';
+	$RewriteStr[] = 'RewriteCond %{HTTP_HOST} !(^' . $_SERVER['SERVER_NAME'] . '$)';
+	$RewriteStr[] = 'RewriteRule (.*) index.php?m=PublicInvoiceUrlView&domain=%{HTTP_HOST} [L]';
+	$RewriteStr[] = 'RewriteCond %{REQUEST_URI} ^/invoice/public/(.*)';
+	$RewriteStr[] = 'RewriteRule (.*) index.php?m=PublicInvoiceUrlView&invoice=%1? [L]';
+	$RewriteStr[] = 'RewriteCond %{REQUEST_URI} ^/servers/(.*)';
+	$RewriteStr[] = 'RewriteRule (.*) clientarea.php?action=productdetails&id=%1? [L]';
+	$RewriteStr[] = '#Конец правил модуля PublicInvoiceUrlView';
+
+	$HtaccessFile = ROOTDIR . '/.htaccess';
+
+	if ( ! is_writable( $HtaccessFile ) && file_exists( $HtaccessFile ) ) {
+		return array( 'status' => 'error', 'description' => 'Файл' . $HtaccessFile . ' недоступен для записи' );
+	}
+
+	$htaccess = file_get_contents( ROOTDIR . '/.htaccess' );
+
+	for ( $i = 0; $i < count( $RewriteStr ); $i ++ ) {
+		$htaccess = str_replace( $RewriteStr[ $i ], "", $htaccess );
+
+	}
+
+	file_put_contents( $HtaccessFile, $htaccess );
+
+	return array( 'status' => 'success', 'description' => 'Модуль успешно деактивирован' );
 }
