@@ -15,7 +15,7 @@ use \WHMCS\Utility\Country;
 use \WHMCS\Form;
 use \WHMCS\Gateways;
 use \WHMCS\Module\Gateway as ModuleGateway;
-use PublicInvoiceUrlView\Lib\html;
+use PublicInvoiceUrlView\Lib\htmlHelper;
 
 class InvoicePageWHMCS {
 	private $ClientArea;
@@ -61,19 +61,10 @@ class InvoicePageWHMCS {
 		return $client;
 	}
 
-	private function ModuleGatewayLoad() {
-		$this->ModuleGateway->load( $this->Invoice->paymentGateway );
-	}
-
 	private function GeneratePaymentButton() {
-		return $this->ModuleGateway->call( 'link', [
-			'amount'        => $this->Invoice->balance,
-			'invoiceid'     => $this->Invoice->id,
-			'clientdetails' => $this->GetClient(),
-			'description'   => Setting::getValue( 'companyname' ) . '-' . $this->_LANG['invoicenumber'] . $this->Invoice->id,
-			'currency'      => getCurrency( $this->GetClient()->id ),
-			'language'      => $this->_LANG['locale'],
-		] );
+		return call_user_func(
+			$this->Invoice->paymentGateway . "_link",
+			getGatewayVariables( $this->Invoice->paymentGateway, $this->Invoice->id, $this->Invoice->total ) );
 	}
 
 	private function GetFormatTplTransactionsItems() {
@@ -119,9 +110,7 @@ class InvoicePageWHMCS {
 	public function GeneratePage( $InvoiceID ) {
 		$this->Invoice = $this->FindInvoiceFromDB( $InvoiceID );
 
-		$this->ModuleGatewayLoad();
-
-		html::PrintScriptChangeFormUrlInvoicePage();
+		echo '<script>$(function() {$( "form.form-inline" ).attr(\'action\',\'' . $_SERVER['REQUEST_URI'] . '\')});</script>';
 
 		$this->ClientArea->initPage();
 		$this->ClientArea->disableHeaderFooterOutput();

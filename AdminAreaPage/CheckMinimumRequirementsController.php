@@ -9,7 +9,7 @@
 namespace PublicInvoiceUrlView\Page;
 
 use PublicInvoiceUrlView\Lib\PageInterface;
-use PublicInvoiceUrlView\Lib\Config;
+use PublicInvoiceUrlView\Lib\ConfigController;
 
 class CheckMinimumRequirementsController implements PageInterface {
 	private $vars = [];
@@ -28,7 +28,7 @@ class CheckMinimumRequirementsController implements PageInterface {
 	}
 
 	function isWHMCS712rOlder() {
-		if ( floatval( Config::GetWHMCSVersion() ) >= 7.1 ) {
+		if ( floatval( ConfigController::GetWHMCSVersion() ) >= 7.1 ) {
 			return true;
 		}
 

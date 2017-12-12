@@ -6,11 +6,11 @@
  * Time: 16:45
  */
 
-namespace PublicInvoiceUrlView\Lib;
+namespace PublicInvoiceUrlView\Helper;
 
-class html {
+class htmlHelper {
 	public static function GetJqueryInclude() {
-		return '<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"  integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="  crossorigin="anonymous"></script>' . PHP_EOL;
+		return '<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>' . PHP_EOL;
 	}
 
 	public static function GetClipboardInclude() {
@@ -24,14 +24,14 @@ class html {
 		$str .= '$(function () {' . PHP_EOL;
 		$str .= 'var clipboard = new Clipboard(".btn");' . PHP_EOL;
 		$str .= '$(\'<div style="margin-bottom: 20px;"><button id="publicInvoiceURL" ';
-		$str .= 'style="' . Config::GetButtonStyle() . '" ';
+		$str .= 'style="' . ConfigController::GetPublicInvoiceButtonStyle() . '" ';
 		$str .= 'class=\"btn\" data-clipboard-text=\"';
 		$str .= $SystemURL . 'public/invoice/' . $key;
 		$str .= '\">';
-		$str .= Config::GetButtonMessage();
+		$str .= ConfigController::GetPublicInvoiceButtonMessage();
 		$str .= '</button></div>\').insertBefore($(".container-fluid.invoice-container").children(".panel.panel-default"));' . PHP_EOL;
 		$str .= 'clipboard.on(\'success\', function(e) {
-	$(\'<div class="alert alert-success fade in" style="word-break: break-all;"><strong>' . Config::GetMessageAlertSuccess() . '</strong>\'+e.text+\'</div>\').insertBefore($(".container-fluid.invoice-container").children(".panel.panel-default"));
+	$(\'<div class="alert alert-success fade in" style="word-break: break-all;"><strong>' . ConfigController::GetPublicInvoiceMessageAlertSuccess() . '</strong>\'+e.text+\'</div>\').insertBefore($(".container-fluid.invoice-container").children(".panel.panel-default"));
 	$("#publicInvoiceURL").remove();
 });
 ';
@@ -41,8 +41,5 @@ class html {
 		return $str;
 	}
 
-	public static function PrintScriptChangeFormUrlInvoicePage() {
-		echo '<script>$(function() {$( "form.form-inline" ).attr(\'action\',\'' . $_SERVER['REQUEST_URI'] . '\')});</script>';
-	}
 
 }

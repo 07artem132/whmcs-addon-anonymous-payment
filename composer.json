@@ -1,8 +1,13 @@
 {
   "autoload": {
     "psr-0": {
-      "PublicInvoiceUrlView\\Lib\\": "../",
-      "PublicInvoiceUrlView\\Page\\": "../"
+      "PublicInvoiceUrlView\\AdminAreaPage\\": "../",
+      "PublicInvoiceUrlView\\ClientAreaPage\\": "../",
+      "PublicInvoiceUrlView\\Controller\\": "../",
+      "PublicInvoiceUrlView\\Helper\\": "../",
+      "PublicInvoiceUrlView\\Interfaces\\": "../",
+      "PublicInvoiceUrlView\\Traits\\": "../",
+      "PublicInvoiceUrlView\\Config\\": "../"
     }
   }
 }

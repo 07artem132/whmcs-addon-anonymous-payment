@@ -6,6 +6,11 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'PublicInvoiceUrlView\\Page\\' => array($baseDir . '/..'),
-    'PublicInvoiceUrlView\\Lib\\' => array($baseDir . '/..'),
+    'AnonymousPayment\\Traits\\' => array($baseDir . '/..'),
+    'AnonymousPayment\\Interfaces\\' => array($baseDir . '/..'),
+    'AnonymousPayment\\Helper\\' => array($baseDir . '/..'),
+    'AnonymousPayment\\Controller\\' => array($baseDir . '/..'),
+    'AnonymousPayment\\Config\\' => array($baseDir . '/..'),
+    'AnonymousPayment\\ClientAreaPage\\' => array($baseDir . '/..'),
+    'AnonymousPayment\\AdminAreaPage\\' => array($baseDir . '/..'),
 );

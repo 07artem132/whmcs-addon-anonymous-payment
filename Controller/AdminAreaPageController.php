@@ -10,7 +10,7 @@ namespace PublicInvoiceUrlView\Lib;
 
 use Smarty;
 
-class PageController {
+class AdminAreaPageController {
 	private $TemplateDir = 'Template';
 	private $PageToController = [
 		'welcome'    => 'WelcomeController',

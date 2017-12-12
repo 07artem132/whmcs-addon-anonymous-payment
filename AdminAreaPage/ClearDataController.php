@@ -9,13 +9,13 @@
 namespace PublicInvoiceUrlView\Page;
 
 use PublicInvoiceUrlView\Lib\PageInterface;
-use PublicInvoiceUrlView\Lib\Config;
+use PublicInvoiceUrlView\Lib\ConfigController;
 
 class ClearDataController implements PageInterface {
 	private $vars;
 
 	function Delete(){
-		Config::ClearData();
+		ConfigController::ClearData();
 	}
 
 	function GetFileName() {

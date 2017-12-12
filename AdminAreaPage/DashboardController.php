@@ -9,23 +9,23 @@
 namespace PublicInvoiceUrlView\Page;
 
 use PublicInvoiceUrlView\Lib\PageInterface;
-use PublicInvoiceUrlView\Lib\Config;
+use PublicInvoiceUrlView\Lib\ConfigController;
 
 class DashboardController implements PageInterface {
 	private $vars;
 
 	function Config() {
 		if ( ! empty( $_POST['AlertSuccess'] ) && ! empty( $_POST['ButtonMessage'] ) ) {
-			Config::SetInstallStatus( true );
+			ConfigController::SetInstallStatus( true );
 
-			Config::SetValue( 'AlertSuccess', $_POST['AlertSuccess'] );
-			Config::SetValue( 'ButtonMessage', $_POST['ButtonMessage'] );
+			ConfigController::SetValue( 'AlertSuccess', $_POST['AlertSuccess'] );
+			ConfigController::SetValue( 'ButtonMessage', $_POST['ButtonMessage'] );
 			if ( ! empty( $_POST['ButtonStyle'] ) ) {
-				Config::SetValue( 'ButtonStyle', $_POST['ButtonStyle'] );
+				ConfigController::SetValue( 'ButtonStyle', $_POST['ButtonStyle'] );
 			}
 		}
 
-		$this->vars['config'] = Config::all();
+		$this->vars['config'] = ConfigController::all();
 
 	}
 

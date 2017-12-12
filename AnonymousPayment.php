@@ -9,13 +9,14 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-use PublicInvoiceUrlView\Lib\html;
-use PublicInvoiceUrlView\Lib\InvoicePageWHMCS;
-use PublicInvoiceUrlView\Lib\PublicServiceDonate;
-use PublicInvoiceUrlView\Lib\PublicBalanseDonate;
-use PublicInvoiceUrlView\Lib\CryptUrlData;
+use AnonymousPayment\Lib\htmlHelper;
+use AnonymousPayment\Lib\InvoicePageWHMCS;
+use AnonymousPayment\Lib\PublicServiceDonate;
+use AnonymousPayment\Lib\PublicBalanseDonate;
+use AnonymousPayment\Lib\CryptController;
+use AnonymousPayment\Lib\PublicGrouppayDonate;
 
-function PublicInvoiceUrlView_config() {
+function AnonymousPayment_config() {
 	return [
 		"name"        => "Public invoice url view",
 		"description" => "",
@@ -27,10 +28,8 @@ function PublicInvoiceUrlView_config() {
 	];
 }
 
-function PublicInvoiceUrlView_clientarea( $vars ) {
-	$modulelink = $vars['modulelink'];
-
-	echo html::GetJqueryInclude();
+function AnonymousPayment_clientarea( $vars ) {
+	echo htmlHelper::GetJqueryInclude();
 
 	if ( isset( $_GET['domain'] ) && ! empty( $_GET['domain'] ) ) {
 		$PublicDonateService = new PublicServiceDonate();
@@ -44,24 +43,33 @@ function PublicInvoiceUrlView_clientarea( $vars ) {
 		die();
 	}
 
-	if ( isset( $_GET['widget_config'] ) && ! empty( $_GET['widget_config'] ) ) {
-		$PublicBalanseDonate = new PublicBalanseDonate();
-		$PublicBalanseDonate->GenerateWidgetConfig();
+	if ( isset( $_GET['grouppay'] ) && ! empty( $_GET['grouppay'] ) ) {
+		$PublicGrouppayDonate = new PublicGrouppayDonate();
+		$PublicGrouppayDonate->GeneratePage();
 		die();
 	}
 
-	/*if ( isset( $_GET['email'] ) && ! empty( $_GET['email'] ) ) {
-		$PublicInvoicePaid = new PublicInvoicePaid();
-		$PublicInvoicePaid->GeneratePage( $_GET['email'] );
+
+	if ( isset( $_GET['widget_config'] ) && ! empty( $_GET['widget_config'] ) ) {
+		$PublicBalanseDonate = new PublicBalanseDonate();
+
+		if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
+			$Settings['WidgetShowBalance']          = (int) array_key_exists( 'WidgetShowBalance', $_POST );
+			$Settings['WidgetTitle']                = $_POST['WidgetTitle'];
+			$Settings['WidgetDefaultAddBalanceSum'] = $_POST['WidgetDefaultAddBalanceSum'];
+			$Settings['WidgetButtonText']           = $_POST['WidgetButtonText'];
+			$PublicBalanseDonate->EditSettings( $Settings );
+		}
+		$PublicBalanseDonate->GenerateWidgetConfig();
 		die();
-	}*/
+	}
 
 	if ( isset( $_GET['invoice'] ) && ! empty( $_GET['invoice'] ) ) {
 		$InvoicePageWHMCS = new InvoicePageWHMCS();
 
 		$EncodeStr = $_GET['invoice'];
 
-		$InvoiceID = CryptUrlData::Decrypt( $EncodeStr );
+		$InvoiceID = CryptController::Decrypt( $EncodeStr );
 
 		if ( isset( $_POST['gateway'] ) && ! empty( $_POST['gateway'] ) ) {
 			$InvoicePageWHMCS->ChangeGateway( $InvoiceID, $_POST['gateway'] );
@@ -72,7 +80,7 @@ function PublicInvoiceUrlView_clientarea( $vars ) {
 	}
 }
 
-function PublicInvoiceUrlView_output( $vars ) {
+function AnonymousPayment_output( $vars ) {
 	try {
 		$PageController = new PageController();
 		$PageController->SetVar( 'basheURL', $vars['modulelink'] );
@@ -92,12 +100,16 @@ function PublicInvoiceUrlView_output( $vars ) {
 	}
 }
 
-function PublicInvoiceUrlView_activate() {
+function AnonymousPayment_activate() {
 	$RewriteStr[] = '#Правила модуля PublicInvoiceUrlView';
 	$RewriteStr[] = 'RewriteRule ^templates/ - [L]';
 	$RewriteStr[] = 'RewriteCond %{HTTP_HOST} !(^' . $_SERVER['SERVER_NAME'] . '$)';
 	$RewriteStr[] = 'RewriteRule (.*) index.php?m=PublicInvoiceUrlView&domain=%{HTTP_HOST} [L]';
-	$RewriteStr[] = 'RewriteCond %{REQUEST_URI} ^/invoice/public/(.*)';
+	$RewriteStr[] = 'RewriteCond %{REQUEST_URI} ^/public/balance/config';
+	$RewriteStr[] = 'RewriteRule (.*) index.php?m=PublicInvoiceUrlView&widget_config=1? [L]';
+	$RewriteStr[] = 'RewriteCond %{REQUEST_URI} ^/public/balance/(.*)';
+	$RewriteStr[] = 'RewriteRule (.*) index.php?m=PublicInvoiceUrlView&widget_id=%1 [L]';
+	$RewriteStr[] = 'RewriteCond %{REQUEST_URI} ^/public/invoice/(.*)';
 	$RewriteStr[] = 'RewriteRule (.*) index.php?m=PublicInvoiceUrlView&invoice=%1? [L]';
 	$RewriteStr[] = 'RewriteCond %{REQUEST_URI} ^/servers/(.*)';
 	$RewriteStr[] = 'RewriteRule (.*) clientarea.php?action=productdetails&id=%1? [L]';
@@ -137,12 +149,16 @@ function PublicInvoiceUrlView_activate() {
 	);
 }
 
-function PublicInvoiceUrlView_deactivate() {
+function AnonymousPayment_deactivate() {
 	$RewriteStr[] = '#Правила модуля PublicInvoiceUrlView';
 	$RewriteStr[] = 'RewriteRule ^templates/ - [L]';
 	$RewriteStr[] = 'RewriteCond %{HTTP_HOST} !(^' . $_SERVER['SERVER_NAME'] . '$)';
 	$RewriteStr[] = 'RewriteRule (.*) index.php?m=PublicInvoiceUrlView&domain=%{HTTP_HOST} [L]';
-	$RewriteStr[] = 'RewriteCond %{REQUEST_URI} ^/invoice/public/(.*)';
+	$RewriteStr[] = 'RewriteCond %{REQUEST_URI} ^/public/balance/config';
+	$RewriteStr[] = 'RewriteRule (.*) index.php?m=PublicInvoiceUrlView&widget_config=1? [L]';
+	$RewriteStr[] = 'RewriteCond %{REQUEST_URI} ^/public/balance/(.*)';
+	$RewriteStr[] = 'RewriteRule (.*) index.php?m=PublicInvoiceUrlView&widget_id=%1 [L]';
+	$RewriteStr[] = 'RewriteCond %{REQUEST_URI} ^/public/invoice/(.*)';
 	$RewriteStr[] = 'RewriteRule (.*) index.php?m=PublicInvoiceUrlView&invoice=%1? [L]';
 	$RewriteStr[] = 'RewriteCond %{REQUEST_URI} ^/servers/(.*)';
 	$RewriteStr[] = 'RewriteRule (.*) clientarea.php?action=productdetails&id=%1? [L]';

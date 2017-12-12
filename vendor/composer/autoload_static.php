@@ -9,11 +9,31 @@ class ComposerStaticInitcfa92bc23fc1d3d7c77bc85334570b13
     public static $prefixesPsr0 = array (
         'P' => 
         array (
-            'PublicInvoiceUrlView\\Page\\' => 
+            'PublicInvoiceUrlView\\Traits\\' => 
             array (
                 0 => __DIR__ . '/../..' . '/..',
             ),
-            'PublicInvoiceUrlView\\Lib\\' => 
+            'PublicInvoiceUrlView\\Interfaces\\' => 
+            array (
+                0 => __DIR__ . '/../..' . '/..',
+            ),
+            'PublicInvoiceUrlView\\Helper\\' => 
+            array (
+                0 => __DIR__ . '/../..' . '/..',
+            ),
+            'PublicInvoiceUrlView\\Controller\\' => 
+            array (
+                0 => __DIR__ . '/../..' . '/..',
+            ),
+            'PublicInvoiceUrlView\\Config\\' => 
+            array (
+                0 => __DIR__ . '/../..' . '/..',
+            ),
+            'PublicInvoiceUrlView\\ClientAreaPage\\' => 
+            array (
+                0 => __DIR__ . '/../..' . '/..',
+            ),
+            'PublicInvoiceUrlView\\AdminAreaPage\\' => 
             array (
                 0 => __DIR__ . '/../..' . '/..',
             ),

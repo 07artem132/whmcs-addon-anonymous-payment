@@ -10,61 +10,22 @@ namespace PublicInvoiceUrlView\Lib;
 
 use \WHMCS\Config\Setting;
 
-class Config {
-	static $Config = null;
-
-	public static function ClearData() {
-		self::$Config = [];
-		self::SaveConfig();
-	}
-
-	public static function all() {
-		self::LoadConfig();
-
-		return ( empty( self::$Config ) ) ? null : self::$Config;
-	}
-
-	public static function SetValue( $key, $value ) {
-		self::LoadConfig();
-
-		self::$Config         = ( empty( $Config = json_decode( Setting::getValue( 'PublicInvoiceUrlView' ) ) ) ) ? $Config = new \stdClass() : $Config;
-		self::$Config->{$key} = $value;
-
-		self::SaveConfig();
-	}
-
-	private static function SaveConfig() {
-		Setting::setValue( 'PublicInvoiceUrlView', json_encode( self::$Config ) );
-	}
-
-	private static function LoadConfig() {
-		if ( self::$Config === null ) {
-			self::$Config = json_decode( Setting::getValue( 'PublicInvoiceUrlView' ) );
-		}
-	}
+class ConfigController {
 
 	//region Установка модуля
-	public static function GetInstallStatus() {
-		self::LoadConfig();
-
-		return ( empty( self::$Config->install ) ) ? false : self::$Config->install;
-	}
-
-	public static function SetInstallStatus( $status ) {
-		self::SetValue( 'install', $status );
-	}
 
 	public static function SetDefaultDataConfig() {
-		self::$Config                                             = new stdClass;
-		self::$Config->WidgetShowBalance['default']               = '1';
-		self::$Config->WidgetTitle['default']                     = 'Донат на TS';
-		self::$Config->WidgetDefaultAddBalanceSum['default']      = '100';
-		self::$Config->WidgetButtonText['default']                = 'Пополнить';
-		self::$Config->DefaultNamePrimaryNavbarItemPublicAddFunds = 'Публичное пополнение';
-		self::$Config->DefaultUserDefaultAddBalanceSum            = '100';
-		self::$Config->DefaultPublicInvoiceButtonStyle            = '';
-		self::$Config->DefaultPublicInvoiceMessageAlertSuccess    = 'Следующий текст успешно скопирован в буфер обмена: ';
-		self::$Config->DefaultPublicInvoiceButtonMessage          = 'Скопировать ссылку для публичной оплаты этого счёта в буфер обмена';
+		self::$Config                                              = new \stdClass;
+		self::$Config->WidgetShowBalance['default']                = '1';
+		self::$Config->WidgetTitle['default']                      = 'Донат на TS';
+		self::$Config->WidgetDefaultAddBalanceSum['default']       = '100';
+		self::$Config->WidgetButtonText['default']                 = 'Пополнить';
+		self::$Config->DefaultNamePrimaryNavbarItemPublicAddFunds  = 'Публичное пополнение';
+		self::$Config->DefaultUserDefaultAddBalanceSum             = '100';
+		self::$Config->DefaultPublicInvoiceButtonStyle             = '';
+		self::$Config->DefaultPublicInvoiceMessageAlertSuccess     = 'Следующий текст успешно скопирован в буфер обмена: ';
+		self::$Config->DefaultPublicInvoiceButtonMessage           = 'Скопировать ссылку для публичной оплаты этого счёта в буфер обмена';
+		self::$Config->NamePrimaryNavbarItemPublicAddFundsNoWidget = 'Групповая оплата';
 	}
 	//endregion
 
@@ -72,18 +33,18 @@ class Config {
 	public static function GetWidgetShowBalance( $ClientID ) {
 		self::LoadConfig();
 
-		return ( empty( self::$Config->WidgetShowBalance[ $ClientID ] ) ) ? self::GetDefaultWidgetShowBalance() : self::$Config->WidgetShowBalance[ $ClientID ];
+		return ( self::$Config->WidgetShowBalance->$ClientID != 0 && empty( self::$Config->WidgetShowBalance->$ClientID ) ) ? self::GetDefaultWidgetShowBalance() : self::$Config->WidgetShowBalance->$ClientID;
 	}
 
-	public static function GetDefaultWidgetShowBalance() {
+	private static function GetDefaultWidgetShowBalance() {
 		self::LoadConfig();
 
-		return self::$Config->WidgetShowBalance['default'];
+		return self::$Config->WidgetShowBalance->default;
 	}
 
 	public static function SetWidgetShowBalance( $ClientID, $Value ) {
 		self::LoadConfig();
-		self::$Config->WidgetShowBalance[ $ClientID ] = $Value;
+		self::$Config->WidgetShowBalance->$ClientID = $Value;
 		self::SetValue( 'WidgetShowBalance', self::$Config->WidgetShowBalance );
 	}
 
@@ -91,18 +52,18 @@ class Config {
 	public static function GetWidgetTitle( $ClientID ) {
 		self::LoadConfig();
 
-		return ( empty( self::$Config->WidgetTitle[ $ClientID ] ) ) ? self::GetDefaultWidgetTitle() : self::$Config->WidgetTitle[ $ClientID ];
+		return ( empty( self::$Config->WidgetTitle->$ClientID ) ) ? self::GetDefaultWidgetTitle() : self::$Config->WidgetTitle->$ClientID;
 	}
 
-	public static function GetDefaultWidgetTitle() {
+	private static function GetDefaultWidgetTitle() {
 		self::LoadConfig();
 
-		return self::$Config->WidgetTitle['default'];
+		return self::$Config->WidgetTitle->default;
 	}
 
 	public static function SetWidgetTitle( $ClientID, $Value ) {
 		self::LoadConfig();
-		self::$Config->WidgetTitle[ $ClientID ] = $Value;
+		self::$Config->WidgetTitle->$ClientID = $Value;
 		self::SetValue( 'WidgetTitle', self::$Config->WidgetTitle );
 	}
 
@@ -110,18 +71,18 @@ class Config {
 	public static function GetWidgetDefaultAddBalanceSum( $ClientID ) {
 		self::LoadConfig();
 
-		return ( empty( self::$Config->WidgetDefaultAddBalanceSum[ $ClientID ] ) ) ? self::GetDefaultWidgetDefaultAddBalanceSum() : self::$Config->WidgetDefaultAddBalanceSum[ $ClientID ];
+		return ( empty( self::$Config->WidgetDefaultAddBalanceSum->$ClientID ) ) ? self::GetDefaultWidgetDefaultAddBalanceSum() : self::$Config->WidgetDefaultAddBalanceSum->$ClientID;
 	}
 
-	public static function GetDefaultWidgetDefaultAddBalanceSum() {
+	private static function GetDefaultWidgetDefaultAddBalanceSum() {
 		self::LoadConfig();
 
-		return self::$Config->WidgetDefaultAddBalanceSum['default'];
+		return self::$Config->WidgetDefaultAddBalanceSum->default;
 	}
 
 	public static function SetWidgetDefaultAddBalanceSum( $ClientID, $Value ) {
 		self::LoadConfig();
-		self::$Config->WidgetDefaultAddBalanceSum[ $ClientID ] = $Value;
+		self::$Config->WidgetDefaultAddBalanceSum->$ClientID = $Value;
 		self::SetValue( 'WidgetDefaultAddBalanceSum', self::$Config->WidgetDefaultAddBalanceSum );
 	}
 
@@ -129,18 +90,18 @@ class Config {
 	public static function GetWidgetButtonText( $ClientID ) {
 		self::LoadConfig();
 
-		return ( empty( self::$Config->WidgetButtonText[ $ClientID ] ) ) ? self::GetDefaultWidgetButtonText() : self::$Config->WidgetButtonText[ $ClientID ];
+		return ( empty( self::$Config->WidgetButtonText->$ClientID ) ) ? self::GetDefaultWidgetButtonText() : self::$Config->WidgetButtonText->$ClientID;
 	}
 
-	public static function GetDefaultWidgetButtonText() {
+	private static function GetDefaultWidgetButtonText() {
 		self::LoadConfig();
 
-		return self::$Config->WidgetButtonText['default'];
+		return self::$Config->WidgetButtonText->default;
 	}
 
 	public static function SetWidgetButtonText( $ClientID, $Value ) {
 		self::LoadConfig();
-		self::$Config->WidgetButtonText[ $ClientID ] = $Value;
+		self::$Config->WidgetButtonText->$ClientID = $Value;
 		self::SetValue( 'WidgetButtonText', self::$Config->WidgetButtonText );
 	}
 
@@ -157,12 +118,31 @@ class Config {
 		return ( empty( self::$Config->NamePrimaryNavbarItemPublicAddFunds ) ) ? self::GetDefaultNamePrimaryNavbarItemPublicAddFunds() : self::$Config->NamePrimaryNavbarItemPublicAddFunds;
 	}
 
-	public static function GetDefaultNamePrimaryNavbarItemPublicAddFunds() {
+	private static function GetDefaultNamePrimaryNavbarItemPublicAddFunds() {
 		self::LoadConfig();
 
 		return self::$Config->DefaultNamePrimaryNavbarItemPublicAddFunds;
 
 	}
+
+	public static function SetNamePrimaryNavbarItemPublicAddFundsNoWidget( $Name ) {
+		self::SetValue( 'NamePrimaryNavbarItemPublicAddFundsNoWidget', $Name );
+	}
+
+	public static function GetNamePrimaryNavbarItemPublicAddFundsNoWidget() {
+		self::LoadConfig();
+
+		return ( empty( self::$Config->NamePrimaryNavbarItemPublicAddFundsNoWidget ) ) ? self::GetDefaultNamePrimaryNavbarItemPublicAddFundsNoWidget() : self::$Config->NamePrimaryNavbarItemPublicAddFundsNoWidget;
+	}
+
+	private static function GetDefaultNamePrimaryNavbarItemPublicAddFundsNoWidget() {
+		self::LoadConfig();
+
+		return self::$Config->DefaultNamePrimaryNavbarItemPublicAddFundsNoWidget;
+
+	}
+
+
 	//endregion
 
 	//region Надстройка над конфигуратором whmcs
@@ -191,7 +171,6 @@ class Config {
 	}
 	//endregion
 
-
 	//region Публичная оплата счетов пользователя по домену, пополнение баланса и сведения о услуге
 	public static function GetServiceDonateUserDefaultAddBalanceSum() {
 		self::LoadConfig();
@@ -205,14 +184,13 @@ class Config {
 		self::SaveConfig();
 	}
 
-	public static function GetDefaultServiceDonateUserDefaultAddBalanceSum() {
+	private static function GetDefaultServiceDonateUserDefaultAddBalanceSum() {
 		self::LoadConfig();
 
 		return self::$Config->DefaultUserDefaultAddBalanceSum;
 	}
 
 	//endregion
-
 
 	//region Публичная оплата счета
 	public static function GetPublicInvoiceButtonMessage() {
@@ -221,7 +199,7 @@ class Config {
 		return ( empty( self::$Config->PublicInvoiceButtonMessage ) ) ? self::GetDefaultPublicInvoiceButtonMessage() : self::$Config->PublicInvoiceButtonMessage;
 	}
 
-	public static function GetDefaultPublicInvoiceButtonMessage() {
+	private static function GetDefaultPublicInvoiceButtonMessage() {
 		self::LoadConfig();
 
 		return self::$Config->DefaultPublicInvoiceButtonMessage;
@@ -238,7 +216,7 @@ class Config {
 		return ( empty( self::$Config->PublicInvoiceMessageAlertSuccess ) ) ? self::GetDefaultPublicInvoiceMessageAlertSuccess() : self::$Config->PublicInvoiceMessageAlertSuccess;
 	}
 
-	public static function GetDefaultPublicInvoiceMessageAlertSuccess() {
+	private static function GetDefaultPublicInvoiceMessageAlertSuccess() {
 		self::LoadConfig();
 
 		return self::$Config->DefaultPublicInvoiceMessageAlertSuccess;
@@ -255,7 +233,7 @@ class Config {
 		return ( empty( self::$Config->PublicInvoiceButtonStyle ) ) ? self::GetDefaultPublicInvoiceButtonStyle() : self::$Config->PublicInvoiceButtonStyle;
 	}
 
-	public static function GetDefaultPublicInvoiceButtonStyle() {
+	private static function GetDefaultPublicInvoiceButtonStyle() {
 		self::LoadConfig();
 
 		return self::$Config->DefaultPublicInvoiceButtonStyle;
