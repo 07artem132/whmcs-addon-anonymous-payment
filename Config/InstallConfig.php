@@ -6,9 +6,9 @@
  * Time: 22:14
  */
 
-namespace PublicInvoiceUrlView\Lib;
+namespace AnonymousPayment\Config;
 
-use PublicInvoiceUrlView\Controller\ConfigController as Config;
+use AnonymousPayment\Controller\ConfigController as Config;
 
 class InstallConfig {
 

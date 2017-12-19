@@ -7,33 +7,41 @@ namespace Composer\Autoload;
 class ComposerStaticInitcfa92bc23fc1d3d7c77bc85334570b13
 {
     public static $prefixesPsr0 = array (
-        'P' => 
+        'A' => 
         array (
-            'PublicInvoiceUrlView\\Traits\\' => 
+            'AnonymousPayment\\Traits\\' => 
             array (
                 0 => __DIR__ . '/../..' . '/..',
             ),
-            'PublicInvoiceUrlView\\Interfaces\\' => 
+            'AnonymousPayment\\Interfaces\\' => 
             array (
                 0 => __DIR__ . '/../..' . '/..',
             ),
-            'PublicInvoiceUrlView\\Helper\\' => 
+            'AnonymousPayment\\Install\\' => 
             array (
                 0 => __DIR__ . '/../..' . '/..',
             ),
-            'PublicInvoiceUrlView\\Controller\\' => 
+            'AnonymousPayment\\Helper\\' => 
             array (
                 0 => __DIR__ . '/../..' . '/..',
             ),
-            'PublicInvoiceUrlView\\Config\\' => 
+            'AnonymousPayment\\Exceptions\\' => 
             array (
                 0 => __DIR__ . '/../..' . '/..',
             ),
-            'PublicInvoiceUrlView\\ClientAreaPage\\' => 
+            'AnonymousPayment\\Controller\\' => 
             array (
                 0 => __DIR__ . '/../..' . '/..',
             ),
-            'PublicInvoiceUrlView\\AdminAreaPage\\' => 
+            'AnonymousPayment\\Config\\' => 
+            array (
+                0 => __DIR__ . '/../..' . '/..',
+            ),
+            'AnonymousPayment\\ClientAreaPage\\' => 
+            array (
+                0 => __DIR__ . '/../..' . '/..',
+            ),
+            'AnonymousPayment\\AdminAreaPage\\' => 
             array (
                 0 => __DIR__ . '/../..' . '/..',
             ),

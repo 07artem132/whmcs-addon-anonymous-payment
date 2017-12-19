@@ -6,10 +6,10 @@
  * Time: 18:17
  */
 
-namespace PublicInvoiceUrlView\Interfaces;
+namespace AnonymousPayment\Interfaces;
 
 
-interface AdminPageInterface {
+interface AdminAreaPageInterface {
 	function GetFileName();
 
 	function GetVars();

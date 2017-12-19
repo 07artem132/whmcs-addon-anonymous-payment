@@ -1,13 +1,16 @@
 {
   "autoload": {
     "psr-0": {
-      "PublicInvoiceUrlView\\AdminAreaPage\\": "../",
-      "PublicInvoiceUrlView\\ClientAreaPage\\": "../",
-      "PublicInvoiceUrlView\\Controller\\": "../",
-      "PublicInvoiceUrlView\\Helper\\": "../",
-      "PublicInvoiceUrlView\\Interfaces\\": "../",
-      "PublicInvoiceUrlView\\Traits\\": "../",
-      "PublicInvoiceUrlView\\Config\\": "../"
+      "AnonymousPayment\\AdminAreaPage\\": "../",
+      "AnonymousPayment\\ClientAreaPage\\": "../",
+      "AnonymousPayment\\Controller\\": "../",
+      "AnonymousPayment\\Helper\\": "../",
+      "AnonymousPayment\\Interfaces\\": "../",
+      "AnonymousPayment\\Traits\\": "../",
+      "AnonymousPayment\\Config\\": "../",
+      "AnonymousPayment\\Exceptions\\": "../",
+      "AnonymousPayment\\Install\\": "../",
+      "AnonymousPayment\\Abstracts\\": "../"
     }
   }
 }

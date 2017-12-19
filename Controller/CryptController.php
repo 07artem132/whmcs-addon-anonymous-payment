@@ -6,7 +6,7 @@
  * Time: 15:33
  */
 
-namespace PublicInvoiceUrlView\Controller;
+namespace AnonymousPayment\Controller;
 
 
 class CryptController {

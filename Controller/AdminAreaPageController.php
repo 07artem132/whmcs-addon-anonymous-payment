@@ -6,7 +6,7 @@
  * Time: 18:15
  */
 
-namespace PublicInvoiceUrlView\Lib;
+namespace AnonymousPayment\Controller;
 
 use Smarty;
 
@@ -34,7 +34,7 @@ class AdminAreaPageController {
 	function BildPage( $name ) {
 		list( $Class, $Function ) = explode( '@', $this->PageToController[ $name ] );
 
-		$className = 'PublicInvoiceUrlView\Page\\' . $Class;
+		$className = 'AnonymousPayment\Page\\' . $Class;
 
 		$this->PageController = new $className;
 

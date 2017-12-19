@@ -8,7 +8,9 @@ $baseDir = dirname($vendorDir);
 return array(
     'AnonymousPayment\\Traits\\' => array($baseDir . '/..'),
     'AnonymousPayment\\Interfaces\\' => array($baseDir . '/..'),
+    'AnonymousPayment\\Install\\' => array($baseDir . '/..'),
     'AnonymousPayment\\Helper\\' => array($baseDir . '/..'),
+    'AnonymousPayment\\Exceptions\\' => array($baseDir . '/..'),
     'AnonymousPayment\\Controller\\' => array($baseDir . '/..'),
     'AnonymousPayment\\Config\\' => array($baseDir . '/..'),
     'AnonymousPayment\\ClientAreaPage\\' => array($baseDir . '/..'),

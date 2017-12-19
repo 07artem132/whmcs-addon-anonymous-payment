@@ -6,7 +6,9 @@
  * Time: 21:56
  */
 
-namespace PublicInvoiceUrlView\Helper;
+namespace AnonymousPayment\Helper;
+
+use Smarty;
 
 /**
  * Class SmartyHelper

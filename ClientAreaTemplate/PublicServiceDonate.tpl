@@ -602,9 +602,11 @@
             </div>
             <div class="PublicInvoiceUrlView AddBalance">
                 <span class="PublicInvoiceUrlView AddBalanceDescription">{$AddBalanceDescription}</span>
-                <form>
+                <form action="{$systemurl}/public/grouppay" method="post">
+                    <input type="hidden" name="ClientEmail" value="{$ClientEmail}">
+                    <input type="hidden" name="FormFill" value="1">
                     <div class="PublicInvoiceUrlView AddBalanceSumInputGroup">
-                        <input id="AddBalanceSum" class="form-control" type="number" step="100"
+                        <input id="AddBalanceSum" name="AddBalanceSum" class="form-control" type="number" step="100"
                                value="{$DefaultAddBalanceSum}"
                                min="0" max="{$MaxAddBalanceSum}"/>
                         <span class="help-block" style="font-size: xx-small;">
@@ -612,7 +614,7 @@
                         </span>
                     </div>
                     {if $UserBalanseStatus}
-                        <button type="button" class="btn btn-BalanceAdd">{$AddBalanceButton}</button>
+                        <button type="submit" class="btn btn-BalanceAdd" >{$AddBalanceButton}</button>
                     {else}
                         <button type="button" class="btn btn-BalanceAdd" disabled>{$AddBalanceButton}</button>
                     {/if}

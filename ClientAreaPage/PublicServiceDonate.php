@@ -6,41 +6,33 @@
  * Time: 20:33
  */
 
-namespace PublicInvoiceUrlView\Lib;
+namespace AnonymousPayment\ClientAreaPage;
 
 
-use \WHMCS\ClientArea;
-use \WHMCS\Billing\Invoice;
-use \WHMCS\Config\Setting;
-use \WHMCS\Form;
-use Smarty;
-use \WHMCS\Billing\Invoice\Item;
-use \WHMCS\Service\Service;
-use PublicInvoiceUrlView\Lib\ConfigController;
-use PublicInvoiceUrlView\Lib\CryptController;
+use \AnonymousPayment\Config\WHMCSConfig;
+use \AnonymousPayment\Config\WHMCSUserConfig;
+use \AnonymousPayment\Controller\CryptController;
+use \AnonymousPayment\Abstracts\ClientAreaPageAbstract;
+use \AnonymousPayment\Controller\WHMCSInvoiceController;
+use \AnonymousPayment\Controller\WHMCSServiceController;
+use \AnonymousPayment\Interfaces\ClientAreaPageInterface;
+use \AnonymousPayment\Controller\WHMCSClientAreaController;
+use \AnonymousPayment\Controller\MultilanguageController as Lang;
 
-class PublicServiceDonate {
+class PublicServiceDonate extends ClientAreaPageAbstract implements ClientAreaPageInterface {
 
-	private $ClientArea;
-	private $Form;
-	private $Invoice;
-	private $_LANG;
+	private $ClientArea,
+		$Invoice,
+		$Service;
 
 	function __construct() {
-		global $_LANG;
-		$this->_LANG                 = $_LANG;
-		$this->ClientArea            = new ClientArea();
-		$this->Form                  = new Form();
-		$this->Invoice               = new Invoice();
+		$this->ClientArea = new WHMCSClientAreaController();
+		$this->Invoice    = new WHMCSInvoiceController();
+		$this->Service    = new WHMCSServiceController();
 	}
 
 	function GetProductInvoice( $sid ) {
-		$result = Item::with( [
-			'invoice' => function ( $query ) {
-				$query->where( 'status', '=', 'Unpaid' );
-
-			}
-		] )->where( 'relid', '=', $sid )->get();
+		$result = $this->Invoice->GetInvoiceProduct( $sid, 'Unpaid' );
 
 		for ( $i = 0; $i < $result->count(); $i ++ ) {
 			$results[ $i ]            = $result[ $i ]->invoice->toarray();
@@ -51,46 +43,45 @@ class PublicServiceDonate {
 		return $results;
 	}
 
-	function GetService( $domain ) {
-		$result = Service::where( 'domain', '=', $domain )->first();
-
-		return $result;
+	private function GetDomain() {
+		return $_GET['domain'];
 	}
 
-	public function GeneratePage( $domain ) {
-		$Service  = $this->GetService( $domain );
+	public function render() {
+		$Service  = $this->Service->GetFirstServiceAssignByDomain( $this->GetDomain() );
 		$Invoices = $this->GetProductInvoice( $Service->id );
 		$Product  = $Service->product()->first();
 		$Client   = $Service->client()->first();
 
 		$this->ClientArea->initPage();
-		$this->ClientArea->assign( 'Domain', $domain );
+		$this->ClientArea->assign( 'Domain', $this->GetDomain() );
 		$this->ClientArea->assign( 'ProductName', $Product->name );
 		$this->ClientArea->assign( 'BillingCycle', $Service->billingCycle );
 		$this->ClientArea->assign( 'ProductExtendedAt', $Service->nextDueDate );
 		$this->ClientArea->assign( 'ProductStatusColor', $Service->domainStatus );
 		$this->ClientArea->assign( 'ProductStatusText', $Service->domainStatus );
 		$this->ClientArea->assign( 'Invoices', $Invoices );
-		$this->ClientArea->assign( 'ProductURL', ConfigController::GetWHMCSSystemURL() . '/servers/' . $Service->id );
-		$this->ClientArea->assign( 'SystemURL', ConfigController::GetWHMCSSystemURL() );
+		$this->ClientArea->assign( 'ClientEmail', $Client->email );
+		$this->ClientArea->assign( 'ProductURL', WHMCSConfig::GetSystemURL() . '/servers/' . $Service->id );
+		$this->ClientArea->assign( 'SystemURL', WHMCSConfig::GetSystemURL() );
 		$this->ClientArea->assign( 'ModuleLink', $_GET['m'] );
-		$this->ClientArea->assign( 'ServerControlPanelText', 'Управление сервером' );
-		$this->ClientArea->assign( 'ProductExtendedAtText', 'Продлен до' );
-		$this->ClientArea->assign( 'BillingCycleText', 'Платежный цикл' );
+		$this->ClientArea->assign( 'ServerControlPanelText', Lang::Translate( 'ServerControlPanel' ) );
+		$this->ClientArea->assign( 'ProductExtendedAtText', Lang::Translate( 'ProductExtendedAt' ) );
+		$this->ClientArea->assign( 'BillingCycleText', Lang::Translate( 'BillingCycle' ) );
 		$this->ClientArea->assign( 'BalanceSum', $Client->credit );
-		$this->ClientArea->assign( 'BalanceDescription', 'Остаток средств:' );
-		$this->ClientArea->assign( 'AddBalanceDescription', 'Пополнить на сумму:' );
-		$this->ClientArea->assign( 'AddBalanceButton', 'Пополнить баланс' );
-		$this->ClientArea->assign( 'MaxAddBalanceSum', ConfigController::GetUserMaxBalanse() );
-		$this->ClientArea->assign( 'MinAddBalanceSum', ConfigController::GetUserMinBalanse() );
+		$this->ClientArea->assign( 'BalanceDescription', Lang::Translate( 'BalanceDescription' ) );
+		$this->ClientArea->assign( 'AddBalanceDescription', Lang::Translate( 'AddBalanceDescription' ) );
+		$this->ClientArea->assign( 'AddBalanceButton', Lang::Translate( 'AddBalanceButton' ) );
+		$this->ClientArea->assign( 'MaxAddBalanceSum', WHMCSUserConfig::GetMaxAddBalanse() );
+		$this->ClientArea->assign( 'MinAddBalanceSum', WHMCSUserConfig::GetMinAddBalanse() );
 		$this->ClientArea->assign( 'DefaultAddBalanceSum', 100 );
-		$this->ClientArea->assign( 'UserBalanseStatus', ConfigController::GetUserBalanseStatus() );
-		$this->ClientArea->assign( 'InvoiceNumberTableHead', 'Счет #' );
-		$this->ClientArea->assign( 'DueDateTableHead', 'Срок оплаты' );
-		$this->ClientArea->assign( 'ToPayTableHead', 'К оплате' );
-		$this->ClientArea->assign( 'StatusTableHead', 'Состояние' );
+		$this->ClientArea->assign( 'UserBalanseStatus', WHMCSUserConfig::GetBalanseStatus() );
+		$this->ClientArea->assign( 'InvoiceNumberTableHead', Lang::Translate( 'InvoiceNumberTableHead' ) );
+		$this->ClientArea->assign( 'DueDateTableHead', Lang::Translate( 'DueDateTableHead' ) );
+		$this->ClientArea->assign( 'ToPayTableHead', Lang::Translate( 'ToPayTableHead' ) );
+		$this->ClientArea->assign( 'StatusTableHead', Lang::Translate( 'StatusTableHead' ) );
 
-		$this->ClientArea->setTemplate( '/modules/addons/PublicInvoiceUrlView/Template/PublicServiceDonate.tpl' );
+		$this->ClientArea->setTemplate( '/modules/addons/AnonymousPayment/ClientAreaTemplate/PublicServiceDonate.tpl' );
 		$this->ClientArea->output();
 	}
 }

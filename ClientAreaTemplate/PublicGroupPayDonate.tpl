@@ -69,6 +69,31 @@
         margin-bottom: 20px;
     }
 
+    .payment input[type="email"] {
+        border: solid 1px #cdcdcd;
+        width: 333px;
+        height: 60px;
+        padding: 0 20px;
+        margin-bottom: 20px;
+    }
+
+    .payment input[type="number"] {
+        border: solid 1px #cdcdcd;
+        width: 333px;
+        height: 60px;
+        padding: 0 20px;
+        margin-bottom: 20px;
+    }
+
+    input[type='number'] {
+        -moz-appearance: textfield;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }
+
     .payment .pay {
         margin: 0 0 50px 0;
         color: #333333;
@@ -273,6 +298,10 @@
         display: block;
         float: left;
     }
+
+    .payment input[type="email"]:read-only {
+        background-color: rgb(235, 235, 228);
+    }
 </style>
 <script type="text/javascript">
     $(function () {
@@ -295,20 +324,22 @@
     });
 </script>
 <div class="container payment">
-    <form method="post">
+    <form method="post" action="/public/grouppay">
         <div class="clearfix form-row payment__form-row payment__form-row_single-row">
             <div class="label-input pull-left">
                 Варианты пополнения
             </div>
             <label for="system">
-                <input type="radio" id="system" value="1" name="payment_type" checked="checked">
+                <input type="radio" id="system" value="1" name="PaymentType" checked="checked">
                 <i></i>
                 <span>По email клиента в системе</span>
             </label>
-            <label for="host"><input type="radio" id="host" value="2" name="payment_type">
-                <i></i>
-                <span>По адресу сервера</span>
-            </label>
+            {if $DonateHost === 1}
+                <label for="host"><input type="radio" id="host" value="2" name="PaymentType">
+                    <i></i>
+                    <span>По адресу сервера</span>
+                </label>
+            {/if}
         </div>
         <div class="border">
             <div class="clearfix form-row" style="display: block;">
@@ -316,19 +347,27 @@
                     <label for="form_customer">Email клиента в системе</label>
                 </div>
                 <div class="pull-left">
-                    <input type="text" id="form_customer" name="customer" placeholder="example@example.com">
+                    <input type="email" id="form_customer" name="ClientEmail" placeholder="example@example.com"
+                            {if !empty($smarty.post.ClientEmail)}
+                                value="{$smarty.post.ClientEmail}" readonly
+                            {/if}
+                           required>
                 </div>
-                <span class="description">Введите только цифры без пробелов и тире</span>
+                {if $ClientEmailError === 1}
+                    <span class="errors">Клиент с таким email не найден</span>
+                {else}
+                    <span class="description">Введите только цифры без пробелов и тире</span>
+                {/if}
             </div>
 
             <div class="clearfix form-row host-ip-form-row" style="display: none;">
                 <div class="label-input pull-left">
                     <label for="form_ip">Адрес сервера</label>
                 </div>
-                <input type="text" id="form_ip" name="ip" style="float: left; width: 239px;"
+                <input type="text" id="form_ip" name="ServerIP" style="float: left; width: 239px;"
                        placeholder="ts1.teamspeak.com">
                 <span class="pull-left">:</span>
-                <input type="text" id="form_port" name="port" style="float: left; width: 90px;"
+                <input type="text" id="form_port" name="ServerPort" style="float: left; width: 90px;"
                        placeholder="9987">
                 <span class="description">
                 В первую часть поля введите ip, во вторую порт.
@@ -339,11 +378,22 @@
                 <div class="label-input pull-left">
                     <label for="form_amount" class="required">Сумма платежа</label>
                 </div>
-                <input type="text" id="form_amount" name="amount" required="required" class="currency"
-                       placeholder="0,00" value="0">
-                <span class="description">Минимальный платёж:
-                <span class="money-to-change change-with-currency" data-money-change-marker="minCharge">57 RUR</span>
+                <input type="number" id="form_amount" name="Amount" class="currency" placeholder="0,00"
+                        {if !empty($smarty.post.AddBalanceSum)}
+                            value="{$smarty.post.AddBalanceSum}"
+                        {else}
+                            value="0"
+                        {/if}
+                       required>
+                {if $AmountError === 1}
+                    <span class="errors">Введите целое число от {$MinAddBalanseNoFormat}
+                        до {$MaxAddBalanseNoFormat}</span>
+                {else}
+                    <span class="description">Минимальный платёж:
+                <span class="money-to-change change-with-currency"
+                      data-money-change-marker="minCharge">{$MinAddBalanse}</span>
             </span>
+                {/if}
             </div>
 
             <div class="clearfix" style="padding-bottom: 14px;">
