@@ -15,11 +15,11 @@ use WHMCS\View\Menu\Item as MenuItem;
 class ClientAreaPrimaryNavBarController {
 
 	public static function AddAllItem( MenuItem $PrimaryNavBar ) {
-		foreach ( ClientAreaPrimaryNavBarConfig::GetNavItem() as $item ) {
+		foreach ( ClientAreaPrimaryNavBarConfig::GetAllNavItem() as $item ) {
 			$IterationPrimaryNavBar = $PrimaryNavBar;
 
-			if ( array_key_exists( 'SubItem', $item ) && ! empty( $item['SubItem'] ) ) {
-				if ( ! empty( $SubItemNavBar = $IterationPrimaryNavBar->getChild( $item['SubItem'] ) ) ) {
+			if ( $item['Root'] != 'first' ) {
+				if ( ! empty( $SubItemNavBar = $IterationPrimaryNavBar->getChild( $item['Root'] ) ) ) {
 					$IterationPrimaryNavBar = $SubItemNavBar;
 				}
 			}
@@ -28,9 +28,21 @@ class ClientAreaPrimaryNavBarController {
 				continue;
 			}
 
+			if ( (bool) ! $item['AuthorizedRequest'] && WHMCSClientController::isLogin() ) {
+				continue;
+			}
+
+			if ( $item['SubItem'] === 'first' ) {
+				$Order = 0;
+			} elseif ( $item['SubItem'] === 'last' ) {
+				$Order = 9999;
+			} else {
+				$Order = $IterationPrimaryNavBar->getChild( $item['SubItem'] )->getOrder() + 1;
+			}
+
 			$IterationPrimaryNavBar = $IterationPrimaryNavBar->addChild( $item['name'] );
 			$IterationPrimaryNavBar->setUri( $item['url'] );
-			$IterationPrimaryNavBar->setOrder( $item['order'] );
+			$IterationPrimaryNavBar->setOrder( $Order );
 
 		};
 	}

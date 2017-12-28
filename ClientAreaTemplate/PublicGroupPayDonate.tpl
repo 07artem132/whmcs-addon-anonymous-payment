@@ -100,7 +100,7 @@
 
     .payment .border-bottom {
         border-bottom: 1px solid #e9e9e9;
-        padding: 0 0 36px 0;
+        padding: 0 0 20px 0;
         margin: 0 0 23px 0;
     }
 
@@ -130,7 +130,7 @@
     }
 
     .col.GatewayModule {
-        padding-bottom: 0px;
+        padding-bottom: 15px;
     }
 
     .container.payment {
@@ -359,13 +359,15 @@
             padding-bottom: 15px;
         }
     }
+
     @media (min-width: 771px) and (max-width: 1000px) {
-        .container.payment{
+        .container.payment {
             width: 720px;
         }
     }
+
     @media (min-width: 1000px) {
-        .container.payment{
+        .container.payment {
             width: 950px;
         }
 
@@ -388,7 +390,7 @@
             color: #999;
             font-size: 14px;
             font-weight: 400;
-            margin: 0 0 0 31px;
+            margin: 0 0 0 5px;
             display: block;
             float: left;
             line-height: 59px;
@@ -415,6 +417,7 @@
 
         div#GoToPayDescription {
             width: 58.33333333%;
+            font-size: 20px;
         }
 
         .payment .input {
@@ -471,6 +474,7 @@
             $(".clearfix.form-row.MessageRecipient-row").slideToggle();
         });
 
+        $("#PaymentVarList li:first-child input").click()
     });
 </script>
 <div class="container payment">
@@ -480,7 +484,7 @@
                 Варианты пополнения
             </div>
             <ul id="PaymentVarList">
-                {if $DonateClientEmail === 1}
+                {if $DonateClientEmail }
                     <li>
                         <label for="ClientEmail">
                             <input type="radio" id="ClientEmail" value="1" name="PaymentType"
@@ -492,7 +496,7 @@
                         </label>
                     </li>
                 {/if}
-                {if $DonateClientID === 1}
+                {if $DonateClientID  }
                     <li>
                         <label for="ClientID">
                             <input type="radio" id="ClientID" value="3" name="PaymentType"
@@ -504,7 +508,7 @@
                         </label>
                     </li>
                 {/if}
-                {if $DonateHost === 1}
+                {if $DonateHost  }
                     <li>
                         <label for="TeamSpeak3Host">
                             <input type="radio" id="TeamSpeak3Host" value="2" name="PaymentType"
@@ -519,11 +523,7 @@
             </ul>
         </div>
         <div class="border">
-            <div class="clearfix form-row"
-                    {if $ClientIDError === 1}
-                        style="display: none;"
-                    {/if}
-            >
+            <div class="clearfix form-row" style="display: none;">
                 <div class="label-input pull-left">
                     <label for="form_customer">Email клиента в системе</label>
                 </div>
@@ -540,11 +540,7 @@
                     <span class="description">Введите только цифры без пробелов и тире.</span>
                 {/if}
             </div>
-            <div class="clearfix form-row Client-ID-form-row"
-                    {if $ClientIDError != 1}
-                        style="display: none;"
-                    {/if}
-            >
+            <div class="clearfix form-row Client-ID-form-row" style="display: none;">
                 <div class="label-input pull-left">
                     <label for="ClientID">ID клиента</label>
                 </div>
@@ -561,7 +557,6 @@
                     <span class="description">Введите только цифры без пробелов и тире.</span>
                 {/if}
             </div>
-
             <div class="clearfix form-row host-ip-form-row" style="display: none;">
                 <div class="label-input pull-left">
                     <label for="form_ip">Адрес сервера</label>

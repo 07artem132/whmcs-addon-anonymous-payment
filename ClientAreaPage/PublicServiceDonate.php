@@ -12,6 +12,7 @@ namespace AnonymousPayment\ClientAreaPage;
 use \AnonymousPayment\Config\WHMCSConfig;
 use \AnonymousPayment\Config\WHMCSUserConfig;
 use \AnonymousPayment\Controller\CryptController;
+use AnonymousPayment\Config\PublicServiceDonateConfig;
 use \AnonymousPayment\Abstracts\ClientAreaPageAbstract;
 use \AnonymousPayment\Controller\WHMCSInvoiceController;
 use \AnonymousPayment\Controller\WHMCSServiceController;
@@ -68,6 +69,10 @@ class PublicServiceDonate extends ClientAreaPageAbstract implements ClientAreaPa
 		$this->ClientArea->assign( 'MinAddBalanceSum', WHMCSUserConfig::GetMinAddBalanse() );
 		$this->ClientArea->assign( 'DefaultAddBalanceSum', 100 );
 		$this->ClientArea->assign( 'UserBalanseStatus', WHMCSUserConfig::GetBalanseStatus() );
+		$this->ClientArea->assign( 'ShowServiceInfo', PublicServiceDonateConfig::GetShowServiceInfo() );
+		$this->ClientArea->assign( 'ShowAddBalanceWidget', PublicServiceDonateConfig::GetShowAddBalanceWidget() );
+		$this->ClientArea->assign( 'ShowBalanceUser', PublicServiceDonateConfig::GetShowBalanceUser() );
+		$this->ClientArea->assign( 'ShowUserInvoiceList', PublicServiceDonateConfig::GetShowUserInvoiceList() );
 
 		foreach ( $this->GetVars() as $key => $value ) {
 			$this->ClientArea->assign( $key, $value );

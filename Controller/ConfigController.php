@@ -24,7 +24,7 @@ class ConfigController {
 			self::$Config = self::LoadData();
 		}
 
-		self::$Config[ $Key ] = $Value;
+		self::$Config->$Key = $Value;
 
 		self::SaveData();
 	}
@@ -53,7 +53,7 @@ class ConfigController {
 			return null;
 		}
 
-		return self::$Config[ $Key ];
+		return self::$Config->$Key;
 	}
 
 	public static function GetValueClient( $ClientID, $Key ) {
@@ -70,7 +70,7 @@ class ConfigController {
 
 
 	public static function ClearData() {
-		self::$Config = [ null ];
+		self::$Config = new \stdClass();
 		self::SaveData();
 	}
 

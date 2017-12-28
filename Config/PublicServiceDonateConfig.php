@@ -17,43 +17,43 @@ class PublicServiceDonateConfig {
 	}
 
 	public static function SetIsEnablePublicServiceDonate( $status ) {
-		ConfigController::SetValue( 'IsEnablePublicServiceDonate',(bool) $status );
+		ConfigController::SetValue( 'IsEnablePublicServiceDonate', (bool) $status );
 	}
 
 
 	public static function SetShowServiceInfo( $status ) {
-		ConfigController::SetValue( 'PublicServiceDonateShowServiceInfo',(bool) $status );
+		ConfigController::SetValue( 'PublicServiceDonateShowServiceInfo', (bool) $status );
 	}
 
 	public static function GetShowServiceInfo() {
-		ConfigController::GetValue( 'PublicServiceDonateShowServiceInfo' );
+		return ConfigController::GetValue( 'PublicServiceDonateShowServiceInfo' );
 
 	}
 
 	public static function SetShowBalanceUser( $status ) {
-		ConfigController::SetValue( 'PublicServiceDonateShowBalanceUser',(bool) $status );
+		ConfigController::SetValue( 'PublicServiceDonateShowBalanceUser', (bool) $status );
 	}
 
 	public static function GetShowBalanceUser() {
-		ConfigController::GetValue( 'PublicServiceDonateShowBalanceUser' );
+		return ConfigController::GetValue( 'PublicServiceDonateShowBalanceUser' );
 
 	}
 
 	public static function SetShowUserInvoiceList( $status ) {
-		ConfigController::SetValue( 'PublicServiceDonateShowUserInvoiceList',(bool) $status );
+		ConfigController::SetValue( 'PublicServiceDonateShowUserInvoiceList', (bool) $status );
 	}
 
 	public static function GetShowUserInvoiceList() {
-		ConfigController::GetValue( 'PublicServiceDonateShowUserInvoiceList' );
+		return ConfigController::GetValue( 'PublicServiceDonateShowUserInvoiceList' );
 
 	}
 
 	public static function SetShowAddBalanceWidget( $status ) {
-		ConfigController::SetValue( 'PublicServiceDonateShowAddBalanceWidget',(bool) $status );
+		ConfigController::SetValue( 'PublicServiceDonateShowAddBalanceWidget', (bool) $status );
 	}
 
 	public static function GetShowAddBalanceWidget() {
-		ConfigController::GetValue( 'PublicServiceDonateShowAddBalanceWidget' );
+		return ConfigController::GetValue( 'PublicServiceDonateShowAddBalanceWidget' );
 
 	}
 

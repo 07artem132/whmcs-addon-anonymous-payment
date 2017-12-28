@@ -268,6 +268,10 @@
                     .text(valueSumItem['translate']));
 
         });
+        $('#GroupPayDonatePrimaryNavBarSubItem')
+            .find('option')
+            .end()
+            .append('<option value="last">В самом конце</option>');
 
         $("#GroupPayDonatePrimaryNavBarRoot").change(function () {
             if (window.PrimaryNavBarStructureUserNoLogin.hasOwnProperty($("#GroupPayDonatePrimaryNavBarRoot").val())) {
@@ -283,6 +287,10 @@
                             .text(valueSumItem['translate']));
 
                 });
+                $('#GroupPayDonatePrimaryNavBarSubItem')
+                    .find('option')
+                    .end()
+                    .append('<option value="last">В самом конце</option>');
             }
 
             if ($("#GroupPayDonatePrimaryNavBarRoot").val() === 'first') {
@@ -298,6 +306,10 @@
                             .text(valueSumItem['translate']));
 
                 });
+                $('#GroupPayDonatePrimaryNavBarSubItem')
+                    .find('option')
+                    .end()
+                    .append('<option value="last">В самом конце</option>');
             }
         });
 
@@ -314,6 +326,10 @@
                     .text(valueSumItem['translate']));
 
         });
+        $('#GroupPayDonateWidgetPrimaryNavBarSubItem')
+            .find('option')
+            .end()
+            .append('<option value="last">В самом конце</option>');
 
         $("#GroupPayDonateWidgetPrimaryNavBarRoot").change(function () {
             if (window.PrimaryNavBarStructureUserLogin.hasOwnProperty($("#GroupPayDonateWidgetPrimaryNavBarRoot").val())) {
@@ -329,6 +345,10 @@
                             .text(valueSumItem['translate']));
 
                 });
+                $('#GroupPayDonateWidgetPrimaryNavBarSubItem')
+                    .find('option')
+                    .end()
+                    .append('<option value="last">В самом конце</option>');
             }
 
             if ($("#GroupPayDonateWidgetPrimaryNavBarRoot").val() === 'first') {
@@ -344,6 +364,10 @@
                             .text(valueSumItem['translate']));
 
                 });
+                $('#GroupPayDonateWidgetPrimaryNavBarSubItem')
+                    .find('option')
+                    .end()
+                    .append('<option value="last">В самом конце</option>');
             }
         });
 
@@ -404,7 +428,7 @@
                         </label>
                     </div>
                     <div class="input pull-left">
-                        <textarea name="PublicInvoiceURL[Button][InsertScript]">{literal}  {/literal}</textarea>
+                        <textarea name="PublicInvoiceURL[Button][InsertScript]">{literal}document.addEventListener("DOMContentLoaded",function(){ window.clipboard = new Clipboard(".btn");var b=document.createElement("div");b.innerHTML='<div style=\"margin-bottom: 20px;\"><button %s>%s</button></div>';for(var a=0;a<document.getElementsByClassName("invoice-container")[0].children.length;a++)"panel panel-default"===document.getElementsByClassName("invoice-container")[0].children[a].className&&(parentDiv=document.getElementsByClassName("invoice-container")[0].children[a].parentNode,parentDiv.insertBefore(b,document.getElementsByClassName("invoice-container")[0].children[a]))});{/literal}</textarea>
                     </div>
                     <div class="label-input pull-left">
                         <label for="ScriptInvoiceUrlCopySuccessInsertAlert">
@@ -412,7 +436,7 @@
                         </label>
                     </div>
                     <div class="input pull-left">
-                        <textarea name="PublicInvoiceURL[Alert][InsertScript]">{literal}   {/literal}</textarea>
+                        <textarea name="PublicInvoiceURL[Alert][InsertScript]">{literal}document.addEventListener("DOMContentLoaded",function(){window.clipboard.on("success",function(b){var c=document.createElement("div");c.innerHTML='<div class=\"alert alert-success fade in\" style=\"word-break: break-all;\"><strong>\u0421\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0439 \u0442\u0435\u043a\u0441\u0442 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0441\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u043d \u0432 \u0431\u0443\u0444\u0435\u0440 \u043e\u0431\u043c\u0435\u043d\u0430:  </strong>'+b.text+"</div>";for(b=0;b<document.getElementsByClassName("invoice-container")[0].children.length;b++)"panel panel-default"===document.getElementsByClassName("invoice-container")[0].children[b].className&&(parentDiv=document.getElementsByClassName("invoice-container")[0].children[b].parentNode,parentDiv.replaceChild(c,document.getElementsByClassName("invoice-container")[0].children[b-1]))})});{/literal}</textarea>
                     </div>
                 </div>
             </div>

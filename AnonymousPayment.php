@@ -56,6 +56,9 @@ function AnonymousPayment_output( $vars ) {
 	if ( ! InstallConfig::GetStatus() && empty( $Page ) ) {
 		return $AdminAreaPageController->Render( 'welcome' );
 	}
+	if ( InstallConfig::GetStatus() && empty( $Page ) ) {
+		return $AdminAreaPageController->Render( 'dashboard' );
+	}
 
 	return $AdminAreaPageController->Render( $Page );
 }

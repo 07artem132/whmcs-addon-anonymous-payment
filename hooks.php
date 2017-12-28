@@ -38,6 +38,7 @@ add_hook( 'ClientAreaPrimaryNavbar', 1, function ( MenuItem $primaryNavbar ) {
 
 add_hook( "ClientAreaPage", 1, function () {
 	SmartyHelper::ClearCache();
+//	var_dump( \AnonymousPayment\Controller\ConfigController::GetAll() );
 } );
 
 add_hook( "AdminAreaPage", 1, function () {

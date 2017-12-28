@@ -7,6 +7,7 @@
  */
 
 namespace AnonymousPayment\AdminAreaPage;
+ini_set( 'error_reporting', E_ALL );
 
 use Smarty;
 use AnonymousPayment\Config\InstallConfig;
@@ -19,6 +20,7 @@ use AnonymousPayment\Config\PublicServiceDonateConfig;
 use AnonymousPayment\Config\PublicGroupPayDonateConfig;
 use AnonymousPayment\Interfaces\AdminAreaPageInterface;
 use AnonymousPayment\Controller\WHMCSMenuItemController;
+use AnonymousPayment\Config\ClientAreaPrimaryNavBarConfig;
 use AnonymousPayment\Controller\WHMCSCustomFieldsController;
 
 class FirstСonfigController extends AdminAreaPageAbstract implements AdminAreaPageInterface {
@@ -46,6 +48,7 @@ class FirstСonfigController extends AdminAreaPageAbstract implements AdminAreaP
 	}
 
 	function SetConfig( $Config ) {
+
 		PublicInvoiceConfig::SetIsEnablePublicInvoiceURL( $Config['PublicInvoiceURL']['Enable'] );
 		PublicInvoiceConfig::SetButtonInvoiceUrlMessage( $Config['PublicInvoiceURL']['Button']['Message'] );
 		PublicInvoiceConfig::SetButtonInvoiceUrlStyle( $Config['PublicInvoiceURL']['Button']['Style'] );
@@ -63,11 +66,18 @@ class FirstСonfigController extends AdminAreaPageAbstract implements AdminAreaP
 		PublicServiceDonateConfig::SetShowBalanceUser( $Config['GroupPayDonateService']['ShowBalanceUser'] );
 		PublicServiceDonateConfig::SetShowAddBalanceWidget( $Config['GroupPayDonateService']['ShowAddBalanceWidget'] );
 		PublicServiceDonateConfig::SetShowServiceInfo( $Config['GroupPayDonateService']['ShowServiceInfo'] );
+		ClientAreaPrimaryNavBarConfig::SetGroupPayDonateDisplayName( $Config ['GroupPayDonate']['PrimaryNavBarDisplayName'] );
+		ClientAreaPrimaryNavBarConfig::SetGroupPayDonateRoot( $Config['GroupPayDonate']['PrimaryNavBarRoot'] );
+		ClientAreaPrimaryNavBarConfig::SetGroupPayDonateSubItem( $Config ['GroupPayDonate']['PrimaryNavBarSubItem'] );
+		ClientAreaPrimaryNavBarConfig::SetGroupPayDonateWidgetDisplayName( $Config ['GroupPayDonateWidget']['PrimaryNavBarDisplayName'] );
+		ClientAreaPrimaryNavBarConfig::SetGroupPayDonateWidgetRoot( $Config['GroupPayDonateWidget']['PrimaryNavBarRoot'] );
+		ClientAreaPrimaryNavBarConfig::SetGroupPayDonateWidgetSubItem( $Config ['GroupPayDonateWidget']['PrimaryNavBarSubItem'] );
+
 		InstallConfig::SetStatus( true );
 	}
 
 	function RedirectToGetStarted() {
 		header( 'Location: ?module=AnonymousPayment&page=getstarted' );
-
+		dd();
 	}
 }

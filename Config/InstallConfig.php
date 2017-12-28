@@ -13,7 +13,7 @@ use AnonymousPayment\Controller\ConfigController as Config;
 class InstallConfig {
 
 	public static function GetStatus() {
-		$Value =null; //Config::GetValue( 'install' );
+		$Value = Config::GetValue( 'install' );
 
 		return ( empty( $Value ) ) ? false : $Value;
 	}
