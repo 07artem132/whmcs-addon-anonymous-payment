@@ -59,7 +59,7 @@
         <div id="Line"></div>
         Данные модуля успешно удалены.
         <div id="Line"></div>
-        <a href="{$basheURL}">
+        <a href="{$ModuleLink}">
             <button>ОК</button>
         </a>
     </div>

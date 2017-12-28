@@ -9,17 +9,18 @@
 namespace AnonymousPayment\Controller;
 
 use AnonymousPayment\Interfaces\ClientAreaPageInterface;
+use AnonymousPayment\Exceptions\PageControllerNotImplementInterface;
 
 class ClientAreaPageController {
 	private $var = [];
 	private $PageController;
 	private $PageToController = [
-		'grouppay'        => 'PublicGroupPayDonate@render',
-		'configgrouppay'  => 'GroupPayWidgetConfig@render',
-		'widget'          => 'GroupPayWidget@render',
-		'invoice'         => 'PublicInvoiceDonate@render',
-		'grouppayservice' => 'PublicServiceDonate@render',
-		'grouppayforward' => 'PublicGroupPayForward@render',
+		'grouppay'        => 'PublicGroupPayDonate',
+		'configgrouppay'  => 'GroupPayWidgetConfig',
+		'widget'          => 'GroupPayWidget',
+		'invoice'         => 'PublicInvoiceDonate',
+		'grouppayservice' => 'PublicServiceDonate',
+		'grouppayforward' => 'PublicGroupPayForward',
 	];
 
 	function SetVar( $key, $value ) {
@@ -31,20 +32,18 @@ class ClientAreaPageController {
 	}
 
 	function Render( $Page ) {
-		list( $Class, $Function ) = explode( '@', $this->PageToController[ $Page ] );
+		$Class = $this->PageToController[ $Page ];
 
 		$className = 'AnonymousPayment\ClientAreaPage\\' . $Class;
 
 		$this->PageController = new $className;
 
 		if ( ! ( $this->PageController instanceof ClientAreaPageInterface ) ) {
-			echo 'error';
-			//todo throw exceptions
+			throw new PageControllerNotImplementInterface( 'ClientAreaPageInterface' );
 		}
+
 		$this->PageController->SetVars( $this->GetVars() );
 
-		if ( ! empty( $Function ) ) {
-			call_user_func( [ $this->PageController, $Function ] );
-		}
+		call_user_func( [ $this->PageController, 'render' ] );
 	}
 }

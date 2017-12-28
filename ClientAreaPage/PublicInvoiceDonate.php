@@ -84,7 +84,7 @@ class PublicInvoiceDonate extends ClientAreaPageAbstract implements ClientAreaPa
 		$this->ClientArea->assign( 'totalcredit', $this->Client['credit'] );
 		$this->ClientArea->assign( 'creditamount', $this->Client['credit'] );
 		$this->ClientArea->assign( 'balance', (string) formatCurrency( $this->Invoice->balance ) );
-		$this->ClientArea->setTemplate( '/modules/addons/AnonymousPayment/ClientAreaTemplate/PublicInvoiceDonate.tpl' );
+		$this->ClientArea->setTemplate( 'PublicInvoiceDonate' );
 		$this->ClientArea->output();
 	}
 

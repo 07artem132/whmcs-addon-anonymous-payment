@@ -1,11 +1,4 @@
 <style>
-    .payment .label-input {
-        width: 240px;
-        color: #000;
-        font-size: 16px;
-        font-weight: 400;
-    }
-
     .payment .form-row {
         line-height: 50px;
     }
@@ -33,15 +26,11 @@
         /* display: none;*/
     }
 
-    .payment .form-row input {
-        float: left;
-    }
-
     .payment .border {
         border-top: 1px solid #e9e9e9;
         border-bottom: 1px solid #e9e9e9;
-        padding: 40px 0 19px 0;
-        margin: 26px 0 33px 0;
+        padding: 20px 0 0px 0;
+        margin: 10px 0 0px 0;
     }
 
     .payment .errors {
@@ -49,16 +38,6 @@
         margin-left: 30px;
         float: left;
         color: red;
-    }
-
-    .payment .description {
-        color: #999;
-        font-size: 14px;
-        font-weight: 400;
-        margin: 0 0 0 31px;
-        display: block;
-        float: left;
-        line-height: 59px;
     }
 
     .payment input[type="text"] {
@@ -122,7 +101,7 @@
     .payment .border-bottom {
         border-bottom: 1px solid #e9e9e9;
         padding: 0 0 36px 0;
-        margin: 0 0 49px 0;
+        margin: 0 0 23px 0;
     }
 
     .payment .method label {
@@ -132,7 +111,7 @@
     }
 
     .payment .method {
-        width: 736px;
+        width: 100%;
         padding-top: 15px;
     }
 
@@ -151,11 +130,11 @@
     }
 
     .col.GatewayModule {
-        padding-bottom: 10px;
+        padding-bottom: 0px;
     }
 
     .container.payment {
-        width: 1000px;
+        max-width: 1000px;
     }
 
     [type="radio"]:checked,
@@ -302,17 +281,188 @@
     .payment input[type="email"]:read-only {
         background-color: rgb(235, 235, 228);
     }
+
+    .payment input[type="number"]:read-only {
+        background-color: rgb(235, 235, 228);
+    }
+
+    .payment input[type="text"]:read-only {
+        background-color: rgb(235, 235, 228);
+    }
+
+    @media (min-width: 300px) and (max-width: 1000px) {
+        section#footer {
+            padding: 20px 0px;
+        }
+
+        .payment input[type="email"] {
+            width: 100%;
+        }
+
+        .payment input[type="number"] {
+            width: 100%;
+        }
+
+        .payment input[type="text"] {
+            width: 100%;
+        }
+
+        input#form_ip {
+            width: 60%;
+            float: left;
+        }
+
+        .payment .description {
+            font-size: 13px;
+        }
+
+        div#PaymentVar {
+            width: 100%;
+            display: block;
+        }
+
+        ul#PaymentVarList {
+            display: block;
+            list-style-type: none;
+            padding-left: 0px;
+            margin-left: 0px;
+        }
+
+        .payment .label-input {
+            width: 100%;
+        }
+
+        .payment .input {
+            width: 100%;
+        }
+
+        .payment .form-row input {
+            float: none;
+            display: block;
+        }
+
+        .payment .description {
+            margin: 0px;
+        }
+
+        div#GoToPay {
+            text-align: center;
+            width: 100%;
+        }
+
+        .payment .pay button {
+            float: unset;
+        }
+
+        div#GoToPayDescription {
+            width: 100%;
+            padding-bottom: 15px;
+        }
+    }
+    @media (min-width: 771px) and (max-width: 1000px) {
+        .container.payment{
+            width: 720px;
+        }
+    }
+    @media (min-width: 1000px) {
+        .container.payment{
+            width: 950px;
+        }
+
+        div#PaymentVar {
+            width: auto;
+        }
+
+        input#form_ip {
+            width: 239px;
+            float: left;
+        }
+
+        ul#PaymentVarList {
+            padding-left: 40px;
+            display: flex;
+            list-style-type: none;
+        }
+
+        .payment .description {
+            color: #999;
+            font-size: 14px;
+            font-weight: 400;
+            margin: 0 0 0 31px;
+            display: block;
+            float: left;
+            line-height: 59px;
+        }
+
+        .payment .form-row input {
+            float: left;
+        }
+
+        .payment .label-input {
+            width: 240px;
+            color: #000;
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        .payment .pay button {
+            float: right;
+        }
+
+        div#GoToPay {
+            width: 41.66666667%;
+        }
+
+        div#GoToPayDescription {
+            width: 58.33333333%;
+        }
+
+        .payment .input {
+            width: auto;
+        }
+    }
+
 </style>
 <script type="text/javascript">
     $(function () {
-        $('input[type=radio][name=payment_type]').change(function () {
+        if ($('input[type=radio][name=PaymentType]:checked').val() == '1') {
+            $(".Client-ID-form-row").css('display', 'none');
+            $(".host-ip-form-row").css('display', 'none');
+            $(".border").find(".clearfix.form-row:eq(0)").css('display', 'block');
+            $('input[type=email][name=ClientEmail]').prop('disabled', false);
+        }
+        else if ($('input[type=radio][name=PaymentType]:checked').val() == '2') {
+            $(".Client-ID-form-row").css('display', 'none');
+            $(".host-ip-form-row").css('display', 'block');
+            $(".border").find(".clearfix.form-row:eq(0)").css('display', 'none');
+            $('input[type=email][name=ClientEmail]').prop('disabled', true);
+
+        } else if ($('input[type=radio][name=PaymentType]:checked').val() == '3') {
+            $(".Client-ID-form-row").css('display', 'block');
+            $(".host-ip-form-row").css('display', 'none');
+            $(".border").find(".clearfix.form-row:eq(0)").css('display', 'none');
+            $('input[type=email][name=ClientEmail]').prop('disabled', true);
+        }
+
+        $('input[type=radio][name=PaymentType]').change(function () {
+            console.log(this.value);
             if (this.value == '1') {
-                $(".host-ip-form-row").toggle();
-                $(".border").find(".clearfix.form-row:eq(0)").toggle();
+                $(".Client-ID-form-row").css('display', 'none');
+                $(".host-ip-form-row").css('display', 'none');
+                $(".border").find(".clearfix.form-row:eq(0)").css('display', 'block');
+                $('input[type=email][name=ClientEmail]').prop('disabled', false);
             }
             else if (this.value == '2') {
-                $(".host-ip-form-row").toggle();
-                $(".border").find(".clearfix.form-row:eq(0)").toggle();
+                $(".Client-ID-form-row").css('display', 'none');
+                $(".host-ip-form-row").css('display', 'block');
+                $(".border").find(".clearfix.form-row:eq(0)").css('display', 'none');
+                $('input[type=email][name=ClientEmail]').prop('disabled', true);
+
+            } else if (this.value == '3') {
+                $(".Client-ID-form-row").css('display', 'block');
+                $(".host-ip-form-row").css('display', 'none');
+                $(".border").find(".clearfix.form-row:eq(0)").css('display', 'none');
+                $('input[type=email][name=ClientEmail]').prop('disabled', true);
             }
         });
         $("input:radio[name=GatewayModuleName]:first").attr('checked', true);
@@ -324,39 +474,91 @@
     });
 </script>
 <div class="container payment">
-    <form method="post" action="/public/grouppay">
+    <form method="post" action="/public/grouppay/">
         <div class="clearfix form-row payment__form-row payment__form-row_single-row">
-            <div class="label-input pull-left">
+            <div class="label-input pull-left" id="PaymentVar">
                 Варианты пополнения
             </div>
-            <label for="system">
-                <input type="radio" id="system" value="1" name="PaymentType" checked="checked">
-                <i></i>
-                <span>По email клиента в системе</span>
-            </label>
-            {if $DonateHost === 1}
-                <label for="host"><input type="radio" id="host" value="2" name="PaymentType">
-                    <i></i>
-                    <span>По адресу сервера</span>
-                </label>
-            {/if}
+            <ul id="PaymentVarList">
+                {if $DonateClientEmail === 1}
+                    <li>
+                        <label for="ClientEmail">
+                            <input type="radio" id="ClientEmail" value="1" name="PaymentType"
+                                   {if $ClientEmailError === 1}checked="checked"{/if}
+                                    {if !empty($smarty.get.ClientEmail)}checked="checked"{/if}
+                            >
+                            <i></i>
+                            <span>По email клиента в системе</span>
+                        </label>
+                    </li>
+                {/if}
+                {if $DonateClientID === 1}
+                    <li>
+                        <label for="ClientID">
+                            <input type="radio" id="ClientID" value="3" name="PaymentType"
+                                   {if $ClientIDError === 1}checked="checked"{/if}
+                                    {if !empty($smarty.get.ClientID)}checked="checked"{/if}
+                            >
+                            <i></i>
+                            <span>По ID клиента в системе</span>
+                        </label>
+                    </li>
+                {/if}
+                {if $DonateHost === 1}
+                    <li>
+                        <label for="TeamSpeak3Host">
+                            <input type="radio" id="TeamSpeak3Host" value="2" name="PaymentType"
+                                   {if $ServerAddressError === 1}checked="checked"{/if}
+                                    {if !empty($smarty.get.ServerIP)}checked="checked"{/if}
+                            >
+                            <i></i>
+                            <span>По адресу сервера</span>
+                        </label>
+                    </li>
+                {/if}
+            </ul>
         </div>
         <div class="border">
-            <div class="clearfix form-row" style="display: block;">
+            <div class="clearfix form-row"
+                    {if $ClientIDError === 1}
+                        style="display: none;"
+                    {/if}
+            >
                 <div class="label-input pull-left">
                     <label for="form_customer">Email клиента в системе</label>
                 </div>
-                <div class="pull-left">
+                <div class="input pull-left">
                     <input type="email" id="form_customer" name="ClientEmail" placeholder="example@example.com"
-                            {if !empty($smarty.post.ClientEmail)}
-                                value="{$smarty.post.ClientEmail}" readonly
+                            {if !empty($smarty.get.ClientEmail)}
+                                value="{$smarty.get.ClientEmail}" readonly
                             {/if}
                            required>
                 </div>
                 {if $ClientEmailError === 1}
                     <span class="errors">Клиент с таким email не найден</span>
                 {else}
-                    <span class="description">Введите только цифры без пробелов и тире</span>
+                    <span class="description">Введите только цифры без пробелов и тире.</span>
+                {/if}
+            </div>
+            <div class="clearfix form-row Client-ID-form-row"
+                    {if $ClientIDError != 1}
+                        style="display: none;"
+                    {/if}
+            >
+                <div class="label-input pull-left">
+                    <label for="ClientID">ID клиента</label>
+                </div>
+                <div class="input pull-left">
+                    <input type="number" id="ClientID" name="ClientID" placeholder="3524"
+                            {if !empty($smarty.get.ClientID)}
+                                value="{$smarty.get.ClientID}" readonly
+                            {/if}
+                    >
+                </div>
+                {if $ClientIDError === 1}
+                    <span class="errors">Клиент с таким ID не найден</span>
+                {else}
+                    <span class="description">Введите только цифры без пробелов и тире.</span>
                 {/if}
             </div>
 
@@ -364,11 +566,22 @@
                 <div class="label-input pull-left">
                     <label for="form_ip">Адрес сервера</label>
                 </div>
-                <input type="text" id="form_ip" name="ServerIP" style="float: left; width: 239px;"
-                       placeholder="ts1.teamspeak.com">
-                <span class="pull-left">:</span>
-                <input type="text" id="form_port" name="ServerPort" style="float: left; width: 90px;"
-                       placeholder="9987">
+                <div class="input pull-left">
+                    <input type="text" id="form_ip" name="ServerIP"
+                           placeholder="ts1.teamspeak.com"
+                            {if !empty($smarty.get.ServerIP)}
+                                value="{$smarty.get.ServerIP}" readonly
+                            {/if}
+                    >
+                    <span class="pull-left" style="font-size: 45px;">:</span>
+                    <input type="text" id="form_port" name="ServerPort" style="float: left; width: 90px;"
+                           placeholder="9987"
+                            {if !empty($smarty.get.ServerPort)}
+                                value="{$smarty.get.ServerPort}" readonly
+                            {/if}
+                    >
+                </div>
+
                 <span class="description">
                 В первую часть поля введите ip, во вторую порт.
             </span>
@@ -379,8 +592,8 @@
                     <label for="form_amount" class="required">Сумма платежа</label>
                 </div>
                 <input type="number" id="form_amount" name="Amount" class="currency" placeholder="0,00"
-                        {if !empty($smarty.post.AddBalanceSum)}
-                            value="{$smarty.post.AddBalanceSum}"
+                        {if !empty($smarty.get.AddBalanceSum)}
+                            value="{$smarty.get.AddBalanceSum}"
                         {else}
                             value="0"
                         {/if}
@@ -435,11 +648,11 @@
             </div>
         </div>
         <div class="row pay">
-            <div class="col-xs-7">
+            <div id="GoToPayDescription" class="col-xs-7">
                 Проверьте указанные данные и нажмите на кнопку
             </div>
-            <div class="col-xs-5">
-                <button class="pull-right">Оплатить</button>
+            <div id="GoToPay" class="col-xs-5">
+                <button type="submit">Оплатить</button>
             </div>
         </div>
     </form>

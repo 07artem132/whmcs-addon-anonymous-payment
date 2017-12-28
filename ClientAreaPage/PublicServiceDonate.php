@@ -17,7 +17,6 @@ use \AnonymousPayment\Controller\WHMCSInvoiceController;
 use \AnonymousPayment\Controller\WHMCSServiceController;
 use \AnonymousPayment\Interfaces\ClientAreaPageInterface;
 use \AnonymousPayment\Controller\WHMCSClientAreaController;
-use \AnonymousPayment\Controller\MultilanguageController as Lang;
 
 class PublicServiceDonate extends ClientAreaPageAbstract implements ClientAreaPageInterface {
 
@@ -61,27 +60,20 @@ class PublicServiceDonate extends ClientAreaPageAbstract implements ClientAreaPa
 		$this->ClientArea->assign( 'ProductStatusColor', $Service->domainStatus );
 		$this->ClientArea->assign( 'ProductStatusText', $Service->domainStatus );
 		$this->ClientArea->assign( 'Invoices', $Invoices );
-		$this->ClientArea->assign( 'ClientEmail', $Client->email );
+		$this->ClientArea->assign( 'ClientID', $Client->id );
 		$this->ClientArea->assign( 'ProductURL', WHMCSConfig::GetSystemURL() . '/servers/' . $Service->id );
 		$this->ClientArea->assign( 'SystemURL', WHMCSConfig::GetSystemURL() );
-		$this->ClientArea->assign( 'ModuleLink', $_GET['m'] );
-		$this->ClientArea->assign( 'ServerControlPanelText', Lang::Translate( 'ServerControlPanel' ) );
-		$this->ClientArea->assign( 'ProductExtendedAtText', Lang::Translate( 'ProductExtendedAt' ) );
-		$this->ClientArea->assign( 'BillingCycleText', Lang::Translate( 'BillingCycle' ) );
 		$this->ClientArea->assign( 'BalanceSum', $Client->credit );
-		$this->ClientArea->assign( 'BalanceDescription', Lang::Translate( 'BalanceDescription' ) );
-		$this->ClientArea->assign( 'AddBalanceDescription', Lang::Translate( 'AddBalanceDescription' ) );
-		$this->ClientArea->assign( 'AddBalanceButton', Lang::Translate( 'AddBalanceButton' ) );
 		$this->ClientArea->assign( 'MaxAddBalanceSum', WHMCSUserConfig::GetMaxAddBalanse() );
 		$this->ClientArea->assign( 'MinAddBalanceSum', WHMCSUserConfig::GetMinAddBalanse() );
 		$this->ClientArea->assign( 'DefaultAddBalanceSum', 100 );
 		$this->ClientArea->assign( 'UserBalanseStatus', WHMCSUserConfig::GetBalanseStatus() );
-		$this->ClientArea->assign( 'InvoiceNumberTableHead', Lang::Translate( 'InvoiceNumberTableHead' ) );
-		$this->ClientArea->assign( 'DueDateTableHead', Lang::Translate( 'DueDateTableHead' ) );
-		$this->ClientArea->assign( 'ToPayTableHead', Lang::Translate( 'ToPayTableHead' ) );
-		$this->ClientArea->assign( 'StatusTableHead', Lang::Translate( 'StatusTableHead' ) );
 
-		$this->ClientArea->setTemplate( '/modules/addons/AnonymousPayment/ClientAreaTemplate/PublicServiceDonate.tpl' );
+		foreach ( $this->GetVars() as $key => $value ) {
+			$this->ClientArea->assign( $key, $value );
+		}
+
+		$this->ClientArea->setTemplate( 'PublicServiceDonate' );
 		$this->ClientArea->output();
 	}
 }

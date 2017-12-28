@@ -17,7 +17,7 @@ class ClientAreaPrimaryNavBarConfig {
 		return [
 			[
 				'SubItem'           => null,
-				'url'               => Setting::getValue( 'SystemURL' ) . '/public/grouppay',
+				'url'               => Setting::getValue( 'SystemURL' ) . '/public/grouppay/',
 				'order'             => 70,
 				'name'              => 'Групповая оплата',
 				'AuthorizedRequest' => false,

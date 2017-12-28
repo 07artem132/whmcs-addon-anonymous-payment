@@ -65,7 +65,7 @@
         <div id="Line"></div>
         Все готово к использованию, вы можете перейти в панель управления.
         <div id="Line"></div>
-        <a href="{$basheURL}&page=dashboard">
+        <a href="{$ModuleLink}&page=dashboard">
             <button>Перейти в панель управления</button>
         </a>
     </div>

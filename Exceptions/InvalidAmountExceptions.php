@@ -9,6 +9,7 @@
 namespace AnonymousPayment\Exceptions;
 
 use \Exception;
+
 class InvalidAmountExceptions extends Exception{
 
 }

@@ -6,40 +6,42 @@
  * Time: 17:53
  */
 
-namespace PublicInvoiceUrlView\Page;
+namespace AnonymousPayment\AdminAreaPage;
 
-use PublicInvoiceUrlView\Lib\PageInterface;
-use PublicInvoiceUrlView\Lib\ConfigController;
+use Smarty;
+use AnonymousPayment\Interfaces\AdminAreaPageInterface;
+use AnonymousPayment\Abstracts\AdminAreaPageAbstract;
+use AnonymousPayment\Config\AdminAreaSmartyConfig;
+use AnonymousPayment\Install\PHPVerifyInstall;
+use AnonymousPayment\Install\WHMCSVerifyInstall;
+use AnonymousPayment\Install\HtaccessInstall;
 
-class CheckMinimumRequirementsController implements PageInterface {
-	private $vars = [];
+class CheckMinimumRequirementsController extends AdminAreaPageAbstract implements AdminAreaPageInterface {
 
 	function Check() {
-		$this->vars['isWHMCS712rOlder'] = $this->isWHMCS712rOlder();
-		$this->vars['isPHP56OrOlder']   = $this->isPHP56OrOlder();
+		$PHPVerifyInstall      = new PHPVerifyInstall();
+		$this->vars['Check'][] = $PHPVerifyInstall->MinimumRequirementsCheck();
+
+		$WHMCSVerifyInstall    = new WHMCSVerifyInstall();
+		$this->vars['Check'][] = $WHMCSVerifyInstall->MinimumRequirementsCheck();
+
+		$HtaccessInstall    = new HtaccessInstall();
+		$this->vars['Check'][] = $HtaccessInstall->MinimumRequirementsCheck();
+
 	}
 
-	function GetFileName() {
-		return 'CheckMinimumRequirements.tpl';
-	}
+	function render() {
+		$smarty = new Smarty;
+		$smarty->setCompileDir( AdminAreaSmartyConfig::GetCompileDir() );
 
-	function GetVars() {
-		return $this->vars;
-	}
+		$this->Check();
 
-	function isWHMCS712rOlder() {
-		if ( floatval( ConfigController::GetWHMCSVersion() ) >= 7.1 ) {
-			return true;
+		foreach ( $this->GetVars() as $key => $value ) {
+			$smarty->assign( $key, $value );
 		}
 
-		return false;
+		$smarty->display( AdminAreaSmartyConfig::GetTemplateDir() . "CheckMinimumRequirements.tpl" );
 	}
 
-	function isPHP56OrOlder() {
-		if ( version_compare( PHP_VERSION, '5.6.0' ) >= 0 ) {
-			return true;
-		}
 
-		return false;
-	}
 }

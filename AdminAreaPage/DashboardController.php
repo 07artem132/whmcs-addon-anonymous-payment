@@ -6,35 +6,24 @@
  * Time: 18:18
  */
 
-namespace PublicInvoiceUrlView\Page;
+namespace AnonymousPayment\AdminAreaPage;
 
-use PublicInvoiceUrlView\Lib\PageInterface;
-use PublicInvoiceUrlView\Lib\ConfigController;
+use Smarty;
+use AnonymousPayment\Config\AdminAreaSmartyConfig;
+use AnonymousPayment\Abstracts\AdminAreaPageAbstract;
+use AnonymousPayment\Interfaces\AdminAreaPageInterface;
 
-class DashboardController implements PageInterface {
-	private $vars;
+class DashboardController extends AdminAreaPageAbstract implements AdminAreaPageInterface {
 
-	function Config() {
-		if ( ! empty( $_POST['AlertSuccess'] ) && ! empty( $_POST['ButtonMessage'] ) ) {
-			ConfigController::SetInstallStatus( true );
 
-			ConfigController::SetValue( 'AlertSuccess', $_POST['AlertSuccess'] );
-			ConfigController::SetValue( 'ButtonMessage', $_POST['ButtonMessage'] );
-			if ( ! empty( $_POST['ButtonStyle'] ) ) {
-				ConfigController::SetValue( 'ButtonStyle', $_POST['ButtonStyle'] );
-			}
+	function render() {
+		$smarty = new Smarty;
+		$smarty->setCompileDir( AdminAreaSmartyConfig::GetCompileDir() );
+
+		foreach ( $this->GetVars() as $key => $value ) {
+			$smarty->assign( $key, $value );
 		}
 
-		$this->vars['config'] = ConfigController::all();
-
+		$smarty->display( AdminAreaSmartyConfig::GetTemplateDir() . "Dashboard.tpl" );
 	}
-
-	function GetFileName() {
-		return 'Dashboard.tpl';
-	}
-
-	function GetVars() {
-		return $this->vars;
-	}
-
 }

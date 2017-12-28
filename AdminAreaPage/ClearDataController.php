@@ -6,24 +6,27 @@
  * Time: 18:18
  */
 
-namespace PublicInvoiceUrlView\Page;
+namespace AnonymousPayment\AdminAreaPage;
 
-use PublicInvoiceUrlView\Lib\PageInterface;
-use PublicInvoiceUrlView\Lib\ConfigController;
+use Smarty;
+use AnonymousPayment\Controller\ConfigController;
+use AnonymousPayment\Config\AdminAreaSmartyConfig;
+use AnonymousPayment\Abstracts\AdminAreaPageAbstract;
+use AnonymousPayment\Interfaces\AdminAreaPageInterface;
 
-class ClearDataController implements PageInterface {
-	private $vars;
+class ClearDataController extends AdminAreaPageAbstract implements AdminAreaPageInterface {
 
-	function Delete(){
+	function render() {
+		$smarty = new Smarty;
+		$smarty->setCompileDir( AdminAreaSmartyConfig::GetCompileDir() );
+
+		foreach ( $this->GetVars() as $key => $value ) {
+			$smarty->assign( $key, $value );
+		}
+
 		ConfigController::ClearData();
-	}
 
-	function GetFileName() {
-		return 'ClearData.tpl';
-	}
-
-	function GetVars() {
-		return $this->vars;
+		$smarty->display( AdminAreaSmartyConfig::GetTemplateDir() . "ClearData.tpl" );
 	}
 
 }

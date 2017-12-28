@@ -10,7 +10,7 @@ namespace AnonymousPayment\Interfaces;
 
 
 interface AdminAreaPageInterface {
-	function GetFileName();
+	function SetVars( $vars );
 
-	function GetVars();
+	function render();
 }

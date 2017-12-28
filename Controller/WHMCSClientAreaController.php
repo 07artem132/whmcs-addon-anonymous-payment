@@ -9,9 +9,11 @@
 namespace AnonymousPayment\Controller;
 
 use \WHMCS\ClientArea;
+use AnonymousPayment\Exceptions\TemplateFileNotExistsExceptions;
 
 class WHMCSClientAreaController {
-	private $ClientArea;
+	private $ClientArea,
+		$TemplatePath = 'ClientAreaTemplate';
 
 	function __construct() {
 		$this->ClientArea = new ClientArea();
@@ -19,6 +21,10 @@ class WHMCSClientAreaController {
 
 	function initPage() {
 		$this->ClientArea->initPage();
+	}
+
+	function requireLogin() {
+		$this->ClientArea->requireLogin();
 	}
 
 	function disableHeaderFooterOutput() {
@@ -33,8 +39,20 @@ class WHMCSClientAreaController {
 		$this->ClientArea->assign( $key, $value );
 	}
 
-	function setTemplate( $path ) {
-		$this->ClientArea->setTemplate( $path );
+	function setTemplate( $Template ) {
+		if ( ! file_exists( ROOTDIR . '/modules/addons/' . $_GET['m'] . '/' . $this->TemplatePath . '/' . $Template . '.tpl' ) ) {
+			throw new TemplateFileNotExistsExceptions( '/modules/addons/' . $_GET['m'] . '/' . $this->TemplatePath . '/' . $Template . '.tpl' );
+		}
+
+		$this->ClientArea->setTemplate( '/modules/addons/' . $_GET['m'] . '/' . $this->TemplatePath . '/' . $Template . '.tpl' );
+	}
+
+	function GetTemplatePath() {
+		return $this->TemplatePath;
+	}
+
+	function SetTemplatePath( $TemplatePath ) {
+		$this->TemplatePath = $TemplatePath;
 	}
 
 	function output() {

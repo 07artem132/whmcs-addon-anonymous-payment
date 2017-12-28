@@ -1,6 +1,6 @@
 <script>
     $('#contentarea >> h1').remove();
-    $(".contentarea").css("padding","0px");
+    $(".contentarea").css("padding", "0px");
 </script>
 
 <style type="text/css">
@@ -146,36 +146,35 @@
     <!-- Любой код -->
     <div>
         <div>
-            <div id="welcome">ВЫПОЛНЕНИЕ ТРЕБОВАНИЙ</div>
+            <div id="welcome">ТРЕБОВАНИЯ ДЛЯ УСТАНОВКИ</div>
             <div id="Line"></div>
 
-            {if {$isPHP56OrOlder}}
-                <div id="ResellerCheckOn">PHP 5.6+
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAACXBIWXMAABG3AAARtwGaY1MrAAABNmlDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjarY6xSsNQFEDPi6LiUCsEcXB4kygotupgxqQtRRCs1SHJ1qShSmkSXl7VfoSjWwcXd7/AyVFwUPwC/0Bx6uAQIYODCJ7p3MPlcsGo2HWnYZRhEGvVbjrS9Xw5+8QMUwDQCbPUbrUOAOIkjvjB5ysC4HnTrjsN/sZ8mCoNTIDtbpSFICpA/0KnGsQYMIN+qkHcAaY6addAPAClXu4vQCnI/Q0oKdfzQXwAZs/1fDDmADPIfQUwdXSpAWpJOlJnvVMtq5ZlSbubBJE8HmU6GmRyPw4TlSaqo6MukP8HwGK+2G46cq1qWXvr/DOu58vc3o8QgFh6LFpBOFTn3yqMnd/n4sZ4GQ5vYXpStN0ruNmAheuirVahvAX34y/Axk/96FpPYgAAACBjSFJNAAB6JQAAgIMAAPn/AACA6AAAUggAARVYAAA6lwAAF2/XWh+QAAAB9ElEQVR42uzWyWsUQRTH8c+IwZsSRUW9BY3bXRExoIJrEKMgXlxOOStCRFEiJBo31Iv+E2JcMWOciSsK6jlK0LuGXIKCmBDGywsMzSTTPYPmkh80Tb/q6m+96l/Vq1ypVDITmmOGNAv+b5pbKdjc1zDVIHehDeuwNOLDGMRDPMVEsuPQ7vF04ArahstYjje4i88oYQ024g5+4Cz6a8o4oQ704Cau43uifRKyBCcj6wvorgfcgU60oq/Ku8M4gyJ6kUNXLeCtuII9KaDlKmB/3D8in8XVDbiFGxmhkxoo+z3zsoB3YFl0TqtV2FD2fBULY8ZSg9ti1CMpoavxCnvLYqMxzQezgNfjfUpocxiqHxcTba9juaUGL451Wq61WFEh0wG8wHGMJdq/YUG9W+YhvENTGbQY4CNT9CnFlRo8Eh+WMMsHPMPOuA/g6DSDbcLPLOBBbErEfuMwPoVpilWg0IKhLOD72I7GRHwCx8L17VWg86Oo3MsCzsd0n67QNoYHlapQQqfwC4+zbJnjOBFLpBBXFm3BeezDn6yufh6de2Pa06olavMlPKn1BNKNa+HgLiya5t3GqGQF3Ma5eutxV1SZnnDxS7zF11ijK7E5qtkoDkyXadYTSD4yaY0Pt8eOlAvYlzDTo/BHVeVmD/Sz4H+lvwMAlC5z0yTnX7UAAAAASUVORK5CYII=">
-                </div>
-            {else}
-                <div id="ResellerCheckOff">PHP 5.6+
-                    <a href="#popup2"><img src="https://gpvoice.ru/svoice/reseller/styleweb/undone.png"></a>
-                </div>
-            {/if}
+            {$InstallAllow = true}
 
-            {if {$isWHMCS712rOlder}}
-                <div id="ResellerCheckOn">WHMCS 7.1+
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAACXBIWXMAABG3AAARtwGaY1MrAAABNmlDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjarY6xSsNQFEDPi6LiUCsEcXB4kygotupgxqQtRRCs1SHJ1qShSmkSXl7VfoSjWwcXd7/AyVFwUPwC/0Bx6uAQIYODCJ7p3MPlcsGo2HWnYZRhEGvVbjrS9Xw5+8QMUwDQCbPUbrUOAOIkjvjB5ysC4HnTrjsN/sZ8mCoNTIDtbpSFICpA/0KnGsQYMIN+qkHcAaY6addAPAClXu4vQCnI/Q0oKdfzQXwAZs/1fDDmADPIfQUwdXSpAWpJOlJnvVMtq5ZlSbubBJE8HmU6GmRyPw4TlSaqo6MukP8HwGK+2G46cq1qWXvr/DOu58vc3o8QgFh6LFpBOFTn3yqMnd/n4sZ4GQ5vYXpStN0ruNmAheuirVahvAX34y/Axk/96FpPYgAAACBjSFJNAAB6JQAAgIMAAPn/AACA6AAAUggAARVYAAA6lwAAF2/XWh+QAAAB9ElEQVR42uzWyWsUQRTH8c+IwZsSRUW9BY3bXRExoIJrEKMgXlxOOStCRFEiJBo31Iv+E2JcMWOciSsK6jlK0LuGXIKCmBDGywsMzSTTPYPmkh80Tb/q6m+96l/Vq1ypVDITmmOGNAv+b5pbKdjc1zDVIHehDeuwNOLDGMRDPMVEsuPQ7vF04ArahstYjje4i88oYQ024g5+4Cz6a8o4oQ704Cau43uifRKyBCcj6wvorgfcgU60oq/Ku8M4gyJ6kUNXLeCtuII9KaDlKmB/3D8in8XVDbiFGxmhkxoo+z3zsoB3YFl0TqtV2FD2fBULY8ZSg9ti1CMpoavxCnvLYqMxzQezgNfjfUpocxiqHxcTba9juaUGL451Wq61WFEh0wG8wHGMJdq/YUG9W+YhvENTGbQY4CNT9CnFlRo8Eh+WMMsHPMPOuA/g6DSDbcLPLOBBbErEfuMwPoVpilWg0IKhLOD72I7GRHwCx8L17VWg86Oo3MsCzsd0n67QNoYHlapQQqfwC4+zbJnjOBFLpBBXFm3BeezDn6yufh6de2Pa06olavMlPKn1BNKNa+HgLiya5t3GqGQF3Ma5eutxV1SZnnDxS7zF11ijK7E5qtkoDkyXadYTSD4yaY0Pt8eOlAvYlzDTo/BHVeVmD/Sz4H+lvwMAlC5z0yTnX7UAAAAASUVORK5CYII=">
+            {foreach from=$Check item=Item}
+                <div {if $Item['Status']}
+                    id="ResellerCheckOn"
+                {else}
+                    id="ResellerCheckOff"
+                {/if}
+                >{$Item['name']}
+                    {if $Item['Status']}
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAACXBIWXMAABG3AAARtwGaY1MrAAABNmlDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjarY6xSsNQFEDPi6LiUCsEcXB4kygotupgxqQtRRCs1SHJ1qShSmkSXl7VfoSjWwcXd7/AyVFwUPwC/0Bx6uAQIYODCJ7p3MPlcsGo2HWnYZRhEGvVbjrS9Xw5+8QMUwDQCbPUbrUOAOIkjvjB5ysC4HnTrjsN/sZ8mCoNTIDtbpSFICpA/0KnGsQYMIN+qkHcAaY6addAPAClXu4vQCnI/Q0oKdfzQXwAZs/1fDDmADPIfQUwdXSpAWpJOlJnvVMtq5ZlSbubBJE8HmU6GmRyPw4TlSaqo6MukP8HwGK+2G46cq1qWXvr/DOu58vc3o8QgFh6LFpBOFTn3yqMnd/n4sZ4GQ5vYXpStN0ruNmAheuirVahvAX34y/Axk/96FpPYgAAACBjSFJNAAB6JQAAgIMAAPn/AACA6AAAUggAARVYAAA6lwAAF2/XWh+QAAAB9ElEQVR42uzWyWsUQRTH8c+IwZsSRUW9BY3bXRExoIJrEKMgXlxOOStCRFEiJBo31Iv+E2JcMWOciSsK6jlK0LuGXIKCmBDGywsMzSTTPYPmkh80Tb/q6m+96l/Vq1ypVDITmmOGNAv+b5pbKdjc1zDVIHehDeuwNOLDGMRDPMVEsuPQ7vF04ArahstYjje4i88oYQ024g5+4Cz6a8o4oQ704Cau43uifRKyBCcj6wvorgfcgU60oq/Ku8M4gyJ6kUNXLeCtuII9KaDlKmB/3D8in8XVDbiFGxmhkxoo+z3zsoB3YFl0TqtV2FD2fBULY8ZSg9ti1CMpoavxCnvLYqMxzQezgNfjfUpocxiqHxcTba9juaUGL451Wq61WFEh0wG8wHGMJdq/YUG9W+YhvENTGbQY4CNT9CnFlRo8Eh+WMMsHPMPOuA/g6DSDbcLPLOBBbErEfuMwPoVpilWg0IKhLOD72I7GRHwCx8L17VWg86Oo3MsCzsd0n67QNoYHlapQQqfwC4+zbJnjOBFLpBBXFm3BeezDn6yufh6de2Pa06olavMlPKn1BNKNa+HgLiya5t3GqGQF3Ma5eutxV1SZnnDxS7zF11ijK7E5qtkoDkyXadYTSD4yaY0Pt8eOlAvYlzDTo/BHVeVmD/Sz4H+lvwMAlC5z0yTnX7UAAAAASUVORK5CYII=">
+                    {else}
+                        <a href="#{$Item['NameLinkDoc']}">
+                            <img src="https://gpvoice.ru/svoice/reseller/styleweb/undone.png">
+                        </a>
+                    {/if}
                 </div>
-            {else}
-                <div id="ResellerCheckOff">WHMCS 7.1+
-                    <a href="#popup2"><img src="https://gpvoice.ru/svoice/reseller/styleweb/undone.png"></a>
-                </div>
-            {/if}
+                {if !$Item['Status']}{$InstallAllow = false}{/if}
+            {/foreach}
 
-
-            {if {$isPHP56OrOlder} && {$isWHMCS712rOlder}}
-                <a href="{$basheURL}&page=firstconfig">
-                    <button >Установить</button>
+            {if {$InstallAllow}}
+                <a href="{$ModuleLink}&page=firstconfig">
+                    <button>Установить</button>
                 </a>
             {else}
-                <a href="{$basheURL}&page=checkminimumrequirements">
+                <a href="{$ModuleLink}&page=checkminimumrequirements">
                     <button>Проверить ещё раз</button>
                 </a>
             {/if}
@@ -184,12 +183,14 @@
     </div>
 </div>
 
-<div id="popup2" class="overlay">
-    <div class="popup">
-        <h2>Пояснение за шмот</h2>
-        <a class="close" href="#">&times;</a>
-        <div class="content">
-            Чтобы исправить эту прикалюху вам нужно перевести двести гривян на эжлектронный кошелек ИВАНКО АРТЕМ
+{foreach from=$Check item=Item}
+    <div id="{$Item['NameLinkDoc']}" class="overlay">
+        <div class="popup">
+            <h2>{$Item['name']}</h2>
+            <a class="close" href="#">&times;</a>
+            <div class="content">
+                {$Item['ErrorDescription']}
+            </div>
         </div>
     </div>
-</div>
+{/foreach}

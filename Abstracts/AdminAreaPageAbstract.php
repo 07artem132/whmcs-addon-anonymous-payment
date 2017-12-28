@@ -2,14 +2,15 @@
 /**
  * Created by PhpStorm.
  * User: Artem
- * Date: 17.12.2017
- * Time: 17:10
+ * Date: 24.12.2017
+ * Time: 14:57
  */
 
 namespace AnonymousPayment\Abstracts;
 
-abstract class ClientAreaPageAbstract {
-	private $vars;
+
+abstract class AdminAreaPageAbstract {
+	protected $vars;
 
 	function SetVars( $vars ) {
 		$this->vars = $vars;
@@ -18,4 +19,5 @@ abstract class ClientAreaPageAbstract {
 	function GetVars() {
 		return $this->vars;
 	}
+
 }

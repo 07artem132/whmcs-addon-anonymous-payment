@@ -64,7 +64,7 @@
         <div id="Line"></div>
         Данный модуль позволяет клиентам делиться публичной ссылкой на оплату счета.
         <div id="Line"></div>
-        <a href="{$basheURL}&page=checkminimumrequirements">
+        <a href="{$ModuleLink}&page=checkminimumrequirements">
             <button>Проверить соответствие минимальным требованиям</button>
         </a>
     </div>

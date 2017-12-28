@@ -9,7 +9,7 @@
 namespace AnonymousPayment\Controller;
 
 
-class MultilanguageController {
+class MultiLanguageController {
 	private static $Lang;
 
 	public static function init( $Lang ) {

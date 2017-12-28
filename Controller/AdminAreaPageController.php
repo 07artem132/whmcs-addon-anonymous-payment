@@ -8,59 +8,42 @@
 
 namespace AnonymousPayment\Controller;
 
-use Smarty;
+use AnonymousPayment\Interfaces\AdminAreaPageInterface;
+use AnonymousPayment\Exceptions\PageControllerNotImplementInterface;
 
 class AdminAreaPageController {
-	private $TemplateDir = 'Template';
+	private $var = [];
+	private $PageController;
 	private $PageToController = [
-		'welcome'    => 'WelcomeController',
-		'getstarted' => 'GetStartedController@info',
-		'dashboard'  => 'DashboardController@Config',
-		'firstconfig' => 'FirstconfigController@Config',
-		'cleardata' => 'ClearDataController@Delete',
-		'checkminimumrequirements'=>'CheckMinimumRequirementsController@Check',
+		'welcome'                  => 'WelcomeController',
+		'getstarted'               => 'GetStartedController',
+		'dashboard'                => 'DashboardController',
+		'firstconfig'              => 'FirstСonfigController',
+		'cleardata'                => 'ClearDataController',
+		'checkminimumrequirements' => 'CheckMinimumRequirementsController',
 	];
 
-	private $smarty;
-	private $Caching = false;
-	private $PageController;
-
-	function __construct() {
-		$this->smarty = new Smarty();
-		$this->smarty->force_compile = 1;
-		$this->smarty->caching = $this->Caching;
+	function SetVar( $key, $value ) {
+		$this->var[ $key ] = $value;
 	}
 
-	function BildPage( $name ) {
-		list( $Class, $Function ) = explode( '@', $this->PageToController[ $name ] );
+	function GetVars() {
+		return $this->var;
+	}
 
-		$className = 'AnonymousPayment\Page\\' . $Class;
+	function Render( $Page ) {
+		$Class = $this->PageToController[ $Page ];
+
+		$className = 'AnonymousPayment\AdminAreaPage\\' . $Class;
 
 		$this->PageController = new $className;
 
-		if ( $this->PageController instanceof PageInterface ) {
-
-			if ( ! empty( $Function ) ) {
-				call_user_func( [ $this->PageController, $Function ] );
-			}
-
-			foreach ( $this->PageController->GetVars() as $Key => $Value ) {
-				$this->SetVar( $Key, $Value );
-			}
-
-			$this->DisplayTPL( $this->PageController->GetFileName() );
+		if ( ! ( $this->PageController instanceof AdminAreaPageInterface ) ) {
+			throw new PageControllerNotImplementInterface( 'AdminAreaPageInterface' );
 		}
-	}
 
-	public function SetVar( $name, $value ) {
-		$this->smarty->assign( $name, $value );
-	}
+		$this->PageController->SetVars( $this->GetVars() );
 
-	public function GetVar() {
-		return $this->smarty->getTemplateVars();
-	}
-
-	public function DisplayTPL( $FileName ) {
-		$this->smarty->display( __DIR__ . ' /../' . $this->TemplateDir . '/' . $FileName );
+		call_user_func( [ $this->PageController, 'render' ] );
 	}
 }

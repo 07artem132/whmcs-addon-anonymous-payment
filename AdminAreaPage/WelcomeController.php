@@ -6,16 +6,23 @@
  * Time: 18:18
  */
 
-namespace PublicInvoiceUrlView\Page;
+namespace AnonymousPayment\AdminAreaPage;
 
-use PublicInvoiceUrlView\Lib\PageInterface;
+use Smarty;
+use AnonymousPayment\Interfaces\AdminAreaPageInterface;
+use AnonymousPayment\Abstracts\AdminAreaPageAbstract;
+use AnonymousPayment\Config\AdminAreaSmartyConfig;
 
-class WelcomeController implements PageInterface {
-	function GetFileName() {
-		return 'Welcome.tpl';
-	}
+class WelcomeController extends AdminAreaPageAbstract implements AdminAreaPageInterface {
 
-	function GetVars() {
-		return [ 'test' => 'testic' ];
+	function render() {
+		$smarty = new Smarty;
+		$smarty->setCompileDir( AdminAreaSmartyConfig::GetCompileDir() );
+
+		foreach ( $this->GetVars() as $key => $value ) {
+			$smarty->assign( $key, $value );
+		}
+
+		$smarty->display( AdminAreaSmartyConfig::GetTemplateDir() . "Welcome.tpl" );
 	}
 }

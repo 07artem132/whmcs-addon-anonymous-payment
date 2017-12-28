@@ -8,8 +8,17 @@
 
 namespace AnonymousPayment\Config;
 
+use AnonymousPayment\Controller\ConfigController;
 
 class PublicDonateWidgetConfig {
+
+	public static function GetIsEnablePublicDonateWidget() {
+		return ConfigController::SetValue( 'IsEnablePublicDonateWidget' );
+	}
+
+	public static function SetIsEnablePublicDonateWidget( $status ) {
+		ConfigController::SetValue( 'IsEnablePublicDonateWidget',(bool) $status );
+	}
 
 
 	public static function GetShowBalance( $ClientID ) {

@@ -544,7 +544,7 @@
                 <br>
                 <a href="ts3server://{$Domain}">{$Domain}</a>
             </td>
-            <td>{$BillingCycleText}<br>
+            <td>{$LangModule::Translate( 'BillingCycle' )}<br>
                 {if $BillingCycle eq "Free Account"}
                     {$LANG.orderpaymenttermfree}
                 {elseif $BillingCycle eq "One Time"}
@@ -563,7 +563,7 @@
                     {$LANG.orderpaymenttermtriennially}
                 {/if}
             </td>
-            <td>{$ProductExtendedAtText}<br>{$ProductExtendedAt}</td>
+            <td>{$LangModule::Translate( 'ProductExtendedAt' )}<br>{$ProductExtendedAt}</td>
             <td>
                 <span class="PublicInvoiceUrlView label {$ProductStatusColor}">
                     {if $ProductStatusText eq "Pending"}
@@ -587,7 +587,7 @@
             <td>
                 <div class="btn-group">
                     <a class="btn btn-viewInvoice" href="{$ProductURL}" target="_blank">
-                        <i class="icon-cog"></i> {$ServerControlPanelText}
+                        <i class="icon-cog"></i> {$LangModule::Translate( 'ServerControlPanel' )}
                     </a>
                 </div>
             </td>
@@ -597,26 +597,27 @@
     <div class="PublicInvoiceUrlView ManageBills">
         <div class="PublicInvoiceUrlView LeftColumManageBills">
             <div class="PublicInvoiceUrlView Balance">
-                <span class="PublicInvoiceUrlView BalanceDescription">{$BalanceDescription}</span>
+                <span class="PublicInvoiceUrlView BalanceDescription">{$LangModule::Translate('BalanceDescription')}</span>
                 <span class="PublicInvoiceUrlView BalanceSum">{$BalanceSum} &#8381;</span>
             </div>
             <div class="PublicInvoiceUrlView AddBalance">
-                <span class="PublicInvoiceUrlView AddBalanceDescription">{$AddBalanceDescription}</span>
-                <form action="{$systemurl}/public/grouppay" method="post">
-                    <input type="hidden" name="ClientEmail" value="{$ClientEmail}">
-                    <input type="hidden" name="FormFill" value="1">
+                <span class="PublicInvoiceUrlView AddBalanceDescription">{$LangModule::Translate('AddBalanceDescription')}</span>
+                <form action="{$systemurl}public/grouppay" method="get">
+                    <input type="hidden" name="ClientID" value="{$ClientID}">
                     <div class="PublicInvoiceUrlView AddBalanceSumInputGroup">
                         <input id="AddBalanceSum" name="AddBalanceSum" class="form-control" type="number" step="100"
                                value="{$DefaultAddBalanceSum}"
                                min="0" max="{$MaxAddBalanceSum}"/>
                         <span class="help-block" style="font-size: xx-small;">
-                            минимум {$MinAddBalanceSum}, максимум {$MaxAddBalanceSum}
+                            {$LangModule::Translate('Minimum')} {$MinAddBalanceSum}, {$LangModule::Translate('Maximum')} {$MaxAddBalanceSum}
                         </span>
                     </div>
                     {if $UserBalanseStatus}
-                        <button type="submit" class="btn btn-BalanceAdd" >{$AddBalanceButton}</button>
+                        <button type="submit"
+                                class="btn btn-BalanceAdd">{$LangModule::Translate('AddBalance')}</button>
                     {else}
-                        <button type="button" class="btn btn-BalanceAdd" disabled>{$AddBalanceButton}</button>
+                        <button type="button" class="btn btn-BalanceAdd"
+                                disabled>{$LangModule::Translate('AddBalance')}</button>
                     {/if}
                 </form>
             </div>
@@ -625,10 +626,10 @@
             <table class="PublicInvoiceUrlView InvoiceListTable">
                 <thead class="PublicInvoiceUrlView InvoiceListTable">
                 <tr>
-                    <th class="PublicInvoiceUrlView InvoiceListTable">{$InvoiceNumberTableHead}</th>
-                    <th class="PublicInvoiceUrlView InvoiceListTable">{$DueDateTableHead}</th>
-                    <th class="PublicInvoiceUrlView InvoiceListTable">{$ToPayTableHead}</th>
-                    <th class="PublicInvoiceUrlView InvoiceListTable">{$StatusTableHead}</th>
+                    <th class="PublicInvoiceUrlView InvoiceListTable">{$LangModule::Translate('InvoiceNumber')}</th>
+                    <th class="PublicInvoiceUrlView InvoiceListTable">{$LangModule::Translate('DueDate')}</th>
+                    <th class="PublicInvoiceUrlView InvoiceListTable">{$LangModule::Translate('ToPay')}</th>
+                    <th class="PublicInvoiceUrlView InvoiceListTable">{$LangModule::Translate('Status')}</th>
                     <th class="PublicInvoiceUrlView InvoiceListTable">&nbsp;</th>
                 </tr>
                 </thead>
@@ -661,14 +662,14 @@
                             <td class="PublicInvoiceUrlView InvoiceListTable">
                                 <a href="{$SystemURL}/public/invoice/{$Invoice['key']}"
                                    target="_blank" class="btn btn-viewInvoice">
-                                    <i class="icon-eye-open"></i> Просмотр и оплата счета
+                                    <i class="icon-eye-open"></i> {$LangModule::Translate('ViewingAndPayingInvoice')}
                                 </a>
                             </td>
                         </tr>
                     {/foreach}
                 {else}
                     <tr class="PublicInvoiceUrlView InvoiceListTable">
-                        <td colspan="6" class="PublicInvoiceUrlView InvoiceListTable">Все счета оплачены</td>
+                        <td colspan="6" class="PublicInvoiceUrlView InvoiceListTable">{$LangModule::Translate('AllBillsPaid')}</td>
                     </tr>
                 {/if}
                 </tbody>

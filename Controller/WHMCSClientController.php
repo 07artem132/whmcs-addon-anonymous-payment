@@ -9,6 +9,9 @@
 namespace AnonymousPayment\Controller;
 
 use \WHMCS\User\Client;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use \AnonymousPayment\Exceptions\ClientIDNotFoundExceptions;
+use \AnonymousPayment\Exceptions\ClientEmailNotFoundExceptions;
 
 class WHMCSClientController {
 
@@ -17,16 +20,29 @@ class WHMCSClientController {
 
 	}
 
+	public static function GetFirstUserID() {
+		return Client::first()->id;
+	}
+
 	public static function GetID() {
 		return ( empty( $_SESSION['uid'] ) ) ? null : $_SESSION['uid'];
 	}
 
 	public static function ID( $id ) {
-		return Client::findorfail( $id );
+		try {
+			return Client::findorfail( $id );
+		} catch ( ModelNotFoundException $e ) {
+			throw  new ClientIDNotFoundExceptions( $id );
+		}
 	}
 
 	public static function Email( $Email ) {
-		return Client::where( 'email', '=', $Email )->firstorfail();
+		try {
+			return Client::where( 'email', '=', $Email )->firstorfail();
+		} catch ( ModelNotFoundException $e ) {
+			throw  new ClientEmailNotFoundExceptions( $Email );
+		}
+
 
 	}
 }

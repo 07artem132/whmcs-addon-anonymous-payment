@@ -27,7 +27,9 @@ class GroupPayWidgetConfig extends ClientAreaPageAbstract implements ClientAreaP
 
 	function __construct() {
 		$this->ClientArea = new WHMCSClientAreaController();
-		$this->Client     = WHMCSClientController::ID( WHMCSClientController::GetID() );
+		if ( ! empty( WHMCSClientController::GetID() ) ) {
+			$this->Client = WHMCSClientController::ID( WHMCSClientController::GetID() );
+		}
 	}
 
 	function GenerateWidgetID() {
@@ -54,7 +56,7 @@ class GroupPayWidgetConfig extends ClientAreaPageAbstract implements ClientAreaP
 		$this->ClientArea->assign( 'WidgetDefaultAddBalanceSum', PublicDonateWidgetConfig::GetDefaultAddBalanceSum( $this->Client->id ) );
 		$this->ClientArea->assign( 'WidgetButtonText', PublicDonateWidgetConfig::GetButtonText( $this->Client->id ) );
 		$this->ClientArea->assign( 'BalanceSum', $this->Client->credit );
-		$this->ClientArea->setTemplate( '/modules/addons/AnonymousPayment/ClientAreaTemplate/PublicBalanseDonateWidgetConfig.tpl' );
+		$this->ClientArea->setTemplate( 'PublicBalanseDonateWidgetConfig' );
 		$this->ClientArea->output();
 	}
 

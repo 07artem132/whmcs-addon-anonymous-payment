@@ -86,21 +86,14 @@
 </style>
 <div class="ModuleContainer">
     <div>
-        <form role="form" action="{$basheURL}&page=dashboard" method="post">
+        <form role="form" action="{$ModuleLink}&page=dashboard" method="post">
             <div id="welcome">Настройка модуля</div>
             <div id="Line"></div>
-            Текст кнопки
-            <input type="text" name="ButtonMessage"
-                   placeholder="Скопировать ссылку для публичной оплаты этого счёта в буфер обмена"
-                   value="{$config->ButtonMessage}">
-            Текст сообщения после успешного скопирования ссылки в буфер обмена
-            <input type="text" name="AlertSuccess"
-                   placeholder="Следующий текст успешно скопирован в буфер обмена:" value="{$config->AlertSuccess}">
-            css стиль кнопки
-            <textarea name="ButtonStyle">{$config->ButtonStyle}</textarea>
+            В разработке....
+            Для изменения настроек нажмите "Удалить данные модуля"
             <div id="Line"></div>
             <button>Сохранить изменения</button>
-            <a href="{$basheURL}&page=cleardata" class="btn btn-danger">
+            <a href="{$ModuleLink}&page=cleardata" class="btn btn-danger">
                 Удалить данные модуля
             </a>
 

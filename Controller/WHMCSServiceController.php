@@ -12,12 +12,15 @@ use \WHMCS\Service\Service;
 
 class WHMCSServiceController {
 
-	function GetServiceAssignByDomain( $domain ) {
+	public static function GetServiceAssignByDomain( $domain ) {
 		return Service::where( 'domain', '=', $domain )->get();
 	}
-	function GetFirstServiceAssignByDomain( $domain ) {
+
+	public static function GetFirstServiceAssignByDomain( $domain ) {
 		return Service::where( 'domain', '=', $domain )->first();
 	}
 
-
+	public static function GetServiceAssignByServerID( $ServerID ) {
+		return Service::where( 'server', '=', $ServerID )->get();
+	}
 }

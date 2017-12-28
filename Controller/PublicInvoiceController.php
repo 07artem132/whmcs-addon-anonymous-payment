@@ -22,10 +22,10 @@ class PublicInvoiceController {
 		$ButtonProperty                        = HtmlHelper::ArrayToStringHtmlProperty( $ButtonProperty );
 		$ButtonMessage                         = PublicInvoiceConfig::GetButtonInvoiceUrlMessage();
 
-		$script = sprintf( PublicInvoiceConfig::GeScriptButtonInvoiceUrlInsert(), $ButtonProperty, $ButtonMessage );
-
+		$script    = sprintf( PublicInvoiceConfig::GeScriptButtonInvoiceUrlInsert(), $ButtonProperty, $ButtonMessage );
 		$ReturnStr = '<script>' . PHP_EOL;
 		$ReturnStr .= $script;
+		$ReturnStr .= PublicInvoiceConfig::GeScriptInvoiceUrlCopySuccessInsertAlert();
 		$ReturnStr .= '</script>' . PHP_EOL;
 
 		return $ReturnStr;

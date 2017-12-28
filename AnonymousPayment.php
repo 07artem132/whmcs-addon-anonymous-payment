@@ -9,15 +9,16 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-use AnonymousPayment\Controller\ClientAreaPageController;
-use AnonymousPayment\Controller\MultilanguageController;
+use AnonymousPayment\Config\InstallConfig;
 use AnonymousPayment\Controller\AdminAreaPageController;
+use AnonymousPayment\Controller\MultiLanguageController;
+use AnonymousPayment\Controller\ClientAreaPageController;
 
 function AnonymousPayment_config() {
 	return [
-		"name"        => "Public invoice url view",
+		"name"        => "Anonymous payment",
 		"description" => "",
-		"version"     => "1.5",
+		"version"     => "2",
 		"author"      => "service-voice",
 		"fields"      => [
 
@@ -28,35 +29,34 @@ function AnonymousPayment_config() {
 function AnonymousPayment_clientarea( $vars ) {
 	$Page = $_GET['page'];
 
-	MultilanguageController::init( $vars['_lang'] );
+	MultiLanguageController::init( $vars['_lang'] );
 
 	$ClientAreaPageController = new ClientAreaPageController();
-	$ClientAreaPageController->SetVar( 'modulelink', $vars['modulelink'] );
+	$ClientAreaPageController->SetVar( 'ModuleLink', $vars['modulelink'] );
+	$ClientAreaPageController->SetVar( 'ModuleName', str_replace( "index.php?m=", "", $vars['modulelink'] ) );
+	$ClientAreaPageController->SetVar( 'LangModule', MultiLanguageController::class );
 	$ClientAreaPageController->Render( $Page );
 	die();
+}
+
+function AnonymousPayment_sidebar() {
+	//Выводит в левый блок
 }
 
 function AnonymousPayment_output( $vars ) {
 	$Page = $_GET['page'];
 
-	MultilanguageController::init( $vars['_lang'] );
+	MultiLanguageController::init( $vars['_lang'] );
 
-	try {
-		$PageController = new AdminAreaPageController();
-		$PageController->SetVar( 'basheURL', $vars['modulelink'] );
+	$AdminAreaPageController = new AdminAreaPageController();
+	$AdminAreaPageController->SetVar( 'ModuleLink', $vars['modulelink'] );
+	$AdminAreaPageController->SetVar( 'ModuleName', str_replace( "index.php?m=", "", $vars['modulelink'] ) );
+	$AdminAreaPageController->SetVar( 'LangModule', MultiLanguageController::class );
 
-		if ( isset( $_GET['page'] ) && ! empty( $_GET['page'] ) ) {
-			return $PageController->BildPage( $_GET['page'] );
-		}
-
-		//	if ( ! Config::GetInstallStatus() ) {
-		return $PageController->BildPage( 'welcome' );
-		//	} else {
-		//		return $PageController->BildPage( 'dashboard' );
-		//	}
-
-	} catch ( \Exception $e ) {
-		echo $e->getMessage();
+	if ( ! InstallConfig::GetStatus() && empty( $Page ) ) {
+		return $AdminAreaPageController->Render( 'welcome' );
 	}
+
+	return $AdminAreaPageController->Render( $Page );
 }
 

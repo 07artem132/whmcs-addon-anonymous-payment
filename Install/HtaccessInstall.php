@@ -6,6 +6,8 @@
  * Time: 0:07
  */
 
+namespace AnonymousPayment\Install;
+
 use AnonymousPayment\Interfaces\InstallInterface;
 
 class HtaccessInstall implements InstallInterface {
@@ -14,26 +16,22 @@ class HtaccessInstall implements InstallInterface {
 
 	function MinimumRequirementsCheck() {
 		return [
-			'WritableHtaccess' => [
-				'name'             => 'Файл ' . self::GetHtaccessPath() . ' доступен для записи',
-				'Description'      => '',
-				'ErrorDescription' => '',
-				'function'         => 'isWritableHtaccess',
-			]
-		]; //TODO должно возврашать результат проверки
+			'name'             => 'Htaccess write',
+			'NameLinkDoc'      => 'Htaccess',
+			'ErrorDescription' => 'Файл  '.$this->GetHtaccessPath().'  недоступен для записи или не существует',
+			'Status'           => $this->isWritableHtaccess(),
+		];
 	}
 
 	function Install() {
-		self::isWritableHtaccess();
 		self::WriteHtaccess();
 	}
 
 	function Remove() {
-		self::isWritableHtaccess();
 		self::DeleteWriteHtaccess();
 	}
 
-	public static function GetConfig() {
+	function GetConfig() {
 		return [
 			'htaccessContent' => [
 				'#Правила модуля PublicInvoiceUrlView',
@@ -57,21 +55,21 @@ class HtaccessInstall implements InstallInterface {
 		];
 	}
 
-	public static function isWritableHtaccess() {
-		$HtaccessFile = self::GetHtaccessPath();
+	function isWritableHtaccess() {
+		$HtaccessFile = $this->GetHtaccessPath();
 
 		if ( ! is_writable( $HtaccessFile ) && file_exists( $HtaccessFile ) ) {
-			throw new HtaccessIsNotWritableExceptions();
+			return false;
 		}
 
 		return true;
 	}
 
-	public static function GetHtaccessPath() {
+	function GetHtaccessPath() {
 		return ROOTDIR . '/.htaccess';
 	}
 
-	public static function WriteHtaccess() {
+	function WriteHtaccess() {
 		$htaccess = file_get_contents( self::GetHtaccessPath() );
 
 		$FilePat1 = substr( $htaccess, 0, strpos( $htaccess, self::$SearchValue ) + strlen( self::$SearchValue ) );
@@ -87,7 +85,7 @@ class HtaccessInstall implements InstallInterface {
 		file_put_contents( self::GetHtaccessPath(), $htaccess );
 	}
 
-	public static function DeleteWriteHtaccess() {
+	function DeleteWriteHtaccess() {
 		$htaccess = file_get_contents( self::GetHtaccessPath() );
 
 		for ( $i = 0; $i < count( $htaccessContent = GetConfig()['htaccessContent'] ); $i ++ ) {
