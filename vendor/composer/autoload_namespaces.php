@@ -15,4 +15,5 @@ return array(
     'AnonymousPayment\\Config\\' => array($baseDir . '/..'),
     'AnonymousPayment\\ClientAreaPage\\' => array($baseDir . '/..'),
     'AnonymousPayment\\AdminAreaPage\\' => array($baseDir . '/..'),
+    'AnonymousPayment\\Abstracts\\' => array($baseDir . '/..'),
 );

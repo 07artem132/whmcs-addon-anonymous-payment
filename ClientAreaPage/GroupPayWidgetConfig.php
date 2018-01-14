@@ -17,6 +17,8 @@ use \AnonymousPayment\Controller\WHMCSClientController;
 use \AnonymousPayment\Abstracts\ClientAreaPageAbstract;
 use \AnonymousPayment\Interfaces\ClientAreaPageInterface;
 use AnonymousPayment\Controller\WHMCSClientAreaController;
+use \AnonymousPayment\Controller\ModuleStatisticsController;
+use \AnonymousPayment\Exceptions\ClientIDNotFoundExceptions;
 
 
 class GroupPayWidgetConfig extends ClientAreaPageAbstract implements ClientAreaPageInterface {
@@ -27,9 +29,10 @@ class GroupPayWidgetConfig extends ClientAreaPageAbstract implements ClientAreaP
 
 	function __construct() {
 		$this->ClientArea = new WHMCSClientAreaController();
-		if ( ! empty( WHMCSClientController::GetID() ) ) {
-			$this->Client = WHMCSClientController::ID( WHMCSClientController::GetID() );
-		}
+		$this->ClientArea->initPage();
+		$this->ClientArea->requireLogin();
+
+		$this->Client = WHMCSClientController::ID( WHMCSClientController::GetID() );
 	}
 
 	function GenerateWidgetID() {
@@ -37,16 +40,16 @@ class GroupPayWidgetConfig extends ClientAreaPageAbstract implements ClientAreaP
 	}
 
 	function render() {
+		ModuleStatisticsController::AddEventPageView( 'WidgetConfig' );
+
 		if ( $this->isRequestMethod( 'POST' ) ) {
-			$Settings['WidgetShowBalance']          = (int) array_key_exists( 'WidgetShowBalance', $_POST );
-			$Settings['WidgetTitle']                = $_POST['WidgetTitle'];
-			$Settings['WidgetDefaultAddBalanceSum'] = $_POST['WidgetDefaultAddBalanceSum'];
-			$Settings['WidgetButtonText']           = $_POST['WidgetButtonText'];
-			$this->EditSettings( $Settings );
+			ModuleStatisticsController::AddEventChangeSettings( 'WidgetConfig' );
+			PublicDonateWidgetConfig::SetTitle( $this->Client->id, $_POST['WidgetTitle'] );
+			PublicDonateWidgetConfig::SetButtonText( $this->Client->id, $_POST['WidgetButtonText'] );
+			PublicDonateWidgetConfig::SetDefaultAddBalanceSum( $this->Client->id, $_POST['WidgetDefaultAddBalanceSum'] );
+			PublicDonateWidgetConfig::SetShowBalance( $this->Client->id, (int) array_key_exists( 'WidgetShowBalance', $_POST ) );
 		}
 
-		$this->ClientArea->initPage();
-		$this->ClientArea->requireLogin();
 		$this->ClientArea->assign( 'widget_id', $this->GenerateWidgetID() );
 		$this->ClientArea->assign( 'WHMCSSystemURL', WHMCSConfig::GetSystemURL() );
 		$this->ClientArea->assign( 'MaxAddBalanceSum', WHMCSUserConfig::GetMaxAddBalanse() );
@@ -56,26 +59,13 @@ class GroupPayWidgetConfig extends ClientAreaPageAbstract implements ClientAreaP
 		$this->ClientArea->assign( 'WidgetDefaultAddBalanceSum', PublicDonateWidgetConfig::GetDefaultAddBalanceSum( $this->Client->id ) );
 		$this->ClientArea->assign( 'WidgetButtonText', PublicDonateWidgetConfig::GetButtonText( $this->Client->id ) );
 		$this->ClientArea->assign( 'BalanceSum', $this->Client->credit );
+
+		foreach ( $this->GetVars() as $key => $value ) {
+			$this->ClientArea->assign( $key, $value );
+		}
+
 		$this->ClientArea->setTemplate( 'PublicBalanseDonateWidgetConfig' );
 		$this->ClientArea->output();
-	}
-
-	function EditSettings( $Settings ) {
-		if ( array_key_exists( 'WidgetButtonText', $Settings ) ) {
-			PublicDonateWidgetConfig::SetButtonText( $this->Client->id, $Settings['WidgetButtonText'] );
-		}
-
-		if ( array_key_exists( 'WidgetDefaultAddBalanceSum', $Settings ) ) {
-			PublicDonateWidgetConfig::SetDefaultAddBalanceSum( $this->Client->id, $Settings['WidgetDefaultAddBalanceSum'] );
-		}
-
-		if ( array_key_exists( 'WidgetShowBalance', $Settings ) ) {
-			PublicDonateWidgetConfig::SetShowBalance( $this->Client->id, $Settings['WidgetShowBalance'] );
-		}
-
-		if ( array_key_exists( 'WidgetTitle', $Settings ) ) {
-			PublicDonateWidgetConfig::SetTitle( $this->Client->id, $Settings['WidgetTitle'] );
-		}
 	}
 
 }

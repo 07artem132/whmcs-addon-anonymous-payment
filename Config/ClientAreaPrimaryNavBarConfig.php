@@ -8,81 +8,37 @@
 
 namespace AnonymousPayment\Config;
 
-use WHMCS\Config\Setting;
-use AnonymousPayment\Controller\ConfigController;
+use AnonymousPayment\Config\WHMCSConfig;
+use AnonymousPayment\Config\PublicDonateWidgetConfig;
+use AnonymousPayment\Config\PublicGroupPayDonateConfig;
 
+/**
+ * Class ClientAreaPrimaryNavBarConfig
+ * @package AnonymousPayment\Config
+ */
 class ClientAreaPrimaryNavBarConfig {
-
-
+	/**
+	 * @return array
+	 */
 	public static function GetAllNavItem() {
 		return [
 			[
-				'Root'              => self::GetGroupPayDonateRoot(),
-				'SubItem'           => self::GetGroupPayDonateSubItem(),
-				'url'               => Setting::getValue( 'SystemURL' ) . '/public/grouppay/',
-				'name'              => self::GetGroupPayDonateDisplayName(),
+				'Root'              => PublicGroupPayDonateConfig::GetNavRootItem(),
+				'SubItem'           => PublicGroupPayDonateConfig::GetNavSubItem(),
+				'url'               => WHMCSConfig::GetSystemURL() . '/public/grouppay/',
+				'name'              => PublicGroupPayDonateConfig::GetNavDisplayName(),
+				'isEnable'          => PublicGroupPayDonateConfig::GetStatus(),
 				'AuthorizedRequest' => false,
 			],
 			[
-				'Root'              => self::GetGroupPayDonateWidgetRoot(),
-				'SubItem'           => self::GetGroupPayDonateWidgetSubItem(),
-				'url'               => Setting::getValue( 'SystemURL' ) . '/public/balance/config',
-				'name'              => self::GetGroupPayDonateWidgetDisplayName(),
+				'Root'              => PublicDonateWidgetConfig::GetNavRootItem(),
+				'SubItem'           => PublicDonateWidgetConfig::GetNavSubItem(),
+				'url'               => WHMCSConfig::GetSystemURL() . '/public/balance/config',
+				'name'              => PublicDonateWidgetConfig::GetNavDisplayName(),
+				'isEnable'          => PublicDonateWidgetConfig::GetStatus(),
 				'AuthorizedRequest' => true,
 			]
 		];
-	}
-
-	public static function SetGroupPayDonateWidgetRoot( $name ) {
-		ConfigController::SetValue( 'GroupPayDonateWidgetRoot', $name );
-	}
-
-	public static function SetGroupPayDonateWidgetSubItem( $name ) {
-		ConfigController::SetValue( 'GroupPayDonateWidgetSubItem', $name );
-	}
-
-	public static function SetGroupPayDonateWidgetDisplayName( $name ) {
-		ConfigController::SetValue( 'GroupPayDonateWidgetDisplayName', $name );
-	}
-
-	public static function GetGroupPayDonateWidgetRoot() {
-		return ConfigController::GetValue( 'GroupPayDonateWidgetRoot' );
-	}
-
-	public static function GetGroupPayDonateWidgetSubItem() {
-		return ConfigController::GetValue( 'GroupPayDonateWidgetSubItem' );
-
-	}
-
-	public static function GetGroupPayDonateWidgetDisplayName() {
-		return ConfigController::GetValue( 'GroupPayDonateWidgetDisplayName' );
-	}
-
-	public static function SetGroupPayDonateRoot( $name ) {
-		ConfigController::SetValue( 'GroupPayDonateRoot', $name );
-	}
-
-	public static function SetGroupPayDonateSubItem( $name ) {
-		ConfigController::SetValue( 'GroupPayDonateSubItem', $name );
-	}
-
-	public static function SetGroupPayDonateDisplayName( $name ) {
-		ConfigController::SetValue( 'GroupPayDonateDisplayName', $name );
-	}
-
-	public static function GetGroupPayDonateRoot() {
-		return ConfigController::GetValue( 'GroupPayDonateRoot' );
-
-	}
-
-	public static function GetGroupPayDonateSubItem() {
-		return ConfigController::GetValue( 'GroupPayDonateSubItem' );
-
-	}
-
-	public static function GetGroupPayDonateDisplayName() {
-		return ConfigController::GetValue( 'GroupPayDonateDisplayName' );
-
 	}
 
 }

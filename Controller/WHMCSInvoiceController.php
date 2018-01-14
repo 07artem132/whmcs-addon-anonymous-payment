@@ -53,7 +53,7 @@ class WHMCSInvoiceController {
 		$Invoice->notes                = $Notes;
 		$Invoice->save();
 
-		return $this->Invoice->id;;
+		return $this->Invoice->id;
 	}
 
 	public function AddInvoiceItem(
@@ -74,11 +74,11 @@ class WHMCSInvoiceController {
 	}
 
 	public function GetInvoice( $id ) {
-		return $this->Invoice::find( $id );
+		return Invoice::find( $id );
 	}
 
 	public function GetInvoiceOrFail( $id ) {
-		return $this->Invoice::findOrFail( $id );
+		return Invoice::findOrFail( $id );
 	}
 
 	public function ChangeGateway( $InvoiceID, $gateway ) {

@@ -1,5 +1,4 @@
-<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-
+<link href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 <style>
     .PublicInvoiceUrlView.container {
         padding: 15px;
@@ -607,10 +606,10 @@
             {if $ShowAddBalanceWidget}
                 <div class="PublicInvoiceUrlView AddBalance">
                     <span class="PublicInvoiceUrlView AddBalanceDescription">{$LangModule::Translate('AddBalanceDescription')}</span>
-                    <form action="{$systemurl}public/grouppay" method="get">
+                    <form action="{$systemurl}public/grouppay/" method="get">
                         <input type="hidden" name="ClientID" value="{$ClientID}">
                         <div class="PublicInvoiceUrlView AddBalanceSumInputGroup">
-                            <input id="AddBalanceSum" name="AddBalanceSum" class="form-control" type="number" step="100"
+                            <input id="AddBalanceSum" name="AddBalanceSum" class="form-control" type="number"
                                    value="{$DefaultAddBalanceSum}"
                                    min="0" max="{$MaxAddBalanceSum}"/>
                             <span class="help-block" style="font-size: xx-small;">

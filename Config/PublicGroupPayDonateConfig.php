@@ -13,47 +13,89 @@ use AnonymousPayment\Controller\ConfigController;
 
 class PublicGroupPayDonateConfig {
 
-	public static function GetIsEnablePublicGroupPayDonate() {
-		return ConfigController::SetValue( 'IsEnablePublicGroupPayDonate' );
+	public static function GetStatus() {
+		return ConfigController::GetValueModule( 'PublicGroupPay', 'Enable' );
 	}
 
-	public static function SetIsEnablePublicGroupPayDonate( $status ) {
-		ConfigController::SetValue( 'IsEnablePublicGroupPayDonate',(bool) $status );
+	public static function SetStatus( $status ) {
+		ConfigController::SetValueModule( 'PublicGroupPay', 'Enable', (bool) $status );
 	}
 
-	public static function GetIsEnableDonateHost() {
-		return ConfigController::GetValue( 'IsEnableDonateHost' );
+
+	public static function GetDonateHostStatus() {
+		return ConfigController::GetValueModule( 'PublicGroupPay', 'Donate.Host.Enable' );
 	}
 
-	public static function SetIsEnableDonateHost( $status ) {
-		ConfigController::SetValue( 'IsEnableDonateHost',(bool) $status );
-
+	public static function SetDonateHostStatus( $status ) {
+		ConfigController::SetValueModule( 'PublicGroupPay', 'Donate.Host.Enable', (bool) $status );
 	}
 
-	public static function GetIsEnableDonateClientEmail() {
-		return ConfigController::GetValue( 'IsEnableDonateClientEmail' );
-	}
 
-	public static function SetIsEnableDonateClientEmail( $status ) {
-		ConfigController::SetValue( 'IsEnableDonateClientEmail',(bool) $status );
+	public static function GetDonateClientEmailStatus() {
+		return ConfigController::GetValueModule( 'PublicGroupPay', 'Donate.ClientEmail.Enable' );
 
 	}
 
-	public static function GetIsEnableDonateClientID() {
-		return ConfigController::GetValue( 'IsEnableDonateClientID' );
-	}
-
-	public static function SetIsEnableDonateClientID( $status ) {
-		ConfigController::SetValue( 'IsEnableDonateClientID',(bool) $status );
+	public static function SetDonateClientEmailStatus( $status ) {
+		ConfigController::SetValueModule( 'PublicGroupPay', 'Donate.ClientEmail.Enable', (bool) $status );
 
 	}
 
-	public static function GetCustomFieldsServerPort() {
-		return ConfigController::GetValue( 'CustomFieldsServerPort' );
+	public static function GetDonateClientIDStatus() {
+		return ConfigController::GetValueModule( 'PublicGroupPay', 'Donate.ClientID.Enable' );
 	}
 
-	public static function SetCustomFieldsServerPort( $CustomFieldContainsPort ) {
-		ConfigController::SetValue( 'CustomFieldsServerPort', $CustomFieldContainsPort );
+	public static function SetDonateClientIDStatus( $status ) {
+		ConfigController::SetValueModule( 'PublicGroupPay', 'Donate.ClientID.Enable', (bool) $status );
+	}
+
+	public static function GetDonateHostCustomFieldsPort() {
+		return ConfigController::GetValueModule( 'PublicGroupPay', 'Donate.Host.CustomFieldsPort' );
+	}
+
+	public static function SetDonateHostCustomFieldsPort( $CustomFieldContainsPort ) {
+		ConfigController::SetValueModule( 'PublicGroupPay', 'Donate.Host.CustomFieldsPort', $CustomFieldContainsPort );
+	}
+
+	public static function GetDonateHostAllowServerIP() {
+		return ConfigController::GetValueModule( 'PublicGroupPay', 'Donate.Host.AllowServerIP' );
+	}
+
+	public static function SetDonateHostAllowServerIP( $AllowServerIP ) {
+		ConfigController::SetValueModule( 'PublicGroupPay', 'Donate.Host.AllowServerIP', $AllowServerIP );
+	}
+
+	public static function GetAddMessageRecipient() {
+		return ConfigController::GetValueModule( 'PublicGroupPay', 'AddMessageRecipient' );
+	}
+
+	public static function SetAddMessageRecipient( $Status ) {
+		ConfigController::SetValueModule( 'PublicGroupPay', 'AddMessageRecipient', (bool) $Status );
+	}
+
+
+	public static function SetNavDisplayName( $Name ) {
+		ConfigController::SetValueModule( 'PublicGroupPay', 'Nav.DisplayName', $Name );
+	}
+
+	public static function GetNavDisplayName() {
+		return ConfigController::GetValueModule( 'PublicGroupPay', 'Nav.DisplayName' );
+	}
+
+	public static function SetNavRootItem( $Item ) {
+		ConfigController::SetValueModule( 'PublicGroupPay', 'Nav.RootItem', $Item );
+	}
+
+	public static function GetNavRootItem() {
+		return ConfigController::GetValueModule( 'PublicGroupPay', 'Nav.RootItem' );
+	}
+
+	public static function SetNavSubItem( $Item ) {
+		ConfigController::SetValueModule( 'PublicGroupPay', 'Nav.SubItem', $Item );
+	}
+
+	public static function GetNavSubItem() {
+		return ConfigController::GetValueModule( 'PublicGroupPay', 'Nav.SubItem' );
 	}
 
 }

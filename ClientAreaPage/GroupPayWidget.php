@@ -15,6 +15,7 @@ use \AnonymousPayment\Abstracts\ClientAreaPageAbstract;
 use \AnonymousPayment\Controller\WHMCSClientController;
 use \AnonymousPayment\Interfaces\ClientAreaPageInterface;
 use AnonymousPayment\Controller\WHMCSClientAreaController;
+use \AnonymousPayment\Controller\ModuleStatisticsController;
 
 class GroupPayWidget extends ClientAreaPageAbstract implements ClientAreaPageInterface {
 
@@ -24,6 +25,7 @@ class GroupPayWidget extends ClientAreaPageAbstract implements ClientAreaPageInt
 	function __construct() {
 		$this->ClientArea = new WHMCSClientAreaController();
 		$this->Client     = WHMCSClientController::ID( CryptController::Decrypt( $this->GetWidgetID() ) );
+		//todo добавить обработку исключений
 	}
 
 	function GetWidgetID() {
@@ -31,6 +33,8 @@ class GroupPayWidget extends ClientAreaPageAbstract implements ClientAreaPageInt
 	}
 
 	function render() {
+		ModuleStatisticsController::AddEventPageView( 'Widget' );
+
 		$this->ClientArea->initPage();
 		$this->ClientArea->disableHeaderFooterOutput();
 		$this->ClientArea->assign( 'widget_id', CryptController::Encrypt( $this->Client->id ) );
@@ -41,7 +45,12 @@ class GroupPayWidget extends ClientAreaPageAbstract implements ClientAreaPageInt
 		$this->ClientArea->assign( 'WidgetDefaultAddBalanceSum', PublicDonateWidgetConfig::GetDefaultAddBalanceSum( $this->Client->id ) );
 		$this->ClientArea->assign( 'WidgetButtonText', PublicDonateWidgetConfig::GetButtonText( $this->Client->id ) );
 		$this->ClientArea->assign( 'BalanceSum', $this->Client->credit );
-		$this->ClientArea->setTemplate( '/modules/addons/AnonymousPayment/ClientAreaTemplate/PublicBalanseDonateWidget.tpl' );
+
+		foreach ( $this->GetVars() as $key => $value ) {
+			$this->ClientArea->assign( $key, $value );
+		}
+
+		$this->ClientArea->setTemplate( 'PublicBalanseDonateWidget' );
 		$this->ClientArea->output();
 	}
 }

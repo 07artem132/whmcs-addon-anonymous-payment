@@ -157,7 +157,7 @@ class WHMCSFormController {
 	 *
 	 * @return string Valid HTML Form Element
 	 **/
-	public function submit( $text, $class = "btn" ) {
+	public function submit( $text = '', $class = "btn" ) {
 		return $this->Form->submit( $text, $class );
 	}
 

@@ -36,6 +36,12 @@ class WHMCSClientController {
 		}
 	}
 
+	/**
+	 * @param $Email
+	 *
+	 * @return mixed
+	 * @throws ClientEmailNotFoundExceptions
+	 */
 	public static function Email( $Email ) {
 		try {
 			return Client::where( 'email', '=', $Email )->firstorfail();

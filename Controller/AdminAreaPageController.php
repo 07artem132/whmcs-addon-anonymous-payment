@@ -18,7 +18,7 @@ class AdminAreaPageController {
 		'welcome'                  => 'WelcomeController',
 		'getstarted'               => 'GetStartedController',
 		'dashboard'                => 'DashboardController',
-		'firstconfig'              => 'FirstСonfigController',
+		'firstconfig'              => 'FirstConfigController',
 		'cleardata'                => 'ClearDataController',
 		'checkminimumrequirements' => 'CheckMinimumRequirementsController',
 	];

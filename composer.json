@@ -12,5 +12,8 @@
       "AnonymousPayment\\Install\\": "../",
       "AnonymousPayment\\Abstracts\\": "../"
     }
+  },
+  "require": {
+    "maximebf/debugbar": "^1.15"
   }
 }

@@ -18,6 +18,7 @@ use \AnonymousPayment\Controller\WHMCSInvoiceController;
 use \AnonymousPayment\Controller\WHMCSCountryController;
 use \AnonymousPayment\Interfaces\ClientAreaPageInterface;
 use \AnonymousPayment\Controller\WHMCSGatewaysController;
+use AnonymousPayment\Controller\ModuleStatisticsController;
 use \AnonymousPayment\Controller\WHMCSClientAreaController;
 use \AnonymousPayment\Controller\WHMCSModuleGatewaysController;
 
@@ -56,6 +57,8 @@ class PublicInvoiceDonate extends ClientAreaPageAbstract implements ClientAreaPa
 	}
 
 	function render() {
+		ModuleStatisticsController::AddEventPageView( 'PublicInvoice' );
+
 		if ( $this->isRequestMethod( 'POST' ) && isset( $_POST['gateway'] ) && ! empty( $_POST['gateway'] ) ) {
 			$this->InvoiceController->ChangeGateway( $this->GetInvoiceID(), $_POST['gateway'] );
 			$this->Invoice = $this->InvoiceController->GetInvoiceOrFail( $this->GetInvoiceID() );

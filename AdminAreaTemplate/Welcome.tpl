@@ -60,12 +60,12 @@
 </style>
 <div class="ModuleContainer">
     <div>
-        <div id="welcome">Подготовка к установке</div>
+        <div id="welcome">{$LangModule::Translate('PreparingForInstallation')}</div>
         <div id="Line"></div>
-        Данный модуль позволяет клиентам делиться публичной ссылкой на оплату счета.
+        {$LangModule::Translate('ModuleDescription')}
         <div id="Line"></div>
         <a href="{$ModuleLink}&page=checkminimumrequirements">
-            <button>Проверить соответствие минимальным требованиям</button>
+            <button>{$LangModule::Translate('CheckMinimumRequirements')}</button>
         </a>
     </div>
 </div>

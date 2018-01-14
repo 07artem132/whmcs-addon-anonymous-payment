@@ -9,6 +9,7 @@
 namespace AnonymousPayment\AdminAreaPage;
 
 use Smarty;
+use AnonymousPayment\Install\HtaccessInstall;
 use AnonymousPayment\Controller\ConfigController;
 use AnonymousPayment\Config\AdminAreaSmartyConfig;
 use AnonymousPayment\Abstracts\AdminAreaPageAbstract;
@@ -27,6 +28,11 @@ class ClearDataController extends AdminAreaPageAbstract implements AdminAreaPage
 		ConfigController::ClearData();
 
 		$smarty->display( AdminAreaSmartyConfig::GetTemplateDir() . "ClearData.tpl" );
+	}
+
+	function Remove() {
+		$HtaccessInstall = new HtaccessInstall();
+		$HtaccessInstall->Remove();
 	}
 
 }

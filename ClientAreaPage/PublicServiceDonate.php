@@ -18,7 +18,7 @@ use \AnonymousPayment\Controller\WHMCSInvoiceController;
 use \AnonymousPayment\Controller\WHMCSServiceController;
 use \AnonymousPayment\Interfaces\ClientAreaPageInterface;
 use \AnonymousPayment\Controller\WHMCSClientAreaController;
-
+use \AnonymousPayment\Controller\ModuleStatisticsController;
 class PublicServiceDonate extends ClientAreaPageAbstract implements ClientAreaPageInterface {
 
 	private $ClientArea,
@@ -35,8 +35,12 @@ class PublicServiceDonate extends ClientAreaPageAbstract implements ClientAreaPa
 		$result = $this->Invoice->GetInvoiceProduct( $sid, 'Unpaid' );
 
 		for ( $i = 0; $i < $result->count(); $i ++ ) {
+			if ( $result[ $i ]->invoice === null ) {
+				continue;
+			}
+
 			$results[ $i ]            = $result[ $i ]->invoice->toarray();
-			$results[ $i ]['key']     = CryptController::Encrypt( $result[ $i ]['id'] );
+			$results[ $i ]['key']     = CryptController::Encrypt( $result[ $i ]['invoiceid'] );
 			$results[ $i ]['duedate'] = date( "d/m/Y", strtotime( $result[ $i ]['duedate'] ) );
 		}
 
@@ -48,6 +52,8 @@ class PublicServiceDonate extends ClientAreaPageAbstract implements ClientAreaPa
 	}
 
 	public function render() {
+		ModuleStatisticsController::AddEventPageView( 'ServiceDonate' );
+
 		$Service  = $this->Service->GetFirstServiceAssignByDomain( $this->GetDomain() );
 		$Invoices = $this->GetProductInvoice( $Service->id );
 		$Product  = $Service->product()->first();

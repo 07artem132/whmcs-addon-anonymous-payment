@@ -16,16 +16,31 @@ use AnonymousPayment\Config\WHMCSConfig;
 
 class PublicInvoiceController {
 
+
 	public static function GenerateButton( $InvoiceID ) {
-		$ButtonProperty                        = PublicInvoiceConfig::GetButtonInvoiceUrlClipboardProperty();
+		$ButtonProperty = [
+			"class"               => "btn",
+			"id"                  => "PublicInvoiceUrl",
+			"data-clipboard-text" => "",
+		];
+
+		$ButtonProperty["style"]               = PublicInvoiceConfig::GetButtonStyle();
 		$ButtonProperty["data-clipboard-text"] = self::GenerateUrl( $InvoiceID );
 		$ButtonProperty                        = HtmlHelper::ArrayToStringHtmlProperty( $ButtonProperty );
-		$ButtonMessage                         = PublicInvoiceConfig::GetButtonInvoiceUrlMessage();
+		$ButtonMessage                         = PublicInvoiceConfig::GetButtonMessage();
 
-		$script    = sprintf( html_entity_decode( htmlspecialchars_decode( PublicInvoiceConfig::GeScriptButtonInvoiceUrlInsert() ), ENT_QUOTES || ENT_HTML5 ), $ButtonProperty, $ButtonMessage );
+		$ButtonInsertScript = PublicInvoiceConfig::GetButtonInsertScript();
+		$ButtonInsertScript = htmlspecialchars_decode( $ButtonInsertScript );
+		$ButtonInsertScript = html_entity_decode( $ButtonInsertScript, ENT_QUOTES || ENT_HTML5 );
+		$ButtonInsertScript = sprintf( $ButtonInsertScript, $ButtonProperty, $ButtonMessage );
+
+		$CopySuccessNoticeInsertScript = PublicInvoiceConfig::GetCopySuccessNoticeInsertScript();
+		$CopySuccessNoticeInsertScript = htmlspecialchars_decode( $CopySuccessNoticeInsertScript );
+		$CopySuccessNoticeInsertScript = html_entity_decode( $CopySuccessNoticeInsertScript, ENT_QUOTES || ENT_HTML5 );
+
 		$ReturnStr = '<script>' . PHP_EOL;
-		$ReturnStr .= $script;
-		$ReturnStr .= html_entity_decode( htmlspecialchars_decode( PublicInvoiceConfig::GetScriptInvoiceUrlCopySuccessInsertAlert() ), ENT_QUOTES || ENT_HTML5 );
+		$ReturnStr .= $ButtonInsertScript;
+		$ReturnStr .= $CopySuccessNoticeInsertScript;
 		$ReturnStr .= '</script>' . PHP_EOL;
 
 		return $ReturnStr;

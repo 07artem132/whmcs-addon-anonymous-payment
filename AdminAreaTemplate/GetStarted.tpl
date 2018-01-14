@@ -61,12 +61,12 @@
 
 <div class="ModuleContainer">
     <div>
-        <div id="welcome">Установка завершена</div>
+        <div id="welcome">{$LangModule::Translate('InstallationCompleted')}</div>
         <div id="Line"></div>
-        Все готово к использованию, вы можете перейти в панель управления.
+        {$LangModule::Translate('EverythingIsReadyForUseYouCanGoToTheControlPanel')}
         <div id="Line"></div>
         <a href="{$ModuleLink}&page=dashboard">
-            <button>Перейти в панель управления</button>
+            <button>{$LangModule::Translate('GoToControlPanel')}</button>
         </a>
     </div>
 </div>

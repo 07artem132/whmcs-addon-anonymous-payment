@@ -55,12 +55,12 @@
 </style>
 <div class="ModuleContainer">
     <div>
-        <div id="welcome">ВЫПОЛНЕНО</div>
+        <div id="welcome">{$LangModule::Translate('Done')}</div>
         <div id="Line"></div>
-        Данные модуля успешно удалены.
+        {$LangModule::Translate('ModuleDataSuccessfullyDeleted')}
         <div id="Line"></div>
         <a href="{$ModuleLink}">
-            <button>ОК</button>
+            <button>{$LangModule::Translate('Ok')}</button>
         </a>
     </div>
 </div>

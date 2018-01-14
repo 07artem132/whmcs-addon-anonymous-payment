@@ -22,40 +22,40 @@
         });
     });
 </script>
-<h2>Настройки виджета:</h2><br/>
+<h2>{$LangModule::Translate('WidgetSettings')}</h2><br/>
 <form method="post">
     <div class="form-group">
-        <label class="col-form-label" for="WidgetTitle">Текст заголовка виджета</label>
-        <input type="text" name="WidgetTitle" class="form-control"  placeholder=""
+        <label class="col-form-label" for="WidgetTitle">{$LangModule::Translate('WidgetHeaderText')}</label>
+        <input type="text" name="WidgetTitle" class="form-control" placeholder=""
                value="{$WidgetTitle}">
     </div>
     <div class="form-group">
-        <label class="col-form-label" for="WidgetDefaultAddBalanceSum">Сумма пополнения по умолчанию</label>
+        <label class="col-form-label" for="WidgetDefaultAddBalanceSum">{$LangModule::Translate('DefaultDonateAmount')}</label>
         <input type="number" class="form-control" name="WidgetDefaultAddBalanceSum"
                placeholder="" max="{$MaxAddBalanceSum}"
                value="{$WidgetDefaultAddBalanceSum}">
     </div>
     <div class="form-group">
-        <label class="col-form-label" for="WidgetButtonText">Текст кнопки пополнить</label>
-        <input type="text" class="form-control" name="WidgetButtonText"  placeholder=""
+        <label class="col-form-label" for="WidgetButtonText">{$LangModule::Translate('TextButtonDonate')}</label>
+        <input type="text" class="form-control" name="WidgetButtonText" placeholder=""
                value="{$WidgetButtonText}">
     </div>
     <div class="form-check form-check-inline">
         <label class="form-check-label">
             <input class="form-check-input" type="checkbox"
-                   name="WidgetShowBalance" {if $WidgetShowBalance eq 1} checked {/if}> Показывать баланс
+                   name="WidgetShowBalance" {if $WidgetShowBalance} checked {/if}> {$LangModule::Translate('ShowBalance')}
         </label>
     </div>
     <br/>
-    <input class="btn btn-primary" type="submit" name="save" value="Сохранить изменения">
+    <input class="btn btn-primary" type="submit" name="save" value="{$LangModule::Translate('SaveChanges')}">
 </form>
-<h2>Код для встраивания на сайт:</h2><br/>
-<b>Разместите код приведенный ниже там где необходимо показывать виджет</b><br/>
+<h2>{$LangModule::Translate('PasteCodeSite')}</h2><br/>
+<b>{$LangModule::Translate('PlaceTheCodeBelowWhereYouWantToShowTheWidget')}</b><br/>
 <code>
     &lt;span id="public_balance_donate" &gt;&lt;/span&gt;
 </code>
 <br/><br/>
-<b>Разместите код приведенный ниже между тегами &lt;head&gt;&lt;/head&gt;</b><br/>
+<b>{$LangModule::Translate('PlaceTheCodeBelowBetweenTheTags')} &lt;head&gt;&lt;/head&gt;</b><br/>
 <code>
     &lt;script type="text/javascript" &gt;
     (function() {
@@ -64,33 +64,44 @@
     })();
     &lt;/script&gt;
 </code>
-<h2>Отображаемый вариант:</h2><br/>
+<h2>{$LangModule::Translate('DisplayVarible')}</h2><br/>
 
 <div class="panel panel-default" style="width: 300px; margin:auto;">
     <div id="WidgetTitle" class="panel-heading text-center">{$WidgetTitle}</div>
     <div class="panel-body">
         <form class="form-horizontal" role="form" method="POST" action="grouppay.php" target="_blank">
             <div class="form-group">
-                <label for="input" class="col-xs-3 control-label" style="margin-top: 10px;">Сумма</label>
+                <label for="input" class="col-xs-3 control-label"
+                       style="margin-top: 10px;">{$LangModule::Translate('Amount')}</label>
                 <div class="col-xs-9">
                     <div class="input-group">
                         <input type="number" name="DefaultAddBalanceSum" class="form-control" id="DefaultAddBalanceSum"
-                               placeholder="{$WidgetDefaultAddBalanceSum}" max="{$MaxAddBalanceSum}" value="{$WidgetDefaultAddBalanceSum}">
+                               placeholder="{$WidgetDefaultAddBalanceSum}" max="{$MaxAddBalanceSum}"
+                               value="{$WidgetDefaultAddBalanceSum}">
                         <span class="input-group-addon">
 							<span class="glyphicon glyphicon-rub" aria-hidden="true"></span>
 						</span>
                     </div>
-                    <span class="help-block" style="font-size: xx-small;">минимум {$MinAddBalanceSum}
-                        , максимум {$MaxAddBalanceSum}</span>
+                    <span class="help-block" style="font-size: xx-small;">
+                        {$LangModule::Translate('Minimum')} {$MinAddBalanceSum}
+                        , {$LangModule::Translate('Maximum')} {$MaxAddBalanceSum}
+                    </span>
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-xs-offset-4 col-xs-3">
-                    <button id="WidgetButtonText" type="submit" class="btn btn-default">{$WidgetButtonText}</button>
+                    <button id="WidgetButtonText" type="submit" class="btn btn-default">
+                        {$WidgetButtonText}
+                    </button>
                 </div>
             </div>
-            <div {if $WidgetShowBalance === 0} style="display: none" {/if} id="WidgetBalance" class="well well-sm text-center">Текущий баланс <strong>{$BalanceSum}</strong></div>
+            <div {if $WidgetShowBalance}
+                style="display: none"
+            {/if}
+                    id="WidgetBalance" class="well well-sm text-center">
+                {$LangModule::Translate('CurrentBalance')} <strong>{$BalanceSum}</strong>
+            </div>
         </form>
     </div>
 </div>

@@ -12,64 +12,53 @@ namespace AnonymousPayment\Config;
 use AnonymousPayment\Controller\ConfigController;
 
 class PublicInvoiceConfig {
-	public static function GetIsEnablePublicInvoiceURL() {
-		return ConfigController::GetValue( 'IsEnablePublicInvoiceURL' );
+	public static function GetStatus() {
+		return ConfigController::GetValueModule( 'PublicInvoice', 'Enable' );
 	}
 
-	public static function SetIsEnablePublicInvoiceURL( $status ) {
-		ConfigController::SetValue( 'IsEnablePublicInvoiceURL', (bool) $status );
+	public static function SetStatus( $status ) {
+		ConfigController::SetValueModule( 'PublicInvoice', 'Enable', (bool) $status );
 	}
 
-	public static function GetButtonInvoiceUrlClipboardProperty() {
-		return [
-			"style"               => self::GetButtonInvoiceUrlStyle(),
-			"class"               => "btn",
-			"id"                  => "PublicInvoiceUrl",
-			"data-clipboard-text" => "",
-		];
+	public static function SetButtonStyle( $Style ) {
+		ConfigController::SetValueModule( 'PublicInvoice', 'Button.Style', $Style );
 	}
 
-	public static function SetButtonInvoiceUrlStyle( $Style ) {
-		ConfigController::SetValue( 'ButtonInvoiceUrlStyle', $Style );
+	public static function GetButtonStyle() {
+		return ConfigController::GetValueModule( 'PublicInvoice', 'Button.Style' );
 	}
 
-	public static function GetButtonInvoiceUrlStyle() {
-		ConfigController::GetValue( 'ButtonInvoiceUrlStyle' );
+	public static function SetButtonInsertScript( $Script ) {
+		ConfigController::SetValueModule( 'PublicInvoice', 'Button.InsertScript', $Script );
+	}
+
+	public static function GetButtonInsertScript() {
+		return ConfigController::GetValueModule( 'PublicInvoice', 'Button.InsertScript' );
 	}
 
 
-	public static function GeScriptButtonInvoiceUrlInsert() {
-		return ConfigController::GetValue( 'ScriptButtonInvoiceUrlInsert' );
+	public static function GetButtonMessage() {
+		return ConfigController::GetValueModule( 'PublicInvoice', 'Button.message' );
 	}
 
-	public static function SeScriptButtonInvoiceUrlInsert( $Script ) {
-		ConfigController::SetValue( 'ScriptButtonInvoiceUrlInsert', $Script );
+	public static function SetButtonMessage( $Message ) {
+		ConfigController::SetValueModule( 'PublicInvoice', 'Button.message', $Message );
 	}
 
-	public static function GetScriptInvoiceUrlCopySuccessInsertAlert() {
-		return ConfigController::GetValue( 'ScriptInvoiceUrlCopySuccessInsertAlert' );
+
+	public static function GetCopySuccessNoticeInsertScript() {
+		return ConfigController::GetValueModule( 'PublicInvoice', 'CopySuccessNotice.InsertScript' );
 	}
 
-	public static function SetScriptInvoiceUrlCopySuccessInsertAlert( $Script ) {
-		ConfigController::SetValue( 'ScriptInvoiceUrlCopySuccessInsertAlert', $Script );
+	public static function SetCopySuccessNoticeInsertScript( $Script ) {
+		ConfigController::SetValueModule( 'PublicInvoice', 'CopySuccessNotice.InsertScript', $Script );
 	}
 
-	public static function GetButtonInvoiceUrlMessage() {
-		return ConfigController::GetValue( 'ButtonInvoiceUrlMessage' );
+	public static function GetCopySuccessNoticeMessage() {
+		return ConfigController::GetValueModule( 'PublicInvoice', 'CopySuccessNotice.message' );
 	}
 
-	public static function SetButtonInvoiceUrlMessage( $Message ) {
-		ConfigController::SetValue( 'ButtonInvoiceUrlMessage', $Message );
-
+	public static function SetCopySuccessNoticeMessage( $Message ) {
+		ConfigController::SetValueModule( 'PublicInvoice', 'CopySuccessNotice.message', $Message );
 	}
-
-	public static function GetTextCopySuccessAlert() {
-		return ConfigController::GetValue( 'TextCopySuccessAlert' );
-
-	}
-
-	public static function SetTextCopySuccessAlert( $Message ) {
-		ConfigController::SetValue( 'TextCopySuccessAlert', $Message );
-	}
-
 }

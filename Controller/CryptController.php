@@ -25,7 +25,7 @@ class CryptController {
 	 */
 	public static function DecryptConfig( $String ) {
 		self::Decrypt( $String );
-		$Config = json_decode( $String );
+		$Config = json_decode( $String, true );
 
 		return $Config;
 	}

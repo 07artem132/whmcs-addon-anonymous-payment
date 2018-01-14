@@ -14,7 +14,7 @@ class ExceptionPage {
 		$this->ClientArea->initPage();
 		$this->ClientArea->disableHeaderFooterOutput();
 		$this->ClientArea->assign( 'invalidInvoiceIdRequested', true );
-		$this->ClientArea->setTemplate( 'viewinvoice' );
+		$this->ClientArea->setTemplate( 'error/page-not-found.tpl' );
 		$this->ClientArea->output();
 	}
 

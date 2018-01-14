@@ -209,32 +209,37 @@
     });
 
     function ToStepInstallTwo() {
-        //Завершить настройку модуля             <a href="{$basheURL}&page=firstconfig"></a>
+        {/literal}
         $("#StepInstallOne").slideToggle();
         $("button").attr("onclick", "ToStepInstallThree()");
         setTimeout(function () {
-            $("#welcome").text("[2/4] Анонимное пополнения баланса");
+            $("#welcome").text("[2/4] {$LangModule::Translate('AnonymousReplenishmentOfBalance')}");
             $("#StepInstallTwo").slideToggle();
         }, 400);
+        {literal}
     }
 
     function ToStepInstallThree() {
+        {/literal}
         $("#StepInstallTwo").slideToggle();
         $("button").attr("onclick", "ToStepInstallFour()");
         setTimeout(function () {
-            $("#welcome").text("[3/4] Виджет анонимного пополнения баланса");
+            $("#welcome").text("[3/4] {$LangModule::Translate('AnonymousReplenishmentWidget')}");
             $("#ToStepInstallThree").slideToggle();
         }, 400);
+        {literal}
     }
 
     function ToStepInstallFour() {
+        {/literal}
         $("#ToStepInstallThree").slideToggle();
         $("button").attr("onclick", "ToStepInstallFinall()");
-        $("button").text("Завершить настройку модуля");
+        $("button").text("{$LangModule::Translate('FinishTheModuleConfiguration')}");
         setTimeout(function () {
-            $("#welcome").text("[4/4] Публичная оплата по домену услуги");
+            $("#welcome").text("[4/4] {$LangModule::Translate('PublicPaymentForTheDomainOfTheService')}");
             $("#ToStepInstallFour").slideToggle();
         }, 400);
+        {literal}
     }
 
     function ToStepInstallFinall() {
@@ -253,7 +258,7 @@
             }
         });
 
-        $( "#InstallForm" ).submit();
+        $("#InstallForm").submit();
     }
 
     $(function () {
@@ -268,18 +273,22 @@
                     .text(valueSumItem['translate']));
 
         });
+        {/literal}
         $('#GroupPayDonatePrimaryNavBarSubItem')
             .find('option')
             .end()
-            .append('<option value="last">В самом конце</option>');
+            .append('<option value="last">{$LangModule::Translate("InTheEnd")}</option>');
+        {literal}
 
         $("#GroupPayDonatePrimaryNavBarRoot").change(function () {
             if (window.PrimaryNavBarStructureUserNoLogin.hasOwnProperty($("#GroupPayDonatePrimaryNavBarRoot").val())) {
+                {/literal}
                 $('#GroupPayDonatePrimaryNavBarSubItem')
                     .find('option')
                     .remove()
                     .end()
-                    .append('<option value="first">До первого элемента</option>');
+                    .append('<option value="first">{$LangModule::Translate("BeforeTheFirstElement")}</option>');
+                {literal}
 
                 $.each(window.PrimaryNavBarStructureUserNoLogin[$("#GroupPayDonatePrimaryNavBarRoot").val()]['SumItem'], function (keySumItem, valueSumItem) {
                     $('#GroupPayDonatePrimaryNavBarSubItem')
@@ -287,18 +296,22 @@
                             .text(valueSumItem['translate']));
 
                 });
+                {/literal}
                 $('#GroupPayDonatePrimaryNavBarSubItem')
                     .find('option')
                     .end()
-                    .append('<option value="last">В самом конце</option>');
+                    .append('<option value="last">{$LangModule::Translate("InTheEnd")}</option>');
+                {literal}
             }
 
             if ($("#GroupPayDonatePrimaryNavBarRoot").val() === 'first') {
+                {/literal}
                 $('#GroupPayDonatePrimaryNavBarSubItem')
                     .find('option')
                     .remove()
                     .end()
-                    .append('<option value="first">До первого элемента</option>');
+                    .append('<option value="first">{$LangModule::Translate("BeforeTheFirstElement")}</option>');
+                {literal}
 
                 $.each(window.PrimaryNavBarStructureUserNoLogin, function (keySumItem, valueSumItem) {
                     $('#GroupPayDonatePrimaryNavBarSubItem')
@@ -306,10 +319,12 @@
                             .text(valueSumItem['translate']));
 
                 });
+                {/literal}
                 $('#GroupPayDonatePrimaryNavBarSubItem')
                     .find('option')
                     .end()
-                    .append('<option value="last">В самом конце</option>');
+                    .append('<option value="last">{$LangModule::Translate("InTheEnd")}</option>');
+                {literal}
             }
         });
 
@@ -326,18 +341,22 @@
                     .text(valueSumItem['translate']));
 
         });
+        {/literal}
         $('#GroupPayDonateWidgetPrimaryNavBarSubItem')
             .find('option')
             .end()
-            .append('<option value="last">В самом конце</option>');
+            .append('<option value="last">{$LangModule::Translate("InTheEnd")}</option>');
+        {literal}
 
         $("#GroupPayDonateWidgetPrimaryNavBarRoot").change(function () {
             if (window.PrimaryNavBarStructureUserLogin.hasOwnProperty($("#GroupPayDonateWidgetPrimaryNavBarRoot").val())) {
+                {/literal}
                 $('#GroupPayDonateWidgetPrimaryNavBarSubItem')
                     .find('option')
                     .remove()
                     .end()
-                    .append('<option value="first">До первого элемента</option>');
+                    .append('<option value="first">{$LangModule::Translate("BeforeTheFirstElement")}</option>');
+                {literal}
 
                 $.each(window.PrimaryNavBarStructureUserLogin[$("#GroupPayDonateWidgetPrimaryNavBarRoot").val()]['SumItem'], function (keySumItem, valueSumItem) {
                     $('#GroupPayDonateWidgetPrimaryNavBarSubItem')
@@ -345,29 +364,34 @@
                             .text(valueSumItem['translate']));
 
                 });
+                {/literal}
                 $('#GroupPayDonateWidgetPrimaryNavBarSubItem')
                     .find('option')
                     .end()
-                    .append('<option value="last">В самом конце</option>');
+                    .append('<option value="last">{$LangModule::Translate("InTheEnd")}</option>');
+                {literal}
             }
 
             if ($("#GroupPayDonateWidgetPrimaryNavBarRoot").val() === 'first') {
+                {/literal}
                 $('#GroupPayDonateWidgetPrimaryNavBarSubItem')
                     .find('option')
                     .remove()
                     .end()
-                    .append('<option value="first">До первого элемента</option>');
-
+                    .append('<option value="first">{$LangModule::Translate("BeforeTheFirstElement")}</option>');
+                {literal}
                 $.each(window.PrimaryNavBarStructureUserLogin, function (keySumItem, valueSumItem) {
                     $('#GroupPayDonateWidgetPrimaryNavBarSubItem')
                         .append($('<option>', {value: keySumItem})
                             .text(valueSumItem['translate']));
 
                 });
+                {/literal}
                 $('#GroupPayDonateWidgetPrimaryNavBarSubItem')
                     .find('option')
                     .end()
-                    .append('<option value="last">В самом конце</option>');
+                    .append('<option value="last">{$LangModule::Translate("InTheEnd")}</option>');
+                {literal}
             }
         });
 
@@ -379,44 +403,44 @@
     <div class="contexthelp" style="display: none;">
         <a href="http://docs.whmcs.com/Support_Departments" target="_blank">
             <img src="images/icons/help.png" border="0" align="absmiddle">
-            Помощь
+            {$LangModule::Translate('Help')}
         </a>
     </div>
     <div style="margin-top: 25px; margin-bottom: 30px;">
         <form role="form" id="InstallForm" action="{$ModuleLink}&page=firstconfig" method="post">
-            <div id="welcome">[1/4] Публичная оплата счета</div>
+            <div id="welcome">[1/4] {$LangModule::Translate('PublicAccountPayment')}</div>
             <div id="Line"></div>
             <div id="StepInstallOne">
                 <div class="checkbox checkbox-primary">
                     <input id="isEnablePublicInvoiceURL" type="checkbox" name="PublicInvoiceURL[Enable]">
                     <label for="isEnablePublicInvoiceURL">
-                        Включить публичную оплату счетов по ссылке
+                        {$LangModule::Translate('EnablePublicBillingByReference')}
                     </label>
                 </div>
                 <div id="SettingPublicInvoiceURL" style="display: none;">
                     <div class="label-input pull-left">
                         <label for="ButtonMessage">
-                            Текст кнопки
+                            {$LangModule::Translate('ButtonText')}
                         </label>
                     </div>
                     <div class="input pull-left">
                         <input id="ButtonMessage" type="text" name="PublicInvoiceURL[Button][Message]"
-                               placeholder="Скопировать ссылку для публичной оплаты этого счёта в буфер обмена"
-                               value="Скопировать ссылку для публичной оплаты этого счёта в буфер обмена">
+                               placeholder="{$LangModule::Translate('CopyTheLinkForPublicPaymentOfThisAccountToTheClipboard')}"
+                               value="{$LangModule::Translate('CopyTheLinkForPublicPaymentOfThisAccountToTheClipboard')}">
                     </div>
                     <div class="label-input pull-left">
                         <label for="AlertSuccess">
-                            Текст сообщения после успешного скопирования ссылки в буфер обмена
+                            {$LangModule::Translate('TheTextOfTheMessageAfterTheSuccessfulCopyingOfTheLinkToTheClipboard')}
                         </label>
                     </div>
                     <div class="input pull-left">
                         <input id="AlertSuccess" type="text" name="PublicInvoiceURL[Alert][Message]"
-                               placeholder="Следующий текст успешно скопирован в буфер обмена:"
-                               value="Следующий текст успешно скопирован в буфер обмена:">
+                               placeholder="{$LangModule::Translate('TheFollowingTextWasSuccessfullyCopiedToTheClipboard')}"
+                               value="{$LangModule::Translate('TheFollowingTextWasSuccessfullyCopiedToTheClipboard')}">
                     </div>
                     <div class="label-input pull-left">
                         <label for="ButtonStyle">
-                            CSS стиль кнопки
+                            {$LangModule::Translate('CSSStyleButtons')}
                         </label>
                     </div>
                     <div class="input pull-left">
@@ -424,15 +448,15 @@
                     </div>
                     <div class="label-input pull-left">
                         <label for="ScriptButtonInvoiceUrlInsert">
-                            Скрипт добавления кнопки публичной оплаты счета
+                            {$LangModule::Translate('ScriptToAddAPublicPaymentButton')}
                         </label>
                     </div>
                     <div class="input pull-left">
                         <textarea name="PublicInvoiceURL[Button][InsertScript]">{literal}document.addEventListener("DOMContentLoaded",function(){ window.clipboard = new Clipboard(".btn");var b=document.createElement("div");b.innerHTML='<div style=\"margin-bottom: 20px;\"><button %s>%s</button></div>';for(var a=0;a<document.getElementsByClassName("invoice-container")[0].children.length;a++)"panel panel-default"===document.getElementsByClassName("invoice-container")[0].children[a].className&&(parentDiv=document.getElementsByClassName("invoice-container")[0].children[a].parentNode,parentDiv.insertBefore(b,document.getElementsByClassName("invoice-container")[0].children[a]))});{/literal}</textarea>
-                    </div>
+                </div>
                     <div class="label-input pull-left">
                         <label for="ScriptInvoiceUrlCopySuccessInsertAlert">
-                            Скрипт добавления уведомления об успешном копировании ссылки на публичную оплату счета
+                            {$LangModule::Translate('ScriptToAddANotificationOfSuccessfulCopyingOfTheLinkToPublicBillPayment')}
                         </label>
                     </div>
                     <div class="input pull-left">
@@ -443,38 +467,28 @@
             <div id="StepInstallTwo" style="display: none">
                 <div class="checkbox checkbox-primary">
                     <input id="isEnableGroupPayDonate" type="checkbox" name="GroupPayDonate[Enable]">
-                    <label for="isEnableGroupPayDonate">
-                        Включить возможность анонимного пополнения баланса
-                    </label>
+                    <label for="isEnableGroupPayDonate">{$LangModule::Translate('EnableAnonymousReplenishmentOption')}</label>
                 </div>
                 <div id="SettingGroupPayDonate" style="display: none;">
                     <div class="checkbox checkbox-primary">
                         <input id="isEnableGroupPayDonateByClientEmail" type="checkbox"
                                name="GroupPayDonate[DonateByClientEmail][Enable]">
-                        <label for="isEnableGroupPayDonateByClientEmail">
-                            По email клиента в системе
-                        </label>
+                        <label for="isEnableGroupPayDonateByClientEmail">{$LangModule::Translate('ByEmailClientInTheSystem')}</label>
                     </div>
                     <div class="checkbox checkbox-primary">
                         <input id="isEnableGroupPayDonateByClientID" type="checkbox"
                                name="GroupPayDonate[DonateByClientID][Enable]">
-                        <label for="isEnableGroupPayDonateByClientID">
-                            По ID клиента в системе
-                        </label>
+                        <label for="isEnableGroupPayDonateByClientID">{$LangModule::Translate('ByClientIDInTheSystem')}</label>
                     </div>
                     <div class="checkbox checkbox-primary">
                         <input id="GroupPayDonateByTeamSpeak3Server" type="checkbox"
                                name="GroupPayDonate[DonateByTeamSpeak3Server][Enable]">
-                        <label for="GroupPayDonateByTeamSpeak3Server">
-                            По адресу TeamSpeak 3 сервера
-                        </label>
+                        <label for="GroupPayDonateByTeamSpeak3Server">{$LangModule::Translate('ToTheAddressoFTeamSpeak3Servers')}</label>
                     </div>
                     <div id="GroupPayDonateByTeamSpeak3ServerConfig" style="display: none;">
                         <div style="display: inline-block;">
                             <div class="label-input pull-left">
-                                <label for="GroupPayDonateByTeamSpeak3ServerCustomFieldContainsPort">
-                                    Название настраиваемого поля продукта которое содержит "порт" сервера
-                                </label>
+                                <label for="GroupPayDonateByTeamSpeak3ServerCustomFieldContainsPort">{$LangModule::Translate('TheNameOfTheCustomProductFieldThatContainsThePortOfTheServer')}</label>
                             </div>
                             <div class="input pull-left">
                                 <select size="1" id="GroupPayDonateByTeamSpeak3ServerCustomFieldContainsPort"
@@ -487,61 +501,49 @@
                         </div>
                         <div style="display: inline-block;">
                             <div class="label-input pull-left">
-                                <label for="GroupPayDonateByTeamSpeak3ServerAllow">
-                                    Список IP адресов серверов для которых разрешен данный вид пополнения
-                                </label>
+                                <label for="GroupPayDonateByTeamSpeak3ServerAllow">{$LangModule::Translate('ListIPAddressesOfServersForWhichThisTypeOfReplenishmentIsAllowed')}</label>
                             </div>
                             <div class="input pull-left">
                                 <textarea id="GroupPayDonateByTeamSpeak3ServerAllow"
-                                          name="GroupPayDonate[DonateByTeamSpeak3Server][ServerAllowList]"
-                                          disabled>{$AllowIP}</textarea>
+                                          name="GroupPayDonate[DonateByTeamSpeak3Server][ServerAllowList]">{$AllowIP}</textarea>
                             </div>
                         </div>
                     </div>
                     <div class="checkbox checkbox-primary">
                         <input id="GroupPayDonateAddMessageRecipient" type="checkbox"
                                name="GroupPayDonate[AddMessageRecipient]">
-                        <label for="GroupPayDonateAddMessageRecipient">
-                            Возможность оставить сообщение получателю
-                        </label>
+                        <label for="GroupPayDonateAddMessageRecipient">{$LangModule::Translate('AbilityToLeaveAMessageToTheRecipient')}</label>
                     </div>
                     <div style="display: inline-block;">
                         <div class="label-input pull-left">
-                            <label for="GroupPayDonatePrimaryNavBarRoot">
-                                Выберите корневой элемент меню в котором расположить ссылку на анонимное пополнение
-                                баланса
-                            </label>
+                            <label for="GroupPayDonatePrimaryNavBarRoot">{$LangModule::Translate('SelectTheRootElementOfTheMenuInWhichToPlaceALinkToAnAnonymousRechargeBalance')}</label>
                         </div>
                         <div class="input pull-left">
                             <select size="1" id="GroupPayDonatePrimaryNavBarRoot"
                                     name="GroupPayDonate[PrimaryNavBarRoot]">
-                                <option value="first">В корне меню</option>
+                                <option value="first">{$LangModule::Translate('AtTheRootOfTheMenu')}</option>
                             </select>
                         </div>
                     </div>
                     <div style="display: inline-block;">
                         <div class="label-input pull-left">
-                            <label for="GroupPayDonatePrimaryNavBarSubItem">
-                                Выберите под элемент меню после которого расположить ссылку на анонимное пополнение
-                                баланса
-                            </label>
+                            <label for="GroupPayDonatePrimaryNavBarSubItem">{$LangModule::Translate('SelectMenuItemBelowWhichToPlaceALinkToAnAnonymousRechargeBalance')}</label>
                         </div>
                         <div class="input pull-left">
                             <select size="1" id="GroupPayDonatePrimaryNavBarSubItem"
                                     name="GroupPayDonate[PrimaryNavBarSubItem]">
-                                <option value="first">До первого элемента</option>
+                                <option value="first">{$LangModule::Translate('BeforeTheFirstElement')}</option>
                             </select>
                         </div>
                     </div>
                     <div style="display: inline-block;">
                         <div class="label-input pull-left">
-                            <label for="GroupPayDonatePrimaryNavBarDisplayName">
-                                Введите отображаемое имя пункта меню
-                            </label>
+                            <label for="GroupPayDonatePrimaryNavBarDisplayName">{$LangModule::Translate('EnterTheDisplayNameOfTheMenuItem')}</label>
                         </div>
                         <div class="input pull-left">
                             <input type="text" id="GroupPayDonatePrimaryNavBarDisplayName"
-                                   name="GroupPayDonate[PrimaryNavBarDisplayName]" value="Групповая оплата">
+                                   name="GroupPayDonate[PrimaryNavBarDisplayName]"
+                                   value="{$LangModule::Translate('PublicDonate')}">
                         </div>
                     </div>
                 </div>
@@ -549,50 +551,41 @@
             <div id="ToStepInstallThree" style="display: none">
                 <div class="checkbox checkbox-primary">
                     <input id="isEnableGroupPayDonateWidget" type="checkbox" name="GroupPayDonateWidget[Enable]">
-                    <label for="isEnableGroupPayDonateWidget">
-                        Включить виджет для анонимного пополнения баланса
-                    </label>
+                    <label for="isEnableGroupPayDonateWidget">{$LangModule::Translate('ShowRechargeWidget')}</label>
                 </div>
                 <div id="SettingGroupPayDonateWidget" style="display: none;">
                     <div style="display: inline-block;">
                         <div class="label-input pull-left">
-                            <label for="GroupPayDonateWidgetPrimaryNavBarRoot">
-                                Выберите корневой элемент меню в котором расположить ссылку на настройку виджета
-                                анонимного пополнения
-                                баланса
-                            </label>
+                            <label for="GroupPayDonateWidgetPrimaryNavBarRoot">{$LangModule::Translate('SelectTheRootMenuItemInWhichToPlaceALinkToTheSettingOfTheAnonymousReplenishmentWidget')}</label>
                         </div>
                         <div class="input pull-left">
                             <select size="1" id="GroupPayDonateWidgetPrimaryNavBarRoot"
                                     name="GroupPayDonateWidget[PrimaryNavBarRoot]">
-                                <option value="first">В корне меню</option>
+                                <option value="first">{$LangModule::Translate('AtTheRootOfTheMenu')}</option>
                             </select>
                         </div>
                     </div>
                     <div style="display: inline-block;">
                         <div class="label-input pull-left">
-                            <label for="GroupPayDonateWidgetPrimaryNavBarSubItem">
-                                Выберите под элемент меню после которого расположить ссылку на настройку виджета
-                                анонимного пополнения
-                                баланса
-                            </label>
+                            <label for="GroupPayDonateWidgetPrimaryNavBarSubItem">{$LangModule::Translate('SelectMenuItemBelowWhichToPlaceLinkToTheSettingOfTheAnonymousReplenishmentWidget')}</label>
                         </div>
                         <div class="input pull-left">
                             <select size="1" id="GroupPayDonateWidgetPrimaryNavBarSubItem"
                                     name="GroupPayDonateWidget[PrimaryNavBarSubItem]">
-                                <option value="first">До первого элемента</option>
+                                <option value="first">{$LangModule::Translate('AtTheRootOfTheMenu')}</option>
                             </select>
                         </div>
                     </div>
                     <div style="display: inline-block;">
                         <div class="label-input pull-left">
                             <label for="GroupPayDonateWidgetPrimaryNavBarDisplayName">
-                                Введите отображаемое имя пункта меню
+                                {$LangModule::Translate('EnterTheDisplayNameOfTheMenuItem')}
                             </label>
                         </div>
                         <div class="input pull-left">
                             <input type="text" id="GroupPayDonateWidgetPrimaryNavBarDisplayName"
-                                   name="GroupPayDonateWidget[PrimaryNavBarDisplayName]" value="Публичное пополнение">
+                                   name="GroupPayDonateWidget[PrimaryNavBarDisplayName]"
+                                   value="{$LangModule::Translate('PublicDonate')}">
                         </div>
                     </div>
                 </div>
@@ -601,7 +594,7 @@
                 <div class="checkbox checkbox-primary">
                     <input id="isEnableGroupPayDonateService" type="checkbox" name="GroupPayDonateService[Enable]">
                     <label for="isEnableGroupPayDonateService">
-                        Включить возможность публичной оплаты услуги по домену
+                        {$LangModule::Translate('EnablePublicDomainPayment')}
                     </label>
                 </div>
                 <div id="GroupPayDonateServiceConfig" style="display: none;">
@@ -609,46 +602,46 @@
                         <input id="GroupPayDonateServiceShowServiceInfo" type="checkbox"
                                name="GroupPayDonateService[ShowServiceInfo]">
                         <label for="GroupPayDonateServiceShowServiceInfo">
-                            Отображать сведения об услуге
+                            {$LangModule::Translate('DisplayInformationAboutTheService')}
                         </label>
                     </div>
                     <div class="checkbox checkbox-primary">
                         <input id="GroupPayDonateServiceShowBalanceUser" type="checkbox"
                                name="GroupPayDonateService[ShowBalanceUser]">
                         <label for="GroupPayDonateServiceShowBalanceUser">
-                            Отображать баланс пользователя
+                            {$LangModule::Translate('DisplayUserBalance')}
                         </label>
                     </div>
                     <div class="checkbox checkbox-primary">
                         <input id="GroupPayDonateServiceShowUserInvoiceList" type="checkbox"
                                name="GroupPayDonateService[ShowUserInvoiceList]">
                         <label for="GroupPayDonateServiceShowUserInvoiceList">
-                            Отображать список счетов
+                            {$LangModule::Translate('DisplayInvoiceList')}
                         </label>
                     </div>
                     <div class="checkbox checkbox-primary">
                         <input id="GroupPayDonateServiceShowAddBalanceWidget" type="checkbox"
                                name="GroupPayDonateService[ShowAddBalanceWidget]">
                         <label for="GroupPayDonateServiceShowAddBalanceWidget">
-                            Показывать виджет пополнения баланса
+                            {$LangModule::Translate('ShowRechargeWidget')}
                         </label>
                     </div>
                     <div style="display: inline-block;">
                         <div class="label-input pull-left">
                             <label for="GroupPayDonateByTeamSpeak3ServerAllow">
-                                Список IP адресов серверов для которых разрешен данный вид пополнения
+                                {$LangModule::Translate('ListIPAddressesOfServersForWhichThisTypeOfReplenishmentIsAllowed')}
                             </label>
                         </div>
                         <div class="input pull-left">
                                 <textarea id="GroupPayDonateByTeamSpeak3ServerAllow"
-                                          name="GroupPayDonateService[ServerAllow]" disabled>{$AllowIP}</textarea>
+                                          name="GroupPayDonateService[ServerAllow]" >{$AllowIP}</textarea>
                         </div>
 
                     </div>
                 </div>
             </div>
             <div id="Line"></div>
-            <button onclick="ToStepInstallTwo()" type="button">Продолжить</button>
+            <button onclick="ToStepInstallTwo()" type="button">{$LangModule::Translate('Continue')}</button>
         </form>
     </div>
 </div>

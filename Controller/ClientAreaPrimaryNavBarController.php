@@ -18,6 +18,10 @@ class ClientAreaPrimaryNavBarController {
 		foreach ( ClientAreaPrimaryNavBarConfig::GetAllNavItem() as $item ) {
 			$IterationPrimaryNavBar = $PrimaryNavBar;
 
+			if ( ! $item['isEnable'] ) {
+				continue;
+			}
+
 			if ( $item['Root'] != 'first' ) {
 				if ( ! empty( $SubItemNavBar = $IterationPrimaryNavBar->getChild( $item['Root'] ) ) ) {
 					$IterationPrimaryNavBar = $SubItemNavBar;

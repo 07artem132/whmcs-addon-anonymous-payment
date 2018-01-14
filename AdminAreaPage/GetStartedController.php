@@ -8,10 +8,10 @@
 
 namespace AnonymousPayment\AdminAreaPage;
 
-use Smarty;
-use AnonymousPayment\Config\AdminAreaSmartyConfig;
-use AnonymousPayment\Abstracts\AdminAreaPageAbstract;
-use AnonymousPayment\Interfaces\AdminAreaPageInterface;
+use \Smarty;
+use \AnonymousPayment\Config\AdminAreaSmartyConfig;
+use \AnonymousPayment\Abstracts\AdminAreaPageAbstract;
+use \AnonymousPayment\Interfaces\AdminAreaPageInterface;
 
 class GetStartedController extends AdminAreaPageAbstract implements AdminAreaPageInterface {
 

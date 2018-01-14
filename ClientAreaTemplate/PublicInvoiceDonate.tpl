@@ -1,14 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="{$charset}" />
+    <meta charset="{$charset}"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{$companyname} - {$pagetitle}</title>
 
     <link href="{$WEB_ROOT}/templates/{$template}/css/all.min.css" rel="stylesheet">
     <link href="{$WEB_ROOT}/templates/{$template}/css/invoice.css" rel="stylesheet">
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            for (var i = 0; i < document.getElementsByTagName("form")[0].getElementsByTagName('input').length; i++) {
+                if (document.getElementsByTagName("form")[0].getElementsByTagName('input')[i].name === 'token') {
+                    var child = document.getElementsByTagName("form")[0].getElementsByTagName('input')[i];
+                }
+            }
+            var parent = document.getElementsByTagName("form")[0];
+            parent.removeChild(child);
+        })
+    </script>
 </head>
 <body>
 
@@ -19,12 +29,11 @@
         {include file="$template/includes/panel.tpl" type="danger" headerTitle=$LANG.error bodyContent=$LANG.invoiceserror bodyTextCenter=true}
 
     {else}
-
         <div class="row invoice-header">
             <div class="invoice-col">
 
                 {if $logo}
-                    <p><img src="{$logo}" title="{$companyname}" /></p>
+                    <p><img src="{$logo}" title="{$companyname}"/></p>
                 {else}
                     <h2>{$companyname}</h2>
                 {/if}
@@ -62,9 +71,7 @@
 
             </div>
         </div>
-
         <hr>
-
         {if $paymentSuccessAwaitingNotification}
             {include file="$template/includes/panel.tpl" type="success" headerTitle=$LANG.success bodyContent=$LANG.invoicePaymentSuccessAwaitingNotify bodyTextCenter=true}
         {elseif $paymentSuccess}
@@ -76,7 +83,6 @@
         {elseif $offlineReview}
             {include file="$template/includes/panel.tpl" type="info" headerTitle=$LANG.success bodyContent=$LANG.invoiceofflinepaid bodyTextCenter=true}
         {/if}
-
         <div class="row">
             <div class="invoice-col right">
                 <strong>{$LANG.invoicespayto}</strong>
@@ -87,21 +93,22 @@
             <div class="invoice-col">
                 <strong>{$LANG.invoicesinvoicedto}</strong>
                 <address class="small-text">
-                    {if $clientsdetails.companyname}{$clientsdetails.companyname}<br />{/if}
-                    {$clientsdetails.firstname} {$clientsdetails.lastname}<br />
-                    {$clientsdetails.address1}, {$clientsdetails.address2}<br />
-                    {$clientsdetails.city}, {$clientsdetails.state}, {$clientsdetails.postcode}<br />
+                    {if $clientsdetails.companyname}{$clientsdetails.companyname}<br/>{/if}
+                    {$clientsdetails.firstname} {$clientsdetails.lastname}<br/>
+                    {$clientsdetails.address1}, {$clientsdetails.address2}<br/>
+                    {$clientsdetails.city}, {$clientsdetails.state}, {$clientsdetails.postcode}<br/>
                     {$clientsdetails.country}
                     {if $customfields}
-                        <br /><br />
+                        <br/>
+                        <br/>
                         {foreach from=$customfields item=customfield}
-                            {$customfield.fieldname}: {$customfield.value}<br />
+                            {$customfield.fieldname}: {$customfield.value}
+                            <br/>
                         {/foreach}
                     {/if}
                 </address>
             </div>
         </div>
-
         <div class="row">
             <div class="invoice-col right">
                 <strong>{$LANG.paymentmethod}</strong><br>
@@ -114,7 +121,7 @@
                             {$paymentmethod}
                         {/if}
                     </span>
-                <br /><br />
+                <br/><br/>
             </div>
             <div class="invoice-col">
                 <strong>{$LANG.invoicesdatecreated}</strong><br>
@@ -123,9 +130,7 @@
                     </span>
             </div>
         </div>
-
-        <br />
-
+        <br/>
         {if $manualapplycredit}
             <div class="panel panel-success">
                 <div class="panel-heading">
@@ -133,14 +138,17 @@
                 </div>
                 <div class="panel-body">
                     <form method="post" action="{$smarty.server.REQUEST_URI}">
-                        <input type="hidden" name="applycredit" value="true" />
-                        {$LANG.invoiceaddcreditdesc1} <strong>{$totalcredit}</strong>. {$LANG.invoiceaddcreditdesc2}. {$LANG.invoiceaddcreditamount}:
+                        <input type="hidden" name="applycredit" value="true"/>
+                        {$LANG.invoiceaddcreditdesc1} <strong>{$totalcredit}</strong>. {$LANG.invoiceaddcreditdesc2}
+                        . {$LANG.invoiceaddcreditamount}:
                         <div class="row">
                             <div class="col-xs-8 col-xs-offset-2 col-sm-4 col-sm-offset-4">
                                 <div class="input-group">
-                                    <input type="text" name="creditamount" value="{$creditamount}" class="form-control" />
+                                    <input type="text" name="creditamount" value="{$creditamount}"
+                                           class="form-control"/>
                                     <span class="input-group-btn">
-                                            <input type="submit" value="{$LANG.invoiceaddcreditapply}" class="btn btn-success" />
+                                            <input type="submit" value="{$LANG.invoiceaddcreditapply}"
+                                                   class="btn btn-success"/>
                                         </span>
                                 </div>
                             </div>
@@ -153,7 +161,6 @@
         {if $notes}
             {include file="$template/includes/panel.tpl" type="info" headerTitle=$LANG.invoicesnotes bodyContent=$notes}
         {/if}
-
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title"><strong>{$LANG.invoicelineitems}</strong></h3>
@@ -203,11 +210,9 @@
                 </div>
             </div>
         </div>
-
         {if $taxrate}
             <p>* {$LANG.invoicestaxindicator}</p>
         {/if}
-
         <div class="transactions-container small-text">
             <div class="table-responsive">
                 <table class="table table-condensed">
@@ -240,17 +245,16 @@
                 </table>
             </div>
         </div>
-
         <div class="pull-right btn-group btn-group-sm hidden-print">
             <a href="javascript:window.print()" class="btn btn-default"><i class="fa fa-print"></i> {$LANG.print}</a>
-            <a href="dl.php?type=i&amp;id={$invoiceid}" class="btn btn-default"><i class="fa fa-download"></i> {$LANG.invoicesdownload}</a>
+            <a href="/dl.php?type=i&amp;id={$invoiceid}" class="btn btn-default"><i
+                        class="fa fa-download"></i> {$LANG.invoicesdownload}</a>
         </div>
-
     {/if}
 
 </div>
 
-<p class="text-center hidden-print"><a href="clientarea.php">{$LANG.invoicesbacktoclientarea}</a></a></p>
+<p class="text-center hidden-print"><a href="/clientarea.php">{$LANG.invoicesbacktoclientarea}</a></a></p>
 
 </body>
 </html>

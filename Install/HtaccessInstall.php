@@ -12,7 +12,7 @@ use AnonymousPayment\Interfaces\InstallInterface;
 
 class HtaccessInstall implements InstallInterface {
 
-	private static $AppendToString = 'RewriteBase /';
+	private  $AppendToString = 'RewriteBase /';
 
 	function MinimumRequirementsCheck() {
 		return [
@@ -72,11 +72,11 @@ class HtaccessInstall implements InstallInterface {
 	function WriteHtaccess() {
 		$htaccess = file_get_contents( self::GetHtaccessPath() );
 
-		$FilePat1 = substr( $htaccess, 0, strpos( $htaccess, self::$SearchValue ) + strlen( self::$SearchValue ) );
-		$FilePat2 = substr( $htaccess, strpos( $htaccess, self::$SearchValue ) + strlen( self::$SearchValue ) );
+		$FilePat1 = substr( $htaccess, 0, strpos( $htaccess, $this->AppendToString ) + strlen( $this->AppendToString ) );
+		$FilePat2 = substr( $htaccess, strpos( $htaccess, $this->AppendToString ) + strlen( $this->AppendToString ) );
 
 		$FilePat1 .= PHP_EOL;
-		for ( $i = 0; $i < count( $htaccessContent = GetConfig()['htaccessContent'] ); $i ++ ) {
+		for ( $i = 0; $i < count( $htaccessContent = $this->GetConfig()['htaccessContent'] ); $i ++ ) {
 			$FilePat1 .= $htaccessContent[ $i ] . PHP_EOL;
 		}
 
@@ -88,7 +88,7 @@ class HtaccessInstall implements InstallInterface {
 	function DeleteWriteHtaccess() {
 		$htaccess = file_get_contents( self::GetHtaccessPath() );
 
-		for ( $i = 0; $i < count( $htaccessContent = GetConfig()['htaccessContent'] ); $i ++ ) {
+		for ( $i = 0; $i < count( $htaccessContent =$this->GetConfig()['htaccessContent'] ); $i ++ ) {
 			$htaccess = str_replace( $htaccessContent[ $i ], "", $htaccess );
 
 		}

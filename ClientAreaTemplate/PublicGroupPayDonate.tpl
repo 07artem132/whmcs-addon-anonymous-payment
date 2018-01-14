@@ -474,14 +474,44 @@
             $(".clearfix.form-row.MessageRecipient-row").slideToggle();
         });
 
-        $("#PaymentVarList li:first-child input").click()
+        if ({if !empty($smarty.get.ClientEmail)} true {else} false{/if})
+        {
+            //$("#PaymentVarList li:eq(0) input").click();
+            $('.clearfix.form-row.payment__form-row.payment__form-row_single-row').css('display', 'none');
+            $('.clearfix.form-row').css('display', 'none');
+            $('.border').css('border-top', 'none');
+        }
+    else
+        if ({if !empty($smarty.get.ClientID)} true {else} false{/if})
+        {
+            //$("#PaymentVarList li:eq(1) input").click();
+            $('.clearfix.form-row.payment__form-row.payment__form-row_single-row').css('display', 'none');
+            $('.clearfix.form-row.Client-ID-form-row').css('display', 'none');
+            $('.border').css('border-top', 'none');
+        }
+    else
+        if ({if !empty($smarty.get.ServerIP)} true {else} false{/if})
+        {
+            //  $("#PaymentVarList li:eq(2) input").click();
+            $('.clearfix.form-row.payment__form-row.payment__form-row_single-row').css('display', 'none');
+            $('.clearfix.form-row.host-ip-form-row').css('display', 'none');
+            $('.border').css('border-top', 'none');
+        }
+    else
+        {
+            $("#PaymentVarList li:eq(0) input").click();
+        }
+        if ({if !empty($smarty.get.AddBalanceSum)} true {else} false{/if}) {
+            $('.clearfix.form-row.amount-row').css('display', 'none');
+        }
+
     });
 </script>
 <div class="container payment">
     <form method="post" action="/public/grouppay/">
         <div class="clearfix form-row payment__form-row payment__form-row_single-row">
             <div class="label-input pull-left" id="PaymentVar">
-                Варианты пополнения
+                {$LangModule::Translate('ReplenishmentOptions')}
             </div>
             <ul id="PaymentVarList">
                 {if $DonateClientEmail }
@@ -492,7 +522,7 @@
                                     {if !empty($smarty.get.ClientEmail)}checked="checked"{/if}
                             >
                             <i></i>
-                            <span>По email клиента в системе</span>
+                            <span>{$LangModule::Translate('ByClientEmail')}</span>
                         </label>
                     </li>
                 {/if}
@@ -504,7 +534,7 @@
                                     {if !empty($smarty.get.ClientID)}checked="checked"{/if}
                             >
                             <i></i>
-                            <span>По ID клиента в системе</span>
+                            <span>{$LangModule::Translate('ByClientID')}</span>
                         </label>
                     </li>
                 {/if}
@@ -516,7 +546,7 @@
                                     {if !empty($smarty.get.ServerIP)}checked="checked"{/if}
                             >
                             <i></i>
-                            <span>По адресу сервера</span>
+                            <span>{$LangModule::Translate('ByServerAddress')}</span>
                         </label>
                     </li>
                 {/if}
@@ -525,7 +555,7 @@
         <div class="border">
             <div class="clearfix form-row" style="display: none;">
                 <div class="label-input pull-left">
-                    <label for="form_customer">Email клиента в системе</label>
+                    <label for="form_customer">{$LangModule::Translate('EmailClientInTheSystem')}</label>
                 </div>
                 <div class="input pull-left">
                     <input type="email" id="form_customer" name="ClientEmail" placeholder="example@example.com"
@@ -535,14 +565,14 @@
                            required>
                 </div>
                 {if $ClientEmailError === 1}
-                    <span class="errors">Клиент с таким email не найден</span>
+                    <span class="errors">{$LangModule::Translate('ClientWithSuchEmailNotFound')}</span>
                 {else}
-                    <span class="description">Введите только цифры без пробелов и тире.</span>
+                    <span class="description">{$LangModule::Translate('EnterEmailAttachedToAccount')}</span>
                 {/if}
             </div>
             <div class="clearfix form-row Client-ID-form-row" style="display: none;">
                 <div class="label-input pull-left">
-                    <label for="ClientID">ID клиента</label>
+                    <label for="ClientID">{$LangModule::Translate('ClientID')}</label>
                 </div>
                 <div class="input pull-left">
                     <input type="number" id="ClientID" name="ClientID" placeholder="3524"
@@ -552,14 +582,14 @@
                     >
                 </div>
                 {if $ClientIDError === 1}
-                    <span class="errors">Клиент с таким ID не найден</span>
+                    <span class="errors">{$LangModule::Translate('ClientThisIDNotFound')}</span>
                 {else}
-                    <span class="description">Введите только цифры без пробелов и тире.</span>
+                    <span class="description">{$LangModule::Translate('EnterOnlyInteger')}</span>
                 {/if}
             </div>
             <div class="clearfix form-row host-ip-form-row" style="display: none;">
                 <div class="label-input pull-left">
-                    <label for="form_ip">Адрес сервера</label>
+                    <label for="form_ip">{$LangModule::Translate('ServerAddress')}</label>
                 </div>
                 <div class="input pull-left">
                     <input type="text" id="form_ip" name="ServerIP"
@@ -578,13 +608,13 @@
                 </div>
 
                 <span class="description">
-                В первую часть поля введите ip, во вторую порт.
+                {$LangModule::Translate('FirstPartEnterIpSecondPort')}
             </span>
             </div>
 
             <div class="clearfix form-row amount-row">
                 <div class="label-input pull-left">
-                    <label for="form_amount" class="required">Сумма платежа</label>
+                    <label for="form_amount" class="required">{$LangModule::Translate('AmountOfPayment')}</label>
                 </div>
                 <input type="number" id="form_amount" name="Amount" class="currency" placeholder="0,00"
                         {if !empty($smarty.get.AddBalanceSum)}
@@ -594,36 +624,23 @@
                         {/if}
                        required>
                 {if $AmountError === 1}
-                    <span class="errors">Введите целое число от {$MinAddBalanseNoFormat}
-                        до {$MaxAddBalanseNoFormat}</span>
+                    <span class="errors">{$LangModule::Translate('EnterIntegerFrom')} {$MinAddBalanseNoFormat}
+                        {$LangModule::Translate('Before')} {$MaxAddBalanseNoFormat}</span>
                 {else}
-                    <span class="description">Минимальный платёж:
-                <span class="money-to-change change-with-currency"
-                      data-money-change-marker="minCharge">{$MinAddBalanse}</span>
+                    <span class="description">{$LangModule::Translate('MinimumPayment')}
+                        <span class="money-to-change change-with-currency"
+                              data-money-change-marker="minCharge">{$MinAddBalanse}</span>
             </span>
                 {/if}
             </div>
 
-            <div class="clearfix" style="padding-bottom: 14px;">
+            <div class="clearfix form-row MessageRecipient-row">
                 <div class="label-input pull-left">
-                    <label for="form_amount" class="required">&nbsp;</label>
-                </div>
-                <div class="checkbox checkbox-primary">
-                    <input id="MessageRecipientStatus" type="checkbox" name="MessageRecipientStatus">
-                    <label for="MessageRecipientStatus">
-                        Добавить сообщение получателю
-                    </label>
-                </div>
-            </div>
-
-            <div class="clearfix form-row MessageRecipient-row" style="display: none;">
-                <div class="label-input pull-left">
-                    <label for="MessageRecipient" class="required">Cообщение получателю</label>
+                    <label for="MessageRecipient" class="required">{$LangModule::Translate('MessageRecipient')}</label>
                 </div>
                 <input type="text" id="MessageRecipient" name="MessageRecipient"
-                       placeholder="Донат на тс от Васи" autocomplete="off">
-                <span class="description">Это сообщение увидит получатель.
-
+                       placeholder="{$LangModule::Translate('YouCanAddAComment')}" autocomplete="off">
+                <span class="description">{$LangModule::Translate('ThisMessageDisplayRecipient')}
             </span>
             </div>
 
@@ -631,7 +648,7 @@
         </div>
         <div class="clearfix form-row border-bottom">
             <div class="label-input pull-left">
-                Способ платежа
+                {$LangModule::Translate('PaymentMethod')}
             </div>
             <div class="row pull-left method">
                 {foreach from=$GatewaysList key=ModuleName item=ModuleDisplayName}
@@ -644,10 +661,10 @@
         </div>
         <div class="row pay">
             <div id="GoToPayDescription" class="col-xs-7">
-                Проверьте указанные данные и нажмите на кнопку
+                {$LangModule::Translate('CheckDataAndClickButton')}
             </div>
             <div id="GoToPay" class="col-xs-5">
-                <button type="submit">Оплатить</button>
+                <button type="submit">{$LangModule::Translate('Pay')}</button>
             </div>
         </div>
     </form>

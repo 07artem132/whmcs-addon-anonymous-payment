@@ -13,22 +13,21 @@ use AnonymousPayment\Traits\isRequestMethod;
 use AnonymousPayment\Config\WHMCSUserConfig;
 use AnonymousPayment\Controller\WHMCSFormController;
 use AnonymousPayment\Controller\WHMCSClientController;
+use AnonymousPayment\Controller\WHMCSServerController;
 use AnonymousPayment\Abstracts\ClientAreaPageAbstract;
+use AnonymousPayment\Controller\WHMCSServiceController;
 use AnonymousPayment\Config\PublicGroupPayDonateConfig;
 use AnonymousPayment\Interfaces\ClientAreaPageInterface;
 use AnonymousPayment\Exceptions\InvalidAmountExceptions;
 use AnonymousPayment\Controller\WHMCSClientAreaController;
+use AnonymousPayment\Controller\ModuleStatisticsController;
+use AnonymousPayment\Controller\WHMCSCustomFieldsController;
 use \AnonymousPayment\Exceptions\ClientIDNotFoundExceptions;
 use AnonymousPayment\Controller\WHMCSModuleGatewaysController;
 use \AnonymousPayment\Exceptions\ClientEmailNotFoundExceptions;
+use AnonymousPayment\Controller\WHMCSCustomFieldValueController;
 use AnonymousPayment\Controller\MultiLanguageController as Lang;
 use AnonymousPayment\Exceptions\GatewayModuleNameErrorExceptions;
-
-use AnonymousPayment\Controller\WHMCSCustomFieldsController;
-use AnonymousPayment\Controller\WHMCSCustomFieldValueController;
-
-use AnonymousPayment\Controller\WHMCSServerController;
-use AnonymousPayment\Controller\WHMCSServiceController;
 
 class PublicGroupPayDonate extends ClientAreaPageAbstract implements ClientAreaPageInterface {
 
@@ -45,6 +44,9 @@ class PublicGroupPayDonate extends ClientAreaPageAbstract implements ClientAreaP
 	}
 
 	function render() {
+		ModuleStatisticsController::AddEventPageView( 'GroupPay' );
+
+		$this->ClientArea->initPage();
 
 		if ( $this->isRequestMethod( 'POST' ) && empty( $_POST['FormFill'] ) ) {
 			try {
@@ -62,17 +64,22 @@ class PublicGroupPayDonate extends ClientAreaPageAbstract implements ClientAreaP
 			}//TODO сделать обработку исключений с адресом ServerAddressError
 		}
 
-		$this->ClientArea->initPage();
+
 		$this->ClientArea->setTemplate( 'PublicGroupPayDonate' );
 		$this->ClientArea->assign( "GatewaysList", $this->ModuleGateway->getAvailableGateways() );
 		$this->ClientArea->assign( "MinAddBalanse", formatCurrency( WHMCSUserConfig::GetMinAddBalanse() ) );
 		$this->ClientArea->assign( "MaxAddBalanse", formatCurrency( WHMCSUserConfig::GetMaxAddBalanse() ) );
 		$this->ClientArea->assign( "MinAddBalanseNoFormat", (int) WHMCSUserConfig::GetMinAddBalanse() );
 		$this->ClientArea->assign( "MaxAddBalanseNoFormat", (int) WHMCSUserConfig::GetMaxAddBalanse() );
-		$this->ClientArea->assign( "DonateHost", PublicGroupPayDonateConfig::GetIsEnableDonateHost() );
-		$this->ClientArea->assign( "DonateClientEmail", PublicGroupPayDonateConfig::GetIsEnableDonateClientEmail() );
-		$this->ClientArea->assign( "DonateClientID", PublicGroupPayDonateConfig::GetIsEnableDonateClientID() );
+		$this->ClientArea->assign( "DonateHost", PublicGroupPayDonateConfig::GetDonateHostStatus() );
+		$this->ClientArea->assign( "DonateClientEmail", PublicGroupPayDonateConfig::GetDonateClientEmailStatus() );
+		$this->ClientArea->assign( "DonateClientID", PublicGroupPayDonateConfig::GetDonateClientIDStatus() );
 		$this->ClientArea->setPageTitle( Lang::Translate( 'BalanceAddWithoutAuthorization' ) );
+
+		foreach ( $this->GetVars() as $key => $value ) {
+			$this->ClientArea->assign( $key, $value );
+		}
+
 		$this->ClientArea->output();
 	}
 
@@ -106,13 +113,13 @@ class PublicGroupPayDonate extends ClientAreaPageAbstract implements ClientAreaP
 				$ListRelID   = $ServiceList->pluck( 'id' );
 				$FieldID     = WHMCSCustomFieldsController::GetByName( PublicGroupPayDonateConfig::GetCustomFieldsServerPort() )->id;
 				$ServiceID   = WHMCSCustomFieldValueController::ServiceSearchByValueAndFieldIdAndRelIdList( $ServerPort, $FieldID, $ListRelID )->relid;
-				$UserID    = $ServiceList[ $ServiceID ]->client()->first()->id;
+				$UserID      = $ServiceList[ $ServiceID ]->client()->first()->id;
 				break;
 			case 3 :
 				$UserID = WHMCSClientController::ID( $_POST['ClientID'] )->id;
 				break;
 			default:
-				return;
+				 //TODO сделать исключение
 				break;
 		}
 
