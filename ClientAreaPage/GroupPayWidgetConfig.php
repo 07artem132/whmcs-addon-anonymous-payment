@@ -51,6 +51,7 @@ class GroupPayWidgetConfig extends ClientAreaPageAbstract implements ClientAreaP
 		}
 
 		$this->ClientArea->assign( 'widget_id', $this->GenerateWidgetID() );
+		$this->ClientArea->assign( 'ClientID', $this->Client->id );
 		$this->ClientArea->assign( 'WHMCSSystemURL', WHMCSConfig::GetSystemURL() );
 		$this->ClientArea->assign( 'MaxAddBalanceSum', WHMCSUserConfig::GetMaxAddBalanse() );
 		$this->ClientArea->assign( 'MinAddBalanceSum', WHMCSUserConfig::GetMinAddBalanse() );

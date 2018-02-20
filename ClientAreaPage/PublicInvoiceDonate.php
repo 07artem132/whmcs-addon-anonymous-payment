@@ -57,6 +57,8 @@ class PublicInvoiceDonate extends ClientAreaPageAbstract implements ClientAreaPa
 	}
 
 	function render() {
+		$_GET['id'] = $this->GetInvoiceID();
+
 		ModuleStatisticsController::AddEventPageView( 'PublicInvoice' );
 
 		if ( $this->isRequestMethod( 'POST' ) && isset( $_POST['gateway'] ) && ! empty( $_POST['gateway'] ) ) {

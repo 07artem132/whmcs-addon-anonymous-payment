@@ -4,12 +4,13 @@
 <div class="panel panel-default" style="width: 300px; margin:auto;">
     <div id="WidgetTitle" class="panel-heading text-center">{$WidgetTitle}</div>
     <div class="panel-body">
-        <form class="form-horizontal" role="form" method="POST" action="grouppay.php" target="_blank">
+        <form class="form-horizontal" role="form" action="{$systemurl}public/grouppay/" method="get">
+            <input type="hidden" name="ClientID" value="{$ClientID}">
             <div class="form-group">
                 <label for="input" class="col-xs-3 control-label" style="margin-top: 10px;">{$LangModule::Translate('Amount')}</label>
                 <div class="col-xs-9">
                     <div class="input-group">
-                        <input type="number" name="DefaultAddBalanceSum" class="form-control" id="DefaultAddBalanceSum"
+                        <input type="number" name="AddBalanceSum" class="form-control" id="DefaultAddBalanceSum"
                                placeholder="{$WidgetDefaultAddBalanceSum}" max="{$MaxAddBalanceSum}"
                                value="{$WidgetDefaultAddBalanceSum}">
                         <span class="input-group-addon">

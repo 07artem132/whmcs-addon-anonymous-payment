@@ -8,6 +8,7 @@
 
 namespace AnonymousPayment\ClientAreaPage;
 
+use \AnonymousPayment\Config\WHMCSConfig;
 use \AnonymousPayment\Config\WHMCSUserConfig;
 use \AnonymousPayment\Controller\CryptController;
 use \AnonymousPayment\Config\PublicDonateWidgetConfig;
@@ -38,6 +39,8 @@ class GroupPayWidget extends ClientAreaPageAbstract implements ClientAreaPageInt
 		$this->ClientArea->initPage();
 		$this->ClientArea->disableHeaderFooterOutput();
 		$this->ClientArea->assign( 'widget_id', CryptController::Encrypt( $this->Client->id ) );
+		$this->ClientArea->assign( 'ClientID', $this->Client->id );
+		$this->ClientArea->assign( 'WHMCSSystemURL', WHMCSConfig::GetSystemURL() );
 		$this->ClientArea->assign( 'MaxAddBalanceSum', WHMCSUserConfig::GetMaxAddBalanse() );
 		$this->ClientArea->assign( 'MinAddBalanceSum', WHMCSUserConfig::GetMinAddBalanse() );
 		$this->ClientArea->assign( 'WidgetShowBalance', PublicDonateWidgetConfig::GetShowBalance( $this->Client->id ) );
