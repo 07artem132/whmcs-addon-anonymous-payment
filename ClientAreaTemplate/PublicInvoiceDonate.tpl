@@ -19,6 +19,18 @@
             parent.removeChild(child);
         })
     </script>
+	<script>
+        document.addEventListener('DOMContentLoaded', function () {
+        document.forms[0].attributes[1].value = document.forms[0].attributes[1].value.replace("./","/");
+            for (var i = 0; i < document.getElementsByTagName("form")[0].getElementsByTagName('input').length; i++) {
+                if (document.getElementsByTagName("form")[0].getElementsByTagName('input')[i].name === 'token') {
+                    var child = document.getElementsByTagName("form")[0].getElementsByTagName('input')[i];
+                }
+            }
+            var parent = document.getElementsByTagName("form")[0];
+            parent.removeChild(child);
+        })
+    </script>
 </head>
 <body>
 

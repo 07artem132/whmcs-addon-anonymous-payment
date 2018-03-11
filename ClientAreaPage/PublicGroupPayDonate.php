@@ -111,15 +111,19 @@ class PublicGroupPayDonate extends ClientAreaPageAbstract implements ClientAreaP
 				$ServerID    = WHMCSServerController::SearchByHostnameOrIP( $ServerIP )->id;
 				$ServiceList = WHMCSServiceController::GetServiceAssignByServerID( $ServerID );
 				$ListRelID   = $ServiceList->pluck( 'id' );
-				$FieldID     = WHMCSCustomFieldsController::GetByName( PublicGroupPayDonateConfig::GetCustomFieldsServerPort() )->id;
+				$FieldID     = WHMCSCustomFieldsController::GetByName( PublicGroupPayDonateConfig::GetDonateHostCustomFieldsPort() )->id;
 				$ServiceID   = WHMCSCustomFieldValueController::ServiceSearchByValueAndFieldIdAndRelIdList( $ServerPort, $FieldID, $ListRelID )->relid;
-				$UserID      = $ServiceList[ $ServiceID ]->client()->first()->id;
+				foreach ( $ServiceList as $item ) {
+					if ( $item->id == $ServiceID ) {
+						$UserID = $item->client()->first()->id;
+					}
+				}
 				break;
 			case 3 :
 				$UserID = WHMCSClientController::ID( $_POST['ClientID'] )->id;
 				break;
 			default:
-				 //TODO сделать исключение
+				//TODO сделать исключение
 				break;
 		}
 
